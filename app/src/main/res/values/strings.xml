@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Хочу помочь</string>
 
+    <!-- Splash Screen -->
     <string name="loading_label">Загрузка</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="profile_fragment_label">Профиль</string>
 </resources>
