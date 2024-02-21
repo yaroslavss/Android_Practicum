@@ -6,4 +6,7 @@
     <dimen name="progress_bar_width">38dp</dimen>
     <dimen name="progress_bar_height">38dp</dimen>
     <dimen name="loading_label_top_margin">20dp</dimen>
+
+    <!-- App Toolbar -->
+    <dimen name="collapsing_toolbar_min_height">20dp</dimen>
 </resources>
