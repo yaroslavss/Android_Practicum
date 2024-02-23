@@ -47,11 +47,173 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/details_description"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/lorem"
-            tools:text="@tools:sample/lorem/random" />
+            android:paddingVertical="@dimen/default_margin">
+
+            <TextView
+                android:id="@+id/tvFullName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/default_margin"
+                android:text="@string/profile_full_name"
+                android:textColor="@color/black_87"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvBirthdateLabel"
+                style="@style/TextLabel"
+                android:text="@string/profile_birthdate_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvFullName" />
+
+            <TextView
+                android:id="@+id/tvBirthdate"
+                style="@style/TextField"
+                android:text="@string/profile_birthdate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvBirthdateLabel" />
+
+            <TextView
+                android:id="@+id/tvProfessionLabel"
+                style="@style/TextLabel"
+                android:text="@string/profile_profession_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvBirthdate" />
+
+            <TextView
+                android:id="@+id/tvProfession"
+                style="@style/TextField"
+                android:text="@string/profile_profession"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvProfessionLabel" />
+
+            <TextView
+                android:id="@+id/tvReceivePushesLabel"
+                style="@style/TextField"
+                android:layout_marginTop="@dimen/spacing_xxl"
+                android:text="@string/profile_receive_pushes_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvProfession" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/msReceivePushes"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:checked="true"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvReceivePushesLabel"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/mdDivider1"
+                style="@style/Widget.App.MaterialDivider"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/default_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvReceivePushesLabel" />
+
+            <TextView
+                android:id="@+id/tvFriendsLabel"
+                style="@style/TextLabel"
+                android:text="@string/profile_friends_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mdDivider1" />
+
+            <LinearLayout
+                android:id="@+id/llRow1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/tvFriendsLabel">
+
+                <ImageView
+                    android:id="@+id/ivFriendAvatar1"
+                    android:layout_width="@dimen/friend_avatar_width"
+                    android:layout_height="@dimen/friend_avatar_height"
+                    android:src="@drawable/avatar_1"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/tvFriendName1"
+                    style="@style/TextField"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/profile_friend_name_1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llRow2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/llRow1">
+
+                <ImageView
+                    android:id="@+id/ivFriendAvatar2"
+                    android:layout_width="@dimen/friend_avatar_width"
+                    android:layout_height="@dimen/friend_avatar_height"
+                    android:src="@drawable/avatar_2"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/tvFriendName2"
+                    style="@style/TextField"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/profile_friend_name_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llRow3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/llRow2">
+
+                <ImageView
+                    android:id="@+id/ivFriendAvatar3"
+                    android:layout_width="@dimen/friend_avatar_width"
+                    android:layout_height="@dimen/friend_avatar_height"
+                    android:src="@drawable/avatar_3"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/tvFriendName3"
+                    style="@style/TextField"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/profile_friend_name_3" />
+            </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/mdDivider2"
+                style="@style/Widget.App.MaterialDivider"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/default_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llRow3" />
+
+            <Button
+                android:id="@+id/btnLogout"
+                style="@style/CustomButton"
+                android:text="@string/btn_logout_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mdDivider2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
