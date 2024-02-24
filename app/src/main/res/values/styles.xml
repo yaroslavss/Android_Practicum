@@ -24,4 +24,12 @@
         <item name="android:elevation">@dimen/btn_elevation</item>
         <item name="android:background">@drawable/button_bg</item>
     </style>
+
+    <style name="AppBarText">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:fontFamily">@font/officina_sans_extra_bold_scc</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">21sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>

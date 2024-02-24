@@ -1,12 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Android_Practicum" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.Android_Practicum" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/leaf</item>
         <item name="android:colorBackground">@color/white</item>
     </style>
 
     <style name="Theme.Android_Practicum" parent="Base.Theme.Android_Practicum" />
+
+    <style name="Theme.Android_Practicum.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Android_Practicum.AppBarOverlay" parent="ThemeOverlay.Material3.Light">
+        <item name="titleCentered">true</item>
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
+    <style name="Theme.Android_Practicum.PopupOverlay" parent="ThemeOverlay.Material3.Dark" />
 
     <!-- divider -->
     <style name="Widget.App.MaterialDivider" parent="Widget.Material3.MaterialDivider">
