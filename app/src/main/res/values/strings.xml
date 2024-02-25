@@ -1,3 +1,29 @@
 <resources>
-    <string name="app_name">Android_Practicum</string>
+    <string name="app_name">Хочу помочь</string>
+
+    <!-- Splash Screen -->
+    <string name="loading_label">Загрузка</string>
+
+    <!-- Strings used for top app bar menu -->
+    <string name="action_edit">Редактировать</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="bottom_nav_news">Новости</string>
+    <string name="bottom_nav_search">Поиск</string>
+    <string name="bottom_nav_help">Помочь</string>
+    <string name="bottom_nav_history">История</string>
+    <string name="profile_fragment_label">Профиль</string>
+
+    <!-- Profile fragment -->
+    <string name="profile_full_name">Константинов Денис</string>
+    <string name="profile_birthdate_label">Дата рождения</string>
+    <string name="profile_birthdate">01 февраля 1980</string>
+    <string name="profile_profession_label">Сфера деятельности</string>
+    <string name="profile_profession">Хирургия, травматология</string>
+    <string name="profile_receive_pushes_label">Получать push-уведомления</string>
+    <string name="profile_friends_label">Ваши друзья</string>
+    <string name="profile_friend_name_1">Дмитрий Валерьевич</string>
+    <string name="profile_friend_name_2">Евгений Александров</string>
+    <string name="profile_friend_name_3">Виктор Кузнецов</string>
+    <string name="btn_logout_label">Выйти из аккаунта</string>
 </resources>

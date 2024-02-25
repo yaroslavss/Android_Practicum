@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/itemNews"
+        android:icon="@drawable/ic_bottomnav_news"
+        android:title="@string/bottom_nav_news" />
+    <item
+        android:id="@+id/itemSearch"
+        android:icon="@drawable/ic_bottomnav_search"
+        android:title="@string/bottom_nav_search" />
+    <item
+        android:id="@+id/itemHelp"
+        android:icon="@drawable/ic_bottomnav_help"
+        android:title="@string/bottom_nav_help" />
+    <item
+        android:id="@+id/itemHistory"
+        android:icon="@drawable/ic_bottomnav_history"
+        android:title="@string/bottom_nav_history" />
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/ic_bottomnav_profile"
+        android:title="@string/profile_fragment_label" />
+</menu>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_margin">20dp</dimen>
+    <dimen name="btn_radius">2dp</dimen>
+    <dimen name="btn_elevation">10dp</dimen>
+
+    <!-- Splash Screen -->
+    <dimen name="splash_logo_top_margin">178dp</dimen>
+    <dimen name="splash_logo_mss_bottom_margin">40dp</dimen>
+    <dimen name="progress_bar_width">38dp</dimen>
+    <dimen name="progress_bar_height">38dp</dimen>
+    <dimen name="loading_label_top_margin">20dp</dimen>
+
+    <!-- App Toolbar -->
+    <dimen name="collapsing_toolbar_min_height">20dp</dimen>
+
+    <!-- Profile fragment -->
+    <dimen name="profile_label_margin_top">16dp</dimen>
+    <dimen name="spacing_xxl">28dp</dimen>
+    <dimen name="default_divider_margin">40dp</dimen>
+    <dimen name="friend_avatar_width">48dp</dimen>
+    <dimen name="friend_avatar_height">48dp</dimen>
+</resources>

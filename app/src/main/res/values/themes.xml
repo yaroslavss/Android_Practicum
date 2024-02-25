@@ -1,5 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Android_Practicum" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/leaf</item>
+        <item name="android:colorBackground">@color/white</item>
+    </style>
 
-    <style name="Theme.Android_Practicum" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Android_Practicum" parent="Base.Theme.Android_Practicum" />
+
+    <style name="Theme.Android_Practicum.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Android_Practicum.AppBarOverlay" parent="ThemeOverlay.Material3.Light">
+        <item name="titleCentered">true</item>
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
+    <style name="Theme.Android_Practicum.PopupOverlay" parent="ThemeOverlay.Material3.Dark" />
+
+    <!-- divider -->
+    <style name="Widget.App.MaterialDivider" parent="Widget.Material3.MaterialDivider">
+        <item name="dividerColor">@color/cool_grey</item>
+    </style>
+
+    <style name="Widget.App.MaterialDivider.BottomNavBorderTop" parent="Widget.Material3.MaterialDivider">
+        <item name="dividerColor">@color/black_20</item>
+    </style>
+
+    <!-- bottom navigation -->
+    <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
+    </style>
+
+    <style name="Theme.BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/white</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomNavigationView" parent="">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <!-- Splash Screen Theme -->
+    <style name="Theme.Splash" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">@color/splash_background</item>
+    </style>
 </resources>
