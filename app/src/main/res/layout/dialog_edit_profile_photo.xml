@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center_vertical"
+        android:background="@color/white"
+        android:padding="@dimen/spacing_xxl">
+
+        <ImageView
+            android:id="@+id/ivIconUpload"
+            android:layout_width="@dimen/default_icon_side"
+            android:layout_height="@dimen/default_icon_side"
+            android:layout_marginTop="@dimen/dialog_icon_margin_top"
+            android:src="@drawable/ic_upload"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvUploadPhoto"
+            style="@style/DialogText"
+            android:text="@string/upload_photo_label"
+            app:layout_constraintStart_toEndOf="@id/ivIconUpload"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivIconCamera"
+            android:layout_width="@dimen/default_icon_side"
+            android:layout_height="@dimen/default_icon_side"
+            android:layout_marginTop="@dimen/dialog_icon_margin_top"
+            android:src="@drawable/ic_camera"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivIconUpload" />
+
+        <TextView
+            android:id="@+id/tvMakePhoto"
+            style="@style/DialogText"
+            android:text="@string/make_photo_label"
+            app:layout_constraintStart_toEndOf="@id/ivIconUpload"
+            app:layout_constraintTop_toBottomOf="@id/tvUploadPhoto" />
+
+        <ImageView
+            android:id="@+id/ivIconDelete"
+            android:layout_width="@dimen/default_icon_side"
+            android:layout_height="@dimen/default_icon_side"
+            android:layout_marginTop="@dimen/dialog_icon_margin_top"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivIconCamera" />
+
+        <TextView
+            android:id="@+id/tvDeletePhoto"
+            style="@style/DialogText"
+            android:text="@string/delete_photo_label"
+            app:layout_constraintStart_toEndOf="@id/ivIconUpload"
+            app:layout_constraintTop_toBottomOf="@id/tvMakePhoto" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

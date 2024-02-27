@@ -26,4 +26,9 @@
     <string name="profile_friend_name_2">Евгений Александров</string>
     <string name="profile_friend_name_3">Виктор Кузнецов</string>
     <string name="btn_logout_label">Выйти из аккаунта</string>
+
+    <!-- Profile photo edit dialog -->
+    <string name="upload_photo_label">Выбрать фото</string>
+    <string name="make_photo_label">Сделать снимок</string>
+    <string name="delete_photo_label">Удалить</string>
 </resources>

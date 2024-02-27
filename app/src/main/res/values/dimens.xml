@@ -3,6 +3,7 @@
     <dimen name="default_margin">20dp</dimen>
     <dimen name="btn_radius">2dp</dimen>
     <dimen name="btn_elevation">10dp</dimen>
+    <dimen name="default_icon_side">24dp</dimen>
 
     <!-- Splash Screen -->
     <dimen name="splash_logo_top_margin">178dp</dimen>
@@ -20,4 +21,7 @@
     <dimen name="default_divider_margin">40dp</dimen>
     <dimen name="friend_avatar_width">48dp</dimen>
     <dimen name="friend_avatar_height">48dp</dimen>
+
+    <!-- Profile photo edit dialog -->
+    <dimen name="dialog_icon_margin_top">3dp</dimen>
 </resources>

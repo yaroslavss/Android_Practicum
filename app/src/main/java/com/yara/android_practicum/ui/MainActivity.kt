@@ -2,6 +2,7 @@ package com.yara.android_practicum.ui
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
@@ -11,6 +12,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ActivityMainBinding
+import com.yara.android_practicum.ui.profile.EditProfilePhotoDialogFragment
+import com.yara.android_practicum.ui.profile.FullScreenDialogExample
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,5 +49,26 @@ class MainActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        // show dialog to edit profile's photo
+        R.id.action_edit -> {
+            /*EditProfilePhotoDialogFragment().show(
+                supportFragmentManager,
+                "EDIT_PROFILE_PHOTO_DIALOG"
+            )*/
+            val dialogFragment = FullScreenDialogExample()
+            //dialogFragment.setBac(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialogFragment.show(supportFragmentManager, "signature")
+
+            true
+        }
+
+        else -> {
+            // The user's action isn't recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
     }
 }
