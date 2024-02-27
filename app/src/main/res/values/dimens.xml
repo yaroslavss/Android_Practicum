@@ -23,5 +23,7 @@
     <dimen name="friend_avatar_height">48dp</dimen>
 
     <!-- Profile photo edit dialog -->
+    <dimen name="dialog_horizontal_margin">24dp</dimen>
+    <dimen name="dialog_row_margin">44dp</dimen>
     <dimen name="dialog_icon_margin_top">3dp</dimen>
 </resources>

@@ -13,7 +13,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ActivityMainBinding
 import com.yara.android_practicum.ui.profile.EditProfilePhotoDialogFragment
-import com.yara.android_practicum.ui.profile.FullScreenDialogExample
 
 class MainActivity : AppCompatActivity() {
 
@@ -54,14 +53,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         // show dialog to edit profile's photo
         R.id.action_edit -> {
-            /*EditProfilePhotoDialogFragment().show(
-                supportFragmentManager,
-                "EDIT_PROFILE_PHOTO_DIALOG"
-            )*/
-            val dialogFragment = FullScreenDialogExample()
-            //dialogFragment.setBac(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            dialogFragment.show(supportFragmentManager, "signature")
-
+            val dialogFragment = EditProfilePhotoDialogFragment()
+            dialogFragment.show(supportFragmentManager, "EDIT_PROFILE_PHOTO")
             true
         }
 
