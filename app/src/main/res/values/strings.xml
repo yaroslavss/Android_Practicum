@@ -10,7 +10,7 @@
     <!-- Strings used for fragments for navigation -->
     <string name="bottom_nav_news">Новости</string>
     <string name="bottom_nav_search">Поиск</string>
-    <string name="bottom_nav_help">Помочь</string>
+    <string name="help_fragment_label">Помочь</string>
     <string name="bottom_nav_history">История</string>
     <string name="profile_fragment_label">Профиль</string>
 

@@ -3,11 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/profileFragment">
+    app:startDestination="@id/helpFragment">
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.yara.android_practicum.ui.profile.ProfileFragment"
         android:label="@string/profile_fragment_label"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.yara.android_practicum.ui.help.HelpFragment"
+        android:label="@string/help_fragment_label"
+        tools:layout="@layout/fragment_help" />
 </navigation>

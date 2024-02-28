@@ -1,31 +1,32 @@
-package com.yara.android_practicum.ui.profile
+package com.yara.android_practicum.ui.help
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.yara.android_practicum.databinding.FragmentProfileBinding
+import com.yara.android_practicum.databinding.FragmentHelpBinding
+import com.yara.android_practicum.ui.profile.ProfileViewModel
 
-class ProfileFragment : Fragment() {
+class HelpFragment : Fragment() {
 
-    private var _binding: FragmentProfileBinding? = null
+    private var _binding: FragmentHelpBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel: ProfileViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        _binding = FragmentHelpBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.title = "Профиль"
+        binding.toolbar.title = "Помочь"
     }
 
     override fun onDestroyView() {

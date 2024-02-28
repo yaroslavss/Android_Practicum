@@ -30,12 +30,13 @@ class MainActivity : AppCompatActivity(), CallbackListener {
 
         // set the toolbar as the app bar for the activity
         val appBar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(appBar)
+        //setSupportActionBar(appBar)
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
+                R.id.helpFragment,
                 R.id.profileFragment,
             )
         )
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         // set up navigation
         val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        //setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavView.setupWithNavController(navController)
     }
 
