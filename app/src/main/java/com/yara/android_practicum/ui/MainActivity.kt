@@ -3,6 +3,7 @@ package com.yara.android_practicum.ui
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
@@ -13,8 +14,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ActivityMainBinding
 import com.yara.android_practicum.ui.profile.EditProfilePhotoDialogFragment
+import com.yara.android_practicum.utils.Action
+import com.yara.android_practicum.utils.CallbackListener
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CallbackListener {
 
     private lateinit var binding: ActivityMainBinding;
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -53,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         // show dialog to edit profile's photo
         R.id.action_edit -> {
-            val dialogFragment = EditProfilePhotoDialogFragment()
+            val dialogFragment = EditProfilePhotoDialogFragment(this)
             dialogFragment.show(supportFragmentManager, "EDIT_PROFILE_PHOTO")
             true
         }
@@ -62,6 +65,14 @@ class MainActivity : AppCompatActivity() {
             // The user's action isn't recognized.
             // Invoke the superclass to handle it.
             super.onOptionsItemSelected(item)
+        }
+    }
+
+    // proceed actions from dialog to edit profile's photo
+    override fun onDataReceived(action: Action) = when (action) {
+        is Action.DeleteProfilePhotoAction -> {
+            val photo: ImageView = findViewById(R.id.acivPhoto)
+            photo.setImageResource(R.drawable.image_user)
         }
     }
 }

@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.DialogEditProfilePhotoBinding
+import com.yara.android_practicum.utils.Action
+import com.yara.android_practicum.utils.CallbackListener
 
-class EditProfilePhotoDialogFragment : DialogFragment() {
+class EditProfilePhotoDialogFragment(private val callbackListener: CallbackListener) :
+    DialogFragment() {
 
     private var _binding: DialogEditProfilePhotoBinding? = null
     private val binding get() = _binding!!
@@ -43,5 +46,11 @@ class EditProfilePhotoDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.ivIconDelete.setOnClickListener {
+            //send back data to PARENT fragment using callback
+            callbackListener.onDataReceived(Action.DeleteProfilePhotoAction)
+            // Now dismiss the fragment
+            dismiss()
+        }
     }
 }
