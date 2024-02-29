@@ -6,29 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.help.HelpFragment">
 
-    <!--<com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/apbAppBar"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/leaf"
+        android:theme="@style/Theme.Android_Practicum.PopupOverlay"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:fitsSystemWindows="true"
-        android:theme="@style/Theme.Android_Practicum.AppBarOverlay">-->
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/leaf"
-            app:popupTheme="@style/Theme.Android_Practicum.PopupOverlay"
-            app:menu="@menu/menu_main" />
-
-    <!--</com.google.android.material.appbar.AppBarLayout>-->
+        app:menu="@menu/menu_main"
+        app:titleTextAppearance="@style/AppBarText" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:text="Help Fragment" />
+        android:text="Help Fragment"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

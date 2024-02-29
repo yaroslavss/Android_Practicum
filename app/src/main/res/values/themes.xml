@@ -18,7 +18,9 @@
         <item name="android:textColorPrimary">@color/white</item>
     </style>
 
-    <style name="Theme.Android_Practicum.PopupOverlay" parent="ThemeOverlay.Material3.Dark" />
+    <style name="Theme.Android_Practicum.PopupOverlay" parent="ThemeOverlay.Material3.Dark">
+        <item name="titleCentered">true</item>
+    </style>
 
     <!-- divider -->
     <style name="Widget.App.MaterialDivider" parent="Widget.Material3.MaterialDivider">
