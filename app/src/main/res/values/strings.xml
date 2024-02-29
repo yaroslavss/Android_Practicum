@@ -14,6 +14,9 @@
     <string name="bottom_nav_history">История</string>
     <string name="profile_fragment_label">Профиль</string>
 
+    <!-- Help fragment -->
+    <string name="help_subtitle">Выберите категорию помощи</string>
+
     <!-- Profile fragment -->
     <string name="profile_full_name">Константинов Денис</string>
     <string name="profile_birthdate_label">Дата рождения</string>
