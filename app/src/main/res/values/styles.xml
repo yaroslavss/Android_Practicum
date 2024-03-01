@@ -54,4 +54,14 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/black_87</item>
     </style>
+
+    <style name="TextStyle">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:fontFamily">@font/officina_sans_extra_bold_scc</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/light_olive_green</item>
+    </style>
+
+    <style name="HelpCategoryText" parent="TextStyle" />
 </resources>

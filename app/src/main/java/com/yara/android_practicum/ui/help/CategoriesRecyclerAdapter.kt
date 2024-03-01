@@ -23,7 +23,8 @@ class CategoriesRecyclerAdapter(var categories: List<Category>) :
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val item = categories[position]
         holder.itemView.apply {
-
+            binding.tvCategoryName.text = item.name
+            binding.ivCategoryIcon.setImageResource(item.icon)
         }
     }
 
