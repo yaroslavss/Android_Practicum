@@ -17,6 +17,7 @@
 
     <!-- Help fragment -->
     <dimen name="spacing_s">12dp</dimen>
+    <dimen name="spacing_xs">8dp</dimen>
 
     <!-- Profile fragment -->
     <dimen name="profile_label_margin_top">16dp</dimen>
