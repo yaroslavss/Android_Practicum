@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_margin">20dp</dimen>
+    <dimen name="spacing_xs">8dp</dimen>
     <dimen name="btn_radius">2dp</dimen>
     <dimen name="btn_elevation">10dp</dimen>
     <dimen name="default_icon_side">24dp</dimen>
@@ -15,9 +16,11 @@
     <!-- App Toolbar -->
     <dimen name="collapsing_toolbar_min_height">20dp</dimen>
 
+    <!-- Search fragment -->
+    <dimen name="tab_indicator_height">4dp</dimen>
+
     <!-- Help fragment -->
     <dimen name="spacing_s">12dp</dimen>
-    <dimen name="spacing_xs">8dp</dimen>
 
     <!-- Profile fragment -->
     <dimen name="profile_label_margin_top">16dp</dimen>

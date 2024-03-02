@@ -15,4 +15,9 @@
         android:name="com.yara.android_practicum.ui.help.HelpFragment"
         android:label="@string/help_fragment_label"
         tools:layout="@layout/fragment_help" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.yara.android_practicum.ui.search.SearchFragment"
+        android:label="@string/search_fragment_label"
+        tools:layout="@layout/fragment_search" />
 </navigation>
