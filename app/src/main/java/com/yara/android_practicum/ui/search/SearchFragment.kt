@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -15,8 +14,6 @@ class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-
-    private val viewModel by viewModels<SearchViewModel>()
 
     private lateinit var adapter: VPAdapter
     private lateinit var viewPager: ViewPager2
@@ -47,7 +44,6 @@ class SearchFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabNames[position]
         }.attach()
-
     }
 
     override fun onDestroyView() {

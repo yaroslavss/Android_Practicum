@@ -1,13 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_grey_two"
     tools:context=".ui.search.inner.SearchEventsFragment">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="search by events" />
+        android:id="@+id/tvSearchKeysLabel"
+        style="@style/SearchLabel"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/search_keys_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tvSearchResultsLabel"
+        style="@style/SearchLabel"
+        android:text="@string/search_results_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSearchKeysLabel" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/mdDivider1"
+        style="@style/Widget.App.MaterialDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/default_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSearchResultsLabel" />
+
+    <FrameLayout
+        android:id="@+id/flSearchResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mdDivider1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSearchResults"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:paddingStart="@dimen/default_margin"
+            tools:ignore="RtlSymmetry"
+            tools:listitem="@layout/item_search_result" />
+    </FrameLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/mdDivider2"
+        style="@style/Widget.App.MaterialDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/flSearchResults" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

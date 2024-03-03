@@ -16,6 +16,8 @@
 
     <!-- Search fragment -->
     <string name="searchbar_hint">Введите название организации</string>
+    <string name="search_keys_label">Ключевые слова: мастер-класс, помощь</string>
+    <string name="search_results_label">Результаты поиска: 109 мероприятий</string>
 
     <!-- Help fragment -->
     <string name="help_subtitle">Выберите категорию помощи</string>

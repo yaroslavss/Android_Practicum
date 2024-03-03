@@ -18,6 +18,8 @@
 
     <!-- Search fragment -->
     <dimen name="tab_indicator_height">4dp</dimen>
+    <dimen name="search_results_text_margin">18dp</dimen>
+    <dimen name="search_results_divider_height">1dp</dimen>
 
     <!-- Help fragment -->
     <dimen name="spacing_s">12dp</dimen>

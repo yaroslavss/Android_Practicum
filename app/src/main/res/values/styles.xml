@@ -64,4 +64,11 @@
     </style>
 
     <style name="HelpCategoryText" parent="TextStyle" />
+
+    <style name="SearchLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">@dimen/default_margin</item>
+        <item name="android:textColor">@color/black_54</item>
+    </style>
 </resources>
