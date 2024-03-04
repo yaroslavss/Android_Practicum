@@ -48,7 +48,6 @@ val lifecycleVersion = "2.7.0"
 val navigationVersion = "2.7.6"
 val retrofitVersion = "2.9.0"
 val okhttp3Version = "4.11.0"
-val cameraxVersion = "1.3.1"
 val junitVersion = "4.13.2"
 
 dependencies {
@@ -71,13 +70,6 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
     implementation("com.squareup.okhttp3:logging-interceptor:$okhttp3Version")
-
-    // cameraX
-    implementation("androidx.camera:camera-core:${cameraxVersion}")
-    implementation("androidx.camera:camera-camera2:${cameraxVersion}")
-    implementation("androidx.camera:camera-lifecycle:${cameraxVersion}")
-    implementation("androidx.camera:camera-view:${cameraxVersion}")
-    implementation("androidx.camera:camera-extensions:${cameraxVersion}")
 
     // test
     testImplementation("junit:junit:$junitVersion")
