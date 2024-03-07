@@ -33,7 +33,7 @@ class HelpFragment : Fragment() {
         binding.toolbar.title = getString(R.string.help_fragment_label)
 
         // init adapter
-        val adapter = CategoriesRecyclerAdapter(listOf())
+        val adapter = CategoriesRecyclerAdapter()
 
         binding.rvCategories.adapter = adapter
         binding.rvCategories.layoutManager = GridLayoutManager(activity, RECYCLER_GRID_COLUMNS)
@@ -42,8 +42,7 @@ class HelpFragment : Fragment() {
         binding.rvCategories.addItemDecoration(SpacingItemDecorator(x)) //setting space between items in RecyclerView
 
         viewModel.categoriesListLiveData.observe(viewLifecycleOwner) { list ->
-            adapter.categories = list
-            adapter.notifyDataSetChanged()
+            adapter.addItems(list)
         }
     }
 

@@ -1,34 +1,50 @@
 package com.yara.android_practicum.ui.help
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ItemCategoryBinding
 import com.yara.android_practicum.domain.model.Category
 
-class CategoriesRecyclerAdapter(var categories: List<Category>) :
+class CategoriesRecyclerAdapter :
     RecyclerView.Adapter<CategoriesRecyclerAdapter.CategoryViewHolder>() {
 
-    private var _binding: ItemCategoryBinding? = null
-    private val binding get() = _binding!!
+    val categories = mutableListOf<Category>()
 
-    inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private val binding = ItemCategoryBinding.bind(itemView)
+
+        private val name = binding.tvCategoryName
+        private val icon = binding.ivCategoryIcon
+
+        fun bind(category: Category) {
+            name.text = category.name
+            icon.setImageResource(category.icon)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        _binding = ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CategoryViewHolder(binding.root)
+        return CategoryViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_category, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        val item = categories[position]
-        holder.itemView.apply {
-            binding.tvCategoryName.text = item.name
-            binding.ivCategoryIcon.setImageResource(item.icon)
-        }
+        holder.bind(categories[position])
     }
 
     override fun getItemCount(): Int {
         return categories.size
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun addItems(list: List<Category>) {
+        categories.clear()
+        categories.addAll(list)
+        notifyDataSetChanged()
     }
 }

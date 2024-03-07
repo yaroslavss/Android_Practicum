@@ -46,14 +46,28 @@ class EditProfilePhotoDialogFragment(private val callbackListener: CallbackListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // make camera photo
         binding.ivIconCamera.setOnClickListener {
             //send back data to PARENT fragment using callback
             callbackListener.onDataReceived(Action.MakeCameraPhoto)
             // Now dismiss the fragment
             dismiss()
         }
+        binding.tvMakePhoto.setOnClickListener {
+            //send back data to PARENT fragment using callback
+            callbackListener.onDataReceived(Action.MakeCameraPhoto)
+            // Now dismiss the fragment
+            dismiss()
+        }
 
+        // delete profile photo
         binding.ivIconDelete.setOnClickListener {
+            //send back data to PARENT fragment using callback
+            callbackListener.onDataReceived(Action.DeleteProfilePhotoAction)
+            // Now dismiss the fragment
+            dismiss()
+        }
+        binding.tvDeletePhoto.setOnClickListener {
             //send back data to PARENT fragment using callback
             callbackListener.onDataReceived(Action.DeleteProfilePhotoAction)
             // Now dismiss the fragment

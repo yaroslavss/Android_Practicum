@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), CallbackListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // Match the request 'pic id with requestCode
-        if (requestCode == 123) {
+        if (requestCode == INTENT_REQUEST_CODE) {
             // BitMap is data structure of image file which store the image in memory
             val photo = data!!.extras!!["data"] as Bitmap?
             // Set the image in imageview for display
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         // Start the activity with camera_intent, and request pic id
-        startActivityForResult(cameraIntent, 123)
+        startActivityForResult(cameraIntent, INTENT_REQUEST_CODE)
     }
 
     private fun requestPermissions() {
@@ -103,6 +103,9 @@ class MainActivity : AppCompatActivity(), CallbackListener {
     }
 
     companion object {
+
+        const val INTENT_REQUEST_CODE = 123
+
         private val REQUIRED_PERMISSIONS =
             mutableListOf(
                 Manifest.permission.CAMERA,
