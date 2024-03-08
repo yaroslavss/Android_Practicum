@@ -62,11 +62,13 @@ class MainActivity : AppCompatActivity(), CallbackListener {
 
     // proceed actions from dialog to edit profile's photo
     override fun onDataReceived(action: Action) = when (action) {
+        is Action.TakePhoto -> {}
+
         is Action.MakeCameraPhoto -> {
             takePhoto()
         }
 
-        is Action.DeleteProfilePhotoAction -> {
+        is Action.DeleteProfilePhoto -> {
             val photo: ImageView = findViewById(R.id.acivPhoto)
             photo.setImageResource(R.drawable.image_user)
         }
@@ -85,6 +87,7 @@ class MainActivity : AppCompatActivity(), CallbackListener {
             photoImageView.setImageBitmap(photo)
         }
     }
+
     private fun takePhoto() {
         // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
