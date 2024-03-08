@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yara.android_practicum.data.Mappers
 import com.yara.android_practicum.data.datasource.HardCodedDataSource
+import com.yara.android_practicum.data.mapper.toDomainModelList
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.domain.model.Category
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +25,7 @@ class HelpViewModel : ViewModel() {
     private fun loadCategories() {
         viewModelScope.launch(Dispatchers.IO) {
             val categories = categoriesRepository.loadCategories()
-            _categoriesListLiveData.postValue(Mappers.CategoryToDomainListMapper.map(categories))
+            _categoriesListLiveData.postValue(categories.toDomainModelList())
         }
     }
 }
