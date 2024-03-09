@@ -53,11 +53,6 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         bottomNavView.setupWithNavController(navController)
-
-        // Request camera permissions
-        if (!allPermissionsGranted()) {
-            requestPermissions()
-        }
     }
 
     // proceed actions from dialog to edit profile's photo
@@ -65,6 +60,11 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         is Action.TakePhoto -> {}
 
         is Action.MakeCameraPhoto -> {
+            // Request camera permissions
+            if (!allPermissionsGranted()) {
+                requestPermissions()
+            }
+
             takePhoto()
         }
 
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity(), CallbackListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // Match the request 'pic id with requestCode
-        if (requestCode == INTENT_REQUEST_CODE) {
+        if (resultCode != RESULT_CANCELED && requestCode == INTENT_REQUEST_CODE) {
             // BitMap is data structure of image file which store the image in memory
             val photo = data!!.extras!!["data"] as Bitmap?
             // Set the image in imageview for display
