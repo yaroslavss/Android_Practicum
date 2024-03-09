@@ -7,24 +7,30 @@
 
     <TextView
         android:id="@+id/tvSearchResultsText"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/search_results_text_margin"
         android:layout_marginStart="@dimen/default_margin"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivSearchResultsIcon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Благотворительный фонд" />
+        tools:text="Благотворительный фонд Благотворительный фонд Благотворительный фонд" />
 
     <ImageView
+        android:id="@+id/ivSearchResultsIcon"
         android:layout_width="@dimen/default_icon_side"
         android:layout_height="@dimen/default_icon_side"
         android:layout_marginVertical="@dimen/search_results_text_margin"
+        android:layout_marginStart="@dimen/spacing_xs"
         android:layout_marginEnd="@dimen/default_margin"
         android:src="@drawable/ic_chevron_right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvSearchResultsText"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

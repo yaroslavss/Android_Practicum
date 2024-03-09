@@ -33,6 +33,6 @@ class SearchViewModel : ViewModel() {
         .joinToString("")
 
     companion object {
-        const val STRING_LENGTH = 20
+        const val STRING_LENGTH = 40
     }
 }
