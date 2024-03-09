@@ -84,7 +84,14 @@ class MainActivity : AppCompatActivity(), CallbackListener {
             val photo = data!!.extras!!["data"] as Bitmap?
             // Set the image in imageview for display
             val photoImageView: ImageView = findViewById(R.id.acivPhoto)
-            photoImageView.setImageBitmap(photo)
+            photoImageView.setImageBitmap(
+                Bitmap.createScaledBitmap(
+                    photo!!,
+                    PROFILE_IMAGE_WIDTH,
+                    PROFILE_IMAGE_HEIGHT,
+                    false
+                )
+            )
         }
     }
 
@@ -108,6 +115,8 @@ class MainActivity : AppCompatActivity(), CallbackListener {
     companion object {
 
         const val INTENT_REQUEST_CODE = 123
+        const val PROFILE_IMAGE_WIDTH = 1440
+        const val PROFILE_IMAGE_HEIGHT = 800
 
         private val REQUIRED_PERMISSIONS =
             mutableListOf(
