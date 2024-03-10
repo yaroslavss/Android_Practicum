@@ -1,16 +1,11 @@
 package com.yara.android_practicum.ui
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -22,26 +17,6 @@ import com.yara.android_practicum.utils.CallbackListener
 class MainActivity : AppCompatActivity(), CallbackListener {
 
     private lateinit var binding: ActivityMainBinding;
-
-    private val activityResultLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        )
-        { permissions ->
-            // Handle Permission granted/rejected
-            var permissionGranted = true
-            permissions.entries.forEach {
-                if (it.key in REQUIRED_PERMISSIONS && it.value == false)
-                    permissionGranted = false
-            }
-            if (!permissionGranted) {
-                Toast.makeText(
-                    baseContext,
-                    "Permission request denied",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,11 +35,6 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         is Action.TakePhoto -> {}
 
         is Action.MakeCameraPhoto -> {
-            // Request camera permissions
-            if (!allPermissionsGranted()) {
-                requestPermissions()
-            }
-
             takePhoto()
         }
 
@@ -102,25 +72,10 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         startActivityForResult(cameraIntent, INTENT_REQUEST_CODE)
     }
 
-    private fun requestPermissions() {
-        activityResultLauncher.launch(REQUIRED_PERMISSIONS)
-    }
-
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(
-            baseContext, it
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
     companion object {
 
         const val INTENT_REQUEST_CODE = 123
         const val PROFILE_IMAGE_WIDTH = 1440
         const val PROFILE_IMAGE_HEIGHT = 800
-
-        private val REQUIRED_PERMISSIONS =
-            mutableListOf(
-                Manifest.permission.CAMERA,
-            ).toTypedArray()
     }
 }
