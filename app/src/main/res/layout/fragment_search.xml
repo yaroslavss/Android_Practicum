@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.search.SearchFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/leaf"
+        android:theme="@style/Theme.Android_Practicum.PopupOverlay"
+        app:contentInsetStart="@dimen/spacing_xs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextAppearance="@style/AppBarText">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/svSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_xs"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tlTabLayout"
+        style="@style/Widget.App.TabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/vpViewPager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:tabIndicatorColor="@color/macaroni_and_cheese"
+        app:tabIndicatorFullWidth="true"
+        app:tabIndicatorHeight="@dimen/tab_indicator_height"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/white_70" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vpViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tlTabLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

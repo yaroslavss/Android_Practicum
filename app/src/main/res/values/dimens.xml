@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_margin">20dp</dimen>
+    <dimen name="spacing_xs">8dp</dimen>
     <dimen name="btn_radius">2dp</dimen>
     <dimen name="btn_elevation">10dp</dimen>
+    <dimen name="default_icon_side">24dp</dimen>
 
     <!-- Splash Screen -->
     <dimen name="splash_logo_top_margin">178dp</dimen>
@@ -14,10 +16,24 @@
     <!-- App Toolbar -->
     <dimen name="collapsing_toolbar_min_height">20dp</dimen>
 
+    <!-- Search fragment -->
+    <dimen name="tab_indicator_height">4dp</dimen>
+    <dimen name="search_results_text_margin">18dp</dimen>
+    <dimen name="search_results_divider_height">1dp</dimen>
+
+    <!-- Help fragment -->
+    <dimen name="spacing_s">12dp</dimen>
+
     <!-- Profile fragment -->
     <dimen name="profile_label_margin_top">16dp</dimen>
     <dimen name="spacing_xxl">28dp</dimen>
     <dimen name="default_divider_margin">40dp</dimen>
     <dimen name="friend_avatar_width">48dp</dimen>
     <dimen name="friend_avatar_height">48dp</dimen>
+
+    <!-- Profile photo edit dialog -->
+    <dimen name="dialog_horizontal_margin_outer">24dp</dimen>
+    <dimen name="dialog_horizontal_margin">10dp</dimen>
+    <dimen name="dialog_row_margin_half">22dp</dimen>
+    <dimen name="dialog_icon_margin_top">3dp</dimen>
 </resources>

@@ -1,21 +1,22 @@
 package com.yara.android_practicum.ui
 
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
-import android.view.Menu
+import android.provider.MediaStore
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ActivityMainBinding
+import com.yara.android_practicum.utils.Action
+import com.yara.android_practicum.utils.CallbackListener
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CallbackListener {
 
     private lateinit var binding: ActivityMainBinding;
-    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,28 +24,58 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // set the toolbar as the app bar for the activity
-        val appBar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(appBar)
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.profileFragment,
-            )
-        )
-
         // set up navigation
         val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavView.setupWithNavController(navController)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
+    // proceed actions from dialog to edit profile's photo
+    override fun onDataReceived(action: Action) = when (action) {
+        is Action.TakePhoto -> {}
+
+        is Action.MakeCameraPhoto -> {
+            takePhoto()
+        }
+
+        is Action.DeleteProfilePhoto -> {
+            val photo: ImageView = findViewById(R.id.acivPhoto)
+            photo.setImageResource(R.drawable.image_user)
+        }
+    }
+
+    // This method will help to retrieve the image
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        // Match the request 'pic id with requestCode
+        if (resultCode != RESULT_CANCELED && requestCode == INTENT_REQUEST_CODE) {
+            // BitMap is data structure of image file which store the image in memory
+            val photo = data!!.extras!!["data"] as Bitmap?
+            // Set the image in imageview for display
+            val photoImageView: ImageView = findViewById(R.id.acivPhoto)
+            photoImageView.setImageBitmap(
+                Bitmap.createScaledBitmap(
+                    photo!!,
+                    PROFILE_IMAGE_WIDTH,
+                    PROFILE_IMAGE_HEIGHT,
+                    false
+                )
+            )
+        }
+    }
+
+    private fun takePhoto() {
+        // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        // Start the activity with camera_intent, and request pic id
+        startActivityForResult(cameraIntent, INTENT_REQUEST_CODE)
+    }
+
+    companion object {
+
+        const val INTENT_REQUEST_CODE = 123
+        const val PROFILE_IMAGE_WIDTH = 1440
+        const val PROFILE_IMAGE_HEIGHT = 800
     }
 }

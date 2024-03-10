@@ -18,7 +18,9 @@
         <item name="android:textColorPrimary">@color/white</item>
     </style>
 
-    <style name="Theme.Android_Practicum.PopupOverlay" parent="ThemeOverlay.Material3.Dark" />
+    <style name="Theme.Android_Practicum.PopupOverlay" parent="ThemeOverlay.Material3.Dark">
+        <item name="titleCentered">true</item>
+    </style>
 
     <!-- divider -->
     <style name="Widget.App.MaterialDivider" parent="Widget.Material3.MaterialDivider">
@@ -49,5 +51,22 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:colorBackground">@color/splash_background</item>
+    </style>
+
+    <!-- Set parent theme as app theme. -->
+    <style name="DialogTheme" parent="Theme.Android_Practicum">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <!-- TabLayout for Search fragment -->
+    <style name="Widget.App.TabLayout" parent="Widget.Material3.TabLayout">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TabLayout</item>
+    </style>
+
+    <style name="ThemeOverlay.App.TabLayout" parent="">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorSurface">@color/leaf</item>
     </style>
 </resources>
