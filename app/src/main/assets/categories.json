@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Дети",
+    "icon": "icon_kids"
+  },
+  {
+    "name": "Взрослые",
+    "icon": "icon_adult"
+  },
+  {
+    "name": "Пожилые",
+    "icon": "icon_elderly"
+  },
+  {
+    "name": "Животные",
+    "icon": "icon_animals"
+  },
+  {
+    "name": "Мероприятия",
+    "icon": "icon_event"
+  }
+]
