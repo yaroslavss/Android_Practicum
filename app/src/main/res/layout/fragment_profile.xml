@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:menu="@menu/menu_main"
+                app:menu="@menu/menu_main_profile"
                 app:popupTheme="@style/Theme.Android_Practicum.PopupOverlay" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>

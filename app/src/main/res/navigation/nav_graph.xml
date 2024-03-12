@@ -20,4 +20,9 @@
         android:name="com.yara.android_practicum.ui.search.SearchFragment"
         android:label="@string/search_fragment_label"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.yara.android_practicum.ui.news.NewsFragment"
+        android:label="@string/news_fragment_label"
+        tools:layout="@layout/fragment_news" />
 </navigation>
