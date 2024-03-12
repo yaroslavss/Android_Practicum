@@ -8,7 +8,8 @@ import com.yara.android_practicum.App
 import com.yara.android_practicum.data.datasource.HardCodedDataSource
 import com.yara.android_practicum.data.mapper.toDomainModelList
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
-import com.yara.android_practicum.data.util.CategoryAssetReader
+import com.yara.android_practicum.data.util.AssetReaderImpl
+import com.yara.android_practicum.data.util.CategoryDeserializer
 import com.yara.android_practicum.domain.model.Category
 import com.yara.android_practicum.utils.Constants
 import com.yara.android_practicum.utils.Resource
@@ -25,7 +26,7 @@ class HelpViewModel : ViewModel() {
     val categoriesLiveData: LiveData<Resource<Categories>> = _categoriesLiveData
 
     private val categoriesRepository =
-        CategoriesRepositoryImpl(HardCodedDataSource(), CategoryAssetReader())
+        CategoriesRepositoryImpl(HardCodedDataSource(), AssetReaderImpl(CategoryDeserializer))
 
     private val context = App.instance
     lateinit var inputStream: InputStream
