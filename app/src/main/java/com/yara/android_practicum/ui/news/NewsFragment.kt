@@ -29,6 +29,9 @@ class NewsFragment : Fragment() {
 
         binding.toolbar.title = getString(R.string.news_fragment_label)
 
+        viewModel.eventsLiveData.observe(viewLifecycleOwner) { resource ->
+            println(resource)
+        }
     }
 
     override fun onDestroyView() {
