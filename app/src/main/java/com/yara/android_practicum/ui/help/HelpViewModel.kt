@@ -11,15 +11,18 @@ import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.util.CategoryAssetReader
 import com.yara.android_practicum.domain.model.Category
 import com.yara.android_practicum.utils.Constants
+import com.yara.android_practicum.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.io.InputStream
 
+typealias Categories = List<Category>
+
 class HelpViewModel : ViewModel() {
 
-    private val _categoriesListLiveData = MutableLiveData<List<Category>>()
-    val categoriesListLiveData: LiveData<List<Category>> = _categoriesListLiveData
+    private val _categoriesLiveData = MutableLiveData<Resource<Categories>>()
+    val categoriesLiveData: LiveData<Resource<Categories>> = _categoriesLiveData
 
     private val categoriesRepository =
         CategoriesRepositoryImpl(HardCodedDataSource(), CategoryAssetReader())
@@ -32,14 +35,14 @@ class HelpViewModel : ViewModel() {
             inputStream = context.assets.open(Constants.CATEGORIES_ASSET_FILENAME)
             loadCategories()
         } catch (e: IOException) {
-            println("json not found")
+            _categoriesLiveData.value = Resource.Error("Exception while opening asset file")
         }
     }
 
     private fun loadCategories() {
         viewModelScope.launch(Dispatchers.IO) {
             val categories = categoriesRepository.readCategories(inputStream)
-            _categoriesListLiveData.postValue(categories.toDomainModelList())
+            _categoriesLiveData.postValue(Resource.Success(categories.toDomainModelList()))
         }
     }
 }
