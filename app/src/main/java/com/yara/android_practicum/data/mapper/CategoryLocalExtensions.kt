@@ -5,6 +5,7 @@ import com.yara.android_practicum.domain.model.Category
 
 private fun createCategoryFromLocal(category: CategoryLocal) =
     Category(
+        id = category.id,
         name = category.name,
         icon = category.icon,
     )

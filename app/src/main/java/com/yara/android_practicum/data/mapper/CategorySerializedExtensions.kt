@@ -10,6 +10,7 @@ private fun createCategoryFromSerialized(category: CategorySerialized): Category
     val context = App.instance
     val iconId = context.resources.getIdentifier(category.icon, "drawable", context.packageName)
     return Category(
+        id = category.id,
         name = category.name,
         icon = iconId,
     )

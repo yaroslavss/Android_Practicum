@@ -10,22 +10,27 @@ class HardCodedDataSource {
 
     private val categories = listOf(
         CategoryLocal(
+            id = 1,
             name = "Дети",
             icon = R.drawable.icon_kids,
         ),
         CategoryLocal(
+            id = 2,
             name = "Взрослые",
             icon = R.drawable.icon_adult,
         ),
         CategoryLocal(
+            id = 3,
             name = "Пожилые",
             icon = R.drawable.icon_elderly,
         ),
         CategoryLocal(
+            id = 4,
             name = "Животные",
             icon = R.drawable.icon_animals,
         ),
         CategoryLocal(
+            id = 5,
             name = "Мероприятия",
             icon = R.drawable.icon_event,
         ),
