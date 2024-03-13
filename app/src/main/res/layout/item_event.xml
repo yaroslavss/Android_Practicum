@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/spacing_xs"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivEventIcon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_xxs"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/news_img_1" />
+
+        <ImageView
+            android:id="@+id/ivEventFade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_xxs"
+            android:scaleType="centerCrop"
+            android:src="@drawable/fade"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvEventTitle"
+            style="@style/EventTitleText.Centered"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/event_title_horizontal_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivEventIcon"
+            tools:text="News item #1" />
+
+        <ImageView
+            android:id="@+id/ivEventDecor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xs"
+            android:src="@drawable/decor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvEventTitle" />
+
+        <TextView
+            android:id="@+id/tvEventDescriptionText"
+            style="@style/EventDescriptionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/event_title_horizontal_margin"
+            android:layout_marginTop="@dimen/spacing_xs"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivEventDecor"
+            tools:text="Дубовская школа-интернат для детей с ограниченными возможностями здоровья стала первой в области …" />
+
+        <LinearLayout
+            android:id="@+id/llEventBottomPane"
+            style="@style/EventBottomPane"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/turtle_green"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEventDescriptionText">
+
+            <ImageView
+                android:id="@+id/ivCalendarIcon"
+                android:layout_width="@dimen/default_icon_side"
+                android:layout_height="@dimen/default_icon_side"
+                android:src="@drawable/ic_calendar" />
+
+            <TextView
+                android:id="@+id/tvEventBottomPaneText"
+                style="@style/EventBottomPaneText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Осталось 13 дней (21.09 – 20.10)" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

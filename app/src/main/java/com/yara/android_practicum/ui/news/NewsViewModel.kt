@@ -41,7 +41,6 @@ class NewsViewModel : ViewModel() {
     fun loadEvents() {
         viewModelScope.launch(Dispatchers.IO) {
             val events = eventsRepository.readEvents(inputStream)
-            println(events)
             _eventsLiveData.postValue(Resource.Success(events.toDomainModelList()))
         }
     }
