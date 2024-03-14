@@ -1,4 +1,4 @@
-package com.yara.android_practicum.ui.news
+package com.yara.android_practicum.ui.filter
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,16 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
-import com.yara.android_practicum.databinding.FragmentNewsBinding
+import com.yara.android_practicum.databinding.FragmentFilterBinding
+import com.yara.android_practicum.ui.news.NewsViewModel
 import com.yara.android_practicum.utils.Resource
 
-class NewsFragment : Fragment() {
+class FilterFragment : Fragment() {
 
-    private var _binding: FragmentNewsBinding? = null
+    private var _binding: FragmentFilterBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel by activityViewModels<NewsViewModel>()
@@ -24,37 +25,31 @@ class NewsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentNewsBinding.inflate(inflater, container, false)
+        _binding = FragmentFilterBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.title = getString(R.string.news_fragment_label)
-        val navController = findNavController()
+        binding.toolbar.title = getString(R.string.filter_fragment_label)
 
         // init adapter
-        val adapter = EventsRecyclerAdapter()
+        val adapter = CategoriesRecyclerAdapter()
 
-        binding.rvEvents.adapter = adapter
-        binding.rvEvents.layoutManager = LinearLayoutManager(activity)
+        binding.rvCategories.adapter = adapter
+        binding.rvCategories.layoutManager = LinearLayoutManager(activity)
+        val divider = DividerItemDecoration(activity, LinearLayoutManager.VERTICAL)
+        divider.setDrawable(resources.getDrawable(R.drawable.search_recycler_divider, null))
+        binding.rvCategories.addItemDecoration(divider)
 
         // load data from LiveData
-        viewModel.eventsLiveData.observe(viewLifecycleOwner) { resource ->
+        viewModel.categoriesLiveData.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Success -> adapter.addItems(resource.data)
                 is Resource.Error -> showError(view, resource.message.toString())
                 else -> {}
             }
-        }
-
-        // proceed toolbar menu item click
-        binding.toolbar.setOnMenuItemClickListener {
-            if (it.itemId == R.id.action_filter) {
-                navController.navigate(R.id.filterFragment)
-            }
-            true
         }
     }
 

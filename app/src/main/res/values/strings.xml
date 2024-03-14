@@ -14,6 +14,10 @@
     <string name="help_fragment_label">Помочь</string>
     <string name="bottom_nav_history">История</string>
     <string name="profile_fragment_label">Профиль</string>
+    <string name="filter_fragment_label">Фильтр</string>
+
+    <!-- Filter fragment -->
+    <string name="filter_label">Категории помощи</string>
 
     <!-- Search fragment -->
     <string name="searchbar_hint">Введите название организации</string>

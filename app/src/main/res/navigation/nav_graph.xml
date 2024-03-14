@@ -25,4 +25,9 @@
         android:name="com.yara.android_practicum.ui.news.NewsFragment"
         android:label="@string/news_fragment_label"
         tools:layout="@layout/fragment_news" />
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.yara.android_practicum.ui.filter.FilterFragment"
+        android:label="@string/filter_fragment_label"
+        tools:layout="@layout/fragment_filter" />
 </navigation>
