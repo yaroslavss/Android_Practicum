@@ -16,6 +16,7 @@ import com.yara.android_practicum.domain.model.Event
 import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.Constants
 import com.yara.android_practicum.utils.Resource
+import com.yara.android_practicum.utils.containsAny
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -29,6 +30,8 @@ class NewsViewModel : ViewModel() {
     val eventsLiveData: LiveData<Resource<Events>> = _eventsLiveData
     private val _categoriesLiveData = MutableLiveData<Resource<Categories>>()
     val categoriesLiveData: LiveData<Resource<Categories>> = _categoriesLiveData
+    lateinit var allEvents: Events
+    val filters = mutableSetOf<Int>()
 
     private val eventsRepository = EventsRepositoryImpl(AssetReaderImpl(EventDeserializer))
     private val categoriesRepository =
@@ -40,29 +43,46 @@ class NewsViewModel : ViewModel() {
 
     init {
         try {
-            inputStream1 = context.assets.open(Constants.EVENTS_ASSET_FILENAME)
-            loadEvents(inputStream1)
+            inputStream1 = context.assets.open(Constants.CATEGORIES_ASSET_FILENAME)
+            loadCategories(inputStream1)
         } catch (e: IOException) {
-            _eventsLiveData.value = Resource.Error("Exception while opening asset file")
+            _categoriesLiveData.value =
+                Resource.Error("Exception while opening categories asset file")
         }
         try {
-            inputStream2 = context.assets.open(Constants.CATEGORIES_ASSET_FILENAME)
-            loadCategories(inputStream2)
+            inputStream2 = context.assets.open(Constants.EVENTS_ASSET_FILENAME)
+            loadEvents(inputStream2)
         } catch (e: IOException) {
-            _categoriesLiveData.value = Resource.Error("Exception while opening asset file")
+            _eventsLiveData.value = Resource.Error("Exception while opening events asset file")
         }
+    }
+
+    fun addFilter(id: Int) {
+        filters.add(id)
+        filterEvents()
+    }
+
+    fun removeFilter(id: Int) {
+        filters.remove(id)
+        filterEvents()
+    }
+
+    private fun filterEvents() {
+        _eventsLiveData.value =
+            Resource.Success(allEvents.filter { filters.containsAny(it.categories) })
     }
 
     private fun loadEvents(inputStream: InputStream) {
         viewModelScope.launch(Dispatchers.IO) {
-            val events = eventsRepository.readEvents(inputStream)
-            _eventsLiveData.postValue(Resource.Success(events.toDomainModelList()))
+            allEvents = eventsRepository.readEvents(inputStream).toDomainModelList()
+            _eventsLiveData.postValue(Resource.Success(allEvents))
         }
     }
 
     private fun loadCategories(inputStream: InputStream) {
         viewModelScope.launch(Dispatchers.IO) {
             val categories = categoriesRepository.readCategories(inputStream)
+            filters.addAll(categories.map { it.id })
             _categoriesLiveData.postValue(Resource.Success(categories.toDomainModelList()))
         }
     }

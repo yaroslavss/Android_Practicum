@@ -43,7 +43,7 @@ class NewsFragment : Fragment() {
         // load data from LiveData
         viewModel.eventsLiveData.observe(viewLifecycleOwner) { resource ->
             when (resource) {
-                is Resource.Success -> adapter.addItems(resource.data)
+                is Resource.Success -> adapter.differ.submitList(resource.data)
                 is Resource.Error -> showError(view, resource.message.toString())
                 else -> {}
             }

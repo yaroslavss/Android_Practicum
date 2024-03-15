@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ItemEventBinding
@@ -12,6 +14,19 @@ import com.yara.android_practicum.domain.model.Event
 class EventsRecyclerAdapter : RecyclerView.Adapter<EventsRecyclerAdapter.EventViewHolder>() {
 
     val events = mutableListOf<Event>()
+
+    private val differCallback = object : DiffUtil.ItemCallback<Event>() {
+
+        override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    val differ = AsyncListDiffer(this, differCallback)
 
     inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -45,11 +60,12 @@ class EventsRecyclerAdapter : RecyclerView.Adapter<EventsRecyclerAdapter.EventVi
     }
 
     override fun getItemCount(): Int {
-        return events.size
+        return differ.currentList.size
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        holder.bind(events[position])
+        val item = differ.currentList[position]
+        holder.bind(item)
     }
 
     @SuppressLint("NotifyDataSetChanged")

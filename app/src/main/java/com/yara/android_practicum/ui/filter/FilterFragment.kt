@@ -35,7 +35,13 @@ class FilterFragment : Fragment() {
         binding.toolbar.title = getString(R.string.filter_fragment_label)
 
         // init adapter
-        val adapter = CategoriesRecyclerAdapter()
+        val adapter = CategoriesRecyclerAdapter(viewModel.filters) { category, switch ->
+            if (switch.isChecked)
+                viewModel.removeFilter(category.id)
+            else
+                viewModel.addFilter(category.id)
+            switch.toggle()
+        }
 
         binding.rvCategories.adapter = adapter
         binding.rvCategories.layoutManager = LinearLayoutManager(activity)
