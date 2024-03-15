@@ -11,7 +11,8 @@ import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ItemEventBinding
 import com.yara.android_practicum.domain.model.Event
 
-class EventsRecyclerAdapter : RecyclerView.Adapter<EventsRecyclerAdapter.EventViewHolder>() {
+class EventsRecyclerAdapter(private val onItemClick: (event: Event) -> Unit) :
+    RecyclerView.Adapter<EventsRecyclerAdapter.EventViewHolder>() {
 
     val events = mutableListOf<Event>()
 
@@ -66,6 +67,7 @@ class EventsRecyclerAdapter : RecyclerView.Adapter<EventsRecyclerAdapter.EventVi
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val item = differ.currentList[position]
         holder.bind(item)
+        holder.itemView.setOnClickListener { onItemClick(item) }
     }
 
     @SuppressLint("NotifyDataSetChanged")

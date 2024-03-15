@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentNewsBinding
+import com.yara.android_practicum.utils.Constants
 import com.yara.android_practicum.utils.Resource
 
 class NewsFragment : Fragment() {
@@ -35,7 +36,11 @@ class NewsFragment : Fragment() {
         val navController = findNavController()
 
         // init adapter
-        val adapter = EventsRecyclerAdapter()
+        val adapter = EventsRecyclerAdapter { event ->
+            val bundle = Bundle();
+            bundle.putParcelable(Constants.PARCELABLE_EVENT_KEY, event)
+            navController.navigate(R.id.eventDetailsFragment, bundle)
+        }
 
         binding.rvEvents.adapter = adapter
         binding.rvEvents.layoutManager = LinearLayoutManager(activity)

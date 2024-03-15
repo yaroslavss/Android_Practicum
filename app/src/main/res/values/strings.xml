@@ -7,6 +7,7 @@
     <!-- Strings used for top app bar menu -->
     <string name="action_edit">Редактировать</string>
     <string name="action_filter">Фильтр</string>
+    <string name="action_share">Поделиться</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="news_fragment_label">Новости</string>

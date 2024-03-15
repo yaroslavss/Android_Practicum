@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.parcelize")
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
 }
 

@@ -30,4 +30,9 @@
         android:name="com.yara.android_practicum.ui.filter.FilterFragment"
         android:label="@string/filter_fragment_label"
         tools:layout="@layout/fragment_filter" />
+    <fragment
+        android:id="@+id/eventDetailsFragment"
+        android:name="com.yara.android_practicum.ui.news.EventDetailsFragment"
+        android:label="fragment_event_details"
+        tools:layout="@layout/fragment_event_details" />
 </navigation>
