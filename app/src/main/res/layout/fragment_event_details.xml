@@ -19,10 +19,266 @@
         app:titleTextAppearance="@style/AppBarText" />
 
     <TextView
+        android:id="@+id/tvEventTitle"
+        style="@style/EventTitleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Event details fragment"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:layout_marginTop="@dimen/spacing_m"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:text="Спонсоры отремонтируют школу-интернат" />
+
+    <TextView
+        android:id="@+id/tvEventDateString"
+        style="@style/TextStyle18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:drawablePadding="@dimen/event_date_string_drawable_padding"
+        android:gravity="center_vertical"
+        app:drawableStartCompat="@drawable/ic_calendar"
+        app:drawableTint="@color/grey"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEventTitle"
+        tools:text="Осталось 13 дней (21.09 – 20.10)" />
+
+    <TextView
+        android:id="@+id/tvSponsorTitle"
+        style="@style/TextStyle9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:layout_marginTop="@dimen/spacing_10_dp"
+        android:text="@string/event_sponsor_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEventDateString"
+        tools:text="Благотворительный Фонд «Счастливый Мир»" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glVertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="55dp" />
+
+    <ImageView
+        android:id="@+id/ivNavIcon"
+        android:layout_width="@dimen/default_icon_side"
+        android:layout_height="@dimen/default_icon_side"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:src="@drawable/ic_nav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSponsorTitle" />
+
+    <TextView
+        android:id="@+id/tvSponsorAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:text="@string/event_sponsor_address"
+        android:textColor="@color/black_70"
+        app:layout_constraintStart_toStartOf="@id/glVertical"
+        app:layout_constraintTop_toBottomOf="@id/tvSponsorTitle"
+        tools:text="Санкт-Петербург, Кирочная улица," />
+
+    <TextView
+        android:id="@+id/tvSponsorAddress1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/event_sponsor_address_1"
+        android:textColor="@color/black_70"
+        app:layout_constraintStart_toStartOf="@id/glVertical"
+        app:layout_constraintTop_toBottomOf="@id/tvSponsorAddress"
+        tools:text="д. 50А, каб. 208" />
+
+    <ImageView
+        android:id="@+id/ivPhoneIcon"
+        android:layout_width="@dimen/default_icon_side"
+        android:layout_height="@dimen/default_icon_side"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:src="@drawable/ic_phone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSponsorAddress1" />
+
+    <TextView
+        android:id="@+id/tvSponsorPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:text="@string/event_sponsor_phone"
+        android:textColor="@color/black_70"
+        app:layout_constraintStart_toStartOf="@id/glVertical"
+        app:layout_constraintTop_toBottomOf="@id/tvSponsorAddress1"
+        tools:text="+7 (937) 037 37-73" />
+
+    <TextView
+        android:id="@+id/tvSponsorPhone1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/event_sponsor_phone_1"
+        android:textColor="@color/black_70"
+        app:layout_constraintStart_toStartOf="@id/glVertical"
+        app:layout_constraintTop_toBottomOf="@id/tvSponsorPhone"
+        tools:text="+7 (937) 016 16-16" />
+
+    <ImageView
+        android:id="@+id/ivMailIcon"
+        android:layout_width="@dimen/default_icon_side"
+        android:layout_height="@dimen/default_icon_side"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:src="@drawable/ic_mail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSponsorPhone1" />
+
+    <TextView
+        android:id="@+id/tvSponsorMail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:text="@string/event_sponsor_mail"
+        android:textColor="@color/black_70"
+        app:layout_constraintStart_toStartOf="@id/glVertical"
+        app:layout_constraintTop_toBottomOf="@id/tvSponsorPhone1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glVertical1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/event_images_gideline_vertical_percent" />
+
+    <ImageView
+        android:id="@+id/ivEventImageMain"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/event_image_main_height"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@id/glVertical1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivMailIcon"
+        tools:src="@drawable/news_img_1" />
+
+    <ImageView
+        android:id="@+id/ivEventImage2"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/event_image_ordinal_height"
+        android:layout_marginStart="@dimen/spacing_10_dp"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/glVertical1"
+        app:layout_constraintTop_toBottomOf="@id/ivMailIcon"
+        tools:src="@drawable/cardimage_2" />
+
+    <ImageView
+        android:id="@+id/ivEventImage3"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/event_image_ordinal_height"
+        android:layout_marginStart="@dimen/spacing_10_dp"
+        android:layout_marginTop="@dimen/spacing_10_dp"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/glVertical1"
+        app:layout_constraintTop_toBottomOf="@id/ivEventImage2"
+        tools:src="@drawable/cardimage_3" />
+
+    <TextView
+        android:id="@+id/tvEventText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:text="@string/event_text"
+        android:textColor="@color/black_70"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivEventImageMain"
+        tools:text="Участники и болельщики смогли весело и активно провести время на «Петербургском благотворительном марафоне» и при этом финансово поучаствовать в помощи детям." />
+
+    <TextView
+        android:id="@+id/tvEventText1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:layout_marginTop="@dimen/spacing_10_dp"
+        android:text="@string/event_text_1"
+        android:textColor="@color/black_70"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEventText"
+        tools:text="При этом финансово поучаствовать в помощи детям. При этом финансово поучаствовать в помощи детям." />
+
+    <TextView
+        android:id="@+id/tvSponsorLink"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:layout_marginTop="@dimen/spacing_10_dp"
+        android:text="@string/event_sponsor_link"
+        android:textColor="@color/black_70"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEventText1" />
+
+    <LinearLayout
+        android:id="@+id/llEventAvatarPane"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/light_grey_two"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/default_margin"
+        android:paddingVertical="@dimen/spacing_10_dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSponsorLink">
+
+        <ImageView
+            android:id="@+id/ivAvatarIcon"
+            android:layout_width="@dimen/event_avatar_side"
+            android:layout_height="@dimen/event_avatar_side"
+            android:src="@drawable/avatar_1" />
+
+        <ImageView
+            android:id="@+id/ivAvatarIcon1"
+            android:layout_width="@dimen/event_avatar_side"
+            android:layout_height="@dimen/event_avatar_side"
+            android:src="@drawable/avatar_1" />
+
+        <ImageView
+            android:id="@+id/ivAvatarIcon2"
+            android:layout_width="@dimen/event_avatar_side"
+            android:layout_height="@dimen/event_avatar_side"
+            android:src="@drawable/avatar_1" />
+
+        <ImageView
+            android:id="@+id/ivAvatarIcon3"
+            android:layout_width="@dimen/event_avatar_side"
+            android:layout_height="@dimen/event_avatar_side"
+            android:src="@drawable/avatar_1" />
+
+        <ImageView
+            android:id="@+id/ivAvatarIcon4"
+            android:layout_width="@dimen/event_avatar_side"
+            android:layout_height="@dimen/event_avatar_side"
+            android:src="@drawable/avatar_1" />
+
+        <TextView
+            android:id="@+id/tvEventAvatarPaneText"
+            style="@style/TextStyle3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_10_dp"
+            android:text="@string/event_avatar_pane_text" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

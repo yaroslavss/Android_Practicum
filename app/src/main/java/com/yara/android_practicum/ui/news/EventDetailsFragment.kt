@@ -35,9 +35,38 @@ class EventDetailsFragment : Fragment() {
 
         val navController = findNavController()
 
-        binding.toolbar.title = event?.title
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
+        }
+
+        event?.let {
+            binding.toolbar.title = it.title
+            binding.tvEventTitle.text = it.title
+            binding.tvEventDateString.text = it.dateString
+            val imageMain = context?.resources?.getIdentifier(
+                event.images.first(),
+                "drawable",
+                context?.packageName
+            )
+            imageMain.let {
+                binding.ivEventImageMain.setImageResource(it as Int)
+            }
+            val image2 = context?.resources?.getIdentifier(
+                event.images.get(1),
+                "drawable",
+                context?.packageName
+            )
+            image2.let {
+                binding.ivEventImage2.setImageResource(it as Int)
+            }
+            val image3 = context?.resources?.getIdentifier(
+                event.images.get(2),
+                "drawable",
+                context?.packageName
+            )
+            image3.let {
+                binding.ivEventImage3.setImageResource(it as Int)
+            }
         }
     }
 
