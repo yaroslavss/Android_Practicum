@@ -11,8 +11,10 @@ data class EventSerialized(
     val description: String,
     @SerializedName("images")
     val images: List<String>,
-    @SerializedName("date_string")
-    val dateString: String,
+    @SerializedName("date_start")
+    val dateStart: String,
+    @SerializedName("date_end")
+    val dateEnd: String,
     @SerializedName("categories")
     val categories: List<String>
 )
