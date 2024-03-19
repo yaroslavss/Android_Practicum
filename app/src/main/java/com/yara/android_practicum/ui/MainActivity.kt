@@ -32,10 +32,12 @@ class MainActivity : AppCompatActivity(), CallbackListener {
 
     // proceed actions from dialog to edit profile's photo
     override fun onDataReceived(action: Action) = when (action) {
-        is Action.TakePhoto -> {}
+        is Action.TakePhoto -> {
+            takePhoto()
+        }
 
         is Action.MakeCameraPhoto -> {
-            takePhoto()
+            makePhoto()
         }
 
         is Action.DeleteProfilePhoto -> {
@@ -49,11 +51,11 @@ class MainActivity : AppCompatActivity(), CallbackListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // Match the request 'pic id with requestCode
+        val photoImageView: ImageView = findViewById(R.id.acivPhoto)
         if (resultCode != RESULT_CANCELED && requestCode == INTENT_REQUEST_CODE) {
             // BitMap is data structure of image file which store the image in memory
             val photo = data!!.extras!!["data"] as Bitmap?
             // Set the image in imageview for display
-            val photoImageView: ImageView = findViewById(R.id.acivPhoto)
             photoImageView.setImageBitmap(
                 Bitmap.createScaledBitmap(
                     photo!!,
@@ -63,18 +65,38 @@ class MainActivity : AppCompatActivity(), CallbackListener {
                 )
             )
         }
+        if (resultCode != RESULT_CANCELED && requestCode == SELECT_PICTURE_CODE) {
+            val selectedImageUri = data?.getData();
+            selectedImageUri.let {
+                // update the preview image in the layout
+                photoImageView.setImageURI(it);
+            }
+        }
     }
 
-    private fun takePhoto() {
+    private fun makePhoto() {
         // Create the camera_intent ACTION_IMAGE_CAPTURE it will open the camera for capture the image
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         // Start the activity with camera_intent, and request pic id
         startActivityForResult(cameraIntent, INTENT_REQUEST_CODE)
     }
 
+    private fun takePhoto() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+
+        startActivityForResult(
+            Intent.createChooser(intent, SELECT_PICTURE_TITLE),
+            SELECT_PICTURE_CODE
+        )
+    }
+
     companion object {
 
         const val INTENT_REQUEST_CODE = 123
+        const val SELECT_PICTURE_CODE = 200
+        const val SELECT_PICTURE_TITLE = "Выбрать фото"
         const val PROFILE_IMAGE_WIDTH = 1440
         const val PROFILE_IMAGE_HEIGHT = 800
     }
