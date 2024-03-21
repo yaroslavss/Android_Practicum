@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_margin">20dp</dimen>
+    <dimen name="spacing_m">16dp</dimen>
     <dimen name="spacing_xs">8dp</dimen>
+    <dimen name="spacing_xxs">4dp</dimen>
     <dimen name="btn_radius">2dp</dimen>
     <dimen name="btn_elevation">10dp</dimen>
     <dimen name="default_icon_side">24dp</dimen>
@@ -15,6 +17,17 @@
 
     <!-- App Toolbar -->
     <dimen name="collapsing_toolbar_min_height">20dp</dimen>
+
+    <!-- News (events) fragment -->
+    <dimen name="event_title_horizontal_margin">40dp</dimen>
+    <dimen name="spacing_10_dp">10dp</dimen>
+
+    <!-- Event's details fragment -->
+    <dimen name="event_date_string_drawable_padding">10dp</dimen>
+    <dimen name="event_image_main_height">158dp</dimen>
+    <dimen name="event_image_ordinal_height">74dp</dimen>
+    <dimen name="event_images_gideline_vertical_percent">0.6</dimen>
+    <dimen name="event_avatar_side">36dp</dimen>
 
     <!-- Search fragment -->
     <dimen name="tab_indicator_height">4dp</dimen>

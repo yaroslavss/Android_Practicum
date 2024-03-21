@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentHelpBinding
+import com.yara.android_practicum.utils.Resource
 
 class HelpFragment : Fragment() {
 
@@ -41,14 +43,22 @@ class HelpFragment : Fragment() {
         val x = (resources.displayMetrics.density * RECYCLER_GRID_SPACING).toInt() //converting dp to pixels
         binding.rvCategories.addItemDecoration(SpacingItemDecorator(x)) //setting space between items in RecyclerView
 
-        viewModel.categoriesListLiveData.observe(viewLifecycleOwner) { list ->
-            adapter.addItems(list)
+        viewModel.categoriesLiveData.observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resource.Success -> adapter.addItems(resource.data)
+                is Resource.Error -> showError(view, resource.message.toString())
+                else -> {}
+            }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showError(view: View, message: String) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
     }
 
     companion object {

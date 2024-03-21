@@ -6,13 +6,31 @@
 
     <!-- Strings used for top app bar menu -->
     <string name="action_edit">Редактировать</string>
+    <string name="action_filter">Фильтр</string>
+    <string name="action_share">Поделиться</string>
 
     <!-- Strings used for fragments for navigation -->
-    <string name="bottom_nav_news">Новости</string>
+    <string name="news_fragment_label">Новости</string>
     <string name="search_fragment_label">Поиск</string>
     <string name="help_fragment_label">Помочь</string>
     <string name="bottom_nav_history">История</string>
     <string name="profile_fragment_label">Профиль</string>
+    <string name="filter_fragment_label">Фильтр</string>
+
+    <!-- Filter fragment -->
+    <string name="filter_label">Категории помощи</string>
+
+    <!-- News (events) fragment -->
+    <string name="event_sponsor_title">Благотворительный Фонд «Счастливый Мир»</string>
+    <string name="event_sponsor_address">Санкт-Петербург, Кирочная улица,</string>
+    <string name="event_sponsor_address_1">д. 50А, каб. 208</string>
+    <string name="event_sponsor_phone">+7 (937) 037 37–73</string>
+    <string name="event_sponsor_phone_1">+7 (937) 016 16–16</string>
+    <string name="event_sponsor_mail">У вас есть вопросы? <a href="">Напишите нам</a></string>
+    <string name="event_text">Участники и болельщики смогли весело и активно провести время на «Петербургском благотворительном марафоне» и при этом финансово поучаствовать в помощи детям.</string>
+    <string name="event_text_1">При этом финансово поучаствовать в помощи детям. При этом финансово поучаствовать в помощи детям.</string>
+    <string name="event_sponsor_link"><a href="">Перейти на сайт организации</a></string>
+    <string name="event_avatar_pane_text">+102</string>
 
     <!-- Search fragment -->
     <string name="searchbar_hint">Введите название организации</string>
