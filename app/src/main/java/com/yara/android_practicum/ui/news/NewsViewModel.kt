@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.App
-import com.yara.android_practicum.data.datasource.HardCodedDataSource
 import com.yara.android_practicum.data.mapper.toDomainModelList
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.repository.EventsRepositoryImpl
@@ -35,7 +34,10 @@ class NewsViewModel : ViewModel() {
 
     private val eventsRepository = EventsRepositoryImpl(AssetReaderImpl(EventDeserializer))
     private val categoriesRepository =
-        CategoriesRepositoryImpl(HardCodedDataSource(), AssetReaderImpl(CategoryDeserializer))
+        CategoriesRepositoryImpl(
+            AssetReaderImpl(CategoryDeserializer),
+            App.instance.executorService
+        )
 
     private val context = App.instance
     lateinit var inputStream1: InputStream
@@ -80,10 +82,12 @@ class NewsViewModel : ViewModel() {
     }
 
     private fun loadCategories(inputStream: InputStream) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val categories = categoriesRepository.readCategories(inputStream)
-            filters.addAll(categories.map { it.id })
-            _categoriesLiveData.postValue(Resource.Success(categories.toDomainModelList()))
+        categoriesRepository.readCategories(inputStream) { resource ->
+            if (resource is Resource.Success) {
+                val categories = resource.data
+                filters.addAll(categories.map { it.id })
+                _categoriesLiveData.postValue(resource)
+            }
         }
     }
 }
