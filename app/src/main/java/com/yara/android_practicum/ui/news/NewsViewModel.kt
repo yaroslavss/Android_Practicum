@@ -1,5 +1,9 @@
 package com.yara.android_practicum.ui.news
 
+import android.content.Intent
+import android.content.IntentFilter
+import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
+import androidx.core.content.ContextCompat.registerReceiver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +12,8 @@ import com.yara.android_practicum.App
 import com.yara.android_practicum.data.mapper.toDomainModelList
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.repository.EventsRepositoryImpl
+import com.yara.android_practicum.data.service.EventsReceiver
+import com.yara.android_practicum.data.service.ReadJsonIntentService
 import com.yara.android_practicum.data.util.AssetReaderImpl
 import com.yara.android_practicum.data.util.CategoryDeserializer
 import com.yara.android_practicum.data.util.EventDeserializer
@@ -31,6 +37,7 @@ class NewsViewModel : ViewModel() {
     val categoriesLiveData: LiveData<Resource<Categories>> = _categoriesLiveData
     lateinit var allEvents: Events
     val filters = mutableSetOf<Int>()
+    private val receiver = EventsReceiver()
 
     private val eventsRepository = EventsRepositoryImpl(AssetReaderImpl(EventDeserializer))
     private val categoriesRepository =
@@ -57,6 +64,11 @@ class NewsViewModel : ViewModel() {
         } catch (e: IOException) {
             _eventsLiveData.value = Resource.Error("Exception while opening events asset file")
         }
+
+        // start intent service and register receiver
+        registerReceiver(context, receiver, IntentFilter("SEND_EVENTS_ACTION"), RECEIVER_NOT_EXPORTED)
+        val intent = Intent(context, ReadJsonIntentService::class.java)
+        App.instance.startService(intent)
     }
 
     fun addFilter(id: Int) {

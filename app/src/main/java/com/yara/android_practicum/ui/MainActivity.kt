@@ -10,7 +10,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yara.android_practicum.R
-import com.yara.android_practicum.data.service.ReadJsonIntentService
 import com.yara.android_practicum.databinding.ActivityMainBinding
 import com.yara.android_practicum.utils.Action
 import com.yara.android_practicum.utils.CallbackListener
@@ -29,10 +28,6 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         bottomNavView.setupWithNavController(navController)
-
-        // start intent service
-        val intent = Intent(this, ReadJsonIntentService::class.java)
-        startService(intent)
     }
 
     // proceed actions from dialog to edit profile's photo
