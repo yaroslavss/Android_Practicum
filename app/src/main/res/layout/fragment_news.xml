@@ -18,6 +18,18 @@
         app:menu="@menu/menu_main_news"
         app:titleTextAppearance="@style/AppBarText" />
 
+    <ProgressBar
+        android:id="@+id/pbProgressBar"
+        style="@android:style/Widget.ProgressBar.Small"
+        android:layout_width="@dimen/progress_bar_width"
+        android:layout_height="@dimen/progress_bar_height"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/custom_progress_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvEvents"
         android:layout_width="match_parent"

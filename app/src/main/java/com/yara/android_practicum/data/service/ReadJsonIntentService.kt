@@ -6,6 +6,8 @@ import com.yara.android_practicum.data.repository.EventsRepositoryImpl
 import com.yara.android_practicum.data.util.AssetReaderImpl
 import com.yara.android_practicum.data.util.EventDeserializer
 import com.yara.android_practicum.utils.Constants
+import com.yara.android_practicum.utils.Constants.PARCELABLE_EVENT_LIST_KEY
+import java.io.Serializable
 
 class ReadJsonIntentService : IntentService("ReadJsonIntentService") {
 
@@ -21,8 +23,12 @@ class ReadJsonIntentService : IntentService("ReadJsonIntentService") {
             Thread.sleep(5000)
             val inputStream = this.assets.open(Constants.EVENTS_ASSET_FILENAME)
             val events = eventsRepository.readEvents(inputStream)
-            println("!!! Service is running... Events: $events")
-            sendBroadcast(Intent("SEND_EVENTS_ACTION"))
+            sendBroadcast(
+                Intent("SEND_EVENTS_ACTION").putExtra(
+                    PARCELABLE_EVENT_LIST_KEY,
+                    events as Serializable
+                )
+            )
         } catch (e: InterruptedException) {
             Thread.currentThread().interrupt()
         }

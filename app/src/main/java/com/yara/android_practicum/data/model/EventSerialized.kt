@@ -1,6 +1,7 @@
 package com.yara.android_practicum.data.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class EventSerialized(
     @SerializedName("id")
@@ -17,4 +18,4 @@ data class EventSerialized(
     val dateEnd: String,
     @SerializedName("categories")
     val categories: List<String>
-)
+) : Serializable
