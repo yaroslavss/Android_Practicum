@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -28,6 +29,14 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         bottomNavView.setupWithNavController(navController)
+
+        // hide and show bottom navigation for some fragments
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.loginFragment -> hideBottomNav()
+                else -> showBottomNav()
+            }
+        }
     }
 
     // proceed actions from dialog to edit profile's photo
@@ -90,6 +99,16 @@ class MainActivity : AppCompatActivity(), CallbackListener {
             Intent.createChooser(intent, SELECT_PICTURE_TITLE),
             SELECT_PICTURE_CODE
         )
+    }
+
+    private fun hideBottomNav() {
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNav.visibility = View.GONE
+    }
+
+    private fun showBottomNav() {
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNav.visibility = View.VISIBLE
     }
 
     companion object {

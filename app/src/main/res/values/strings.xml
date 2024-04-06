@@ -16,6 +16,10 @@
     <string name="bottom_nav_history">История</string>
     <string name="profile_fragment_label">Профиль</string>
     <string name="filter_fragment_label">Фильтр</string>
+    <string name="login_fragment_label">Авторизация</string>
+
+    <!-- Login fragment -->
+    <string name="btn_login_label">ВОЙТИ</string>
 
     <!-- Filter fragment -->
     <string name="filter_label">Категории помощи</string>
