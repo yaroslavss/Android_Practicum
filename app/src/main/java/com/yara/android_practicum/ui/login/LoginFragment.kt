@@ -25,7 +25,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //binding.toolbar.title = getString(R.string.news_fragment_label)
+        binding.toolbar.title = getString(R.string.login_fragment_label)
         val navController = findNavController()
 
         // proceed login button click

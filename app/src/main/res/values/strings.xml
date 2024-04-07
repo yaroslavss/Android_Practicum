@@ -19,7 +19,15 @@
     <string name="login_fragment_label">Авторизация</string>
 
     <!-- Login fragment -->
+    <string name="login_subtitle">Для участия в мероприятиях войдите в приложение через социальые сети</string>
+    <string name="login_subtitle_1">Или авторизуйтесь через приложение</string>
+    <string name="email_label">E-mail</string>
+    <string name="password_label">Пароль</string>
+    <string name="til_email_hint">Введите e-mail</string>
+    <string name="til_password_hint">Введите пароль</string>
     <string name="btn_login_label">ВОЙТИ</string>
+    <string name="forget_password_label"><a href="">Забыли пароль?</a></string>
+    <string name="register_label"><a href="">Регистрация</a></string>
 
     <!-- Filter fragment -->
     <string name="filter_label">Категории помощи</string>
