@@ -5,7 +5,6 @@ import com.yara.android_practicum.domain.repository.EventsRepository
 import com.yara.android_practicum.utils.AssetReader
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.io.InputStream
 
 class EventsRepositoryImpl(
@@ -13,8 +12,6 @@ class EventsRepositoryImpl(
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : EventsRepository {
 
-    override suspend fun readEvents(inputStream: InputStream): List<EventSerialized> =
-        withContext(defaultDispatcher) {
-            assetDataSource.readList(inputStream)
-        }
+    override fun readEvents(inputStream: InputStream): List<EventSerialized> =
+        assetDataSource.readList(inputStream)
 }

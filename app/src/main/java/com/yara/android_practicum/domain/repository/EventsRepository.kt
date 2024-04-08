@@ -5,5 +5,5 @@ import java.io.InputStream
 
 interface EventsRepository {
 
-    suspend fun readEvents(inputStream: InputStream): List<EventSerialized>
+    fun readEvents(inputStream: InputStream): List<EventSerialized>
 }

@@ -45,7 +45,10 @@ class HelpFragment : Fragment() {
 
         viewModel.categoriesLiveData.observe(viewLifecycleOwner) { resource ->
             when (resource) {
-                is Resource.Success -> adapter.addItems(resource.data)
+                is Resource.Success -> {
+                    hideProgressBar()
+                    adapter.addItems(resource.data)
+                }
                 is Resource.Error -> showError(view, resource.message.toString())
                 else -> {}
             }
@@ -59,6 +62,10 @@ class HelpFragment : Fragment() {
 
     private fun showError(view: View, message: String) {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun hideProgressBar() {
+        binding.pbProgressBar.visibility = View.GONE
     }
 
     companion object {
