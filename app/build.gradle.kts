@@ -50,6 +50,9 @@ val navigationVersion = "2.7.6"
 val retrofitVersion = "2.9.0"
 val okhttp3Version = "4.11.0"
 val kotlinxDatetimeVersion = "0.5.0"
+val rxJavaVersion = "3.1.8"
+val rxAndroidVersion = "3.0.2"
+val rxBindingVersion = "4.0.0"
 val junitVersion = "4.13.2"
 
 dependencies {
@@ -75,6 +78,11 @@ dependencies {
 
     // kotlinx-datetime
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDatetimeVersion")
+
+    // rxjava
+    implementation("io.reactivex.rxjava3:rxjava:$rxJavaVersion")
+    implementation("io.reactivex.rxjava3:rxandroid:$rxAndroidVersion")
+    implementation("com.jakewharton.rxbinding4:rxbinding:$rxBindingVersion")
 
     // test
     testImplementation("junit:junit:$junitVersion")
