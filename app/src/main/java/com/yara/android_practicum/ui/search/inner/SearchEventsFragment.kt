@@ -42,7 +42,7 @@ class SearchEventsFragment : Fragment() {
         divider.setDrawable(resources.getDrawable(R.drawable.search_recycler_divider, null))
         binding.rvSearchResults.addItemDecoration(divider)
 
-        viewModel.eventsLiveData.observe(viewLifecycleOwner) { resource ->
+        viewModel.searchResultsLiveData.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Success -> {
                     switchInitialLayout()

@@ -41,9 +41,10 @@ class SearchNpoFragment : Fragment() {
         divider.setDrawable(resources.getDrawable(R.drawable.search_recycler_divider, null))
         binding.rvSearchResults.addItemDecoration(divider)
 
-        viewModel.eventsLiveData.observe(viewLifecycleOwner) { resource ->
+        viewModel.searchResultsLiveData.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Success -> {
+                    switchInitialLayout()
                     adapter.results = resource.data
                     adapter.notifyDataSetChanged()
                 }
@@ -56,5 +57,19 @@ class SearchNpoFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun switchInitialLayout() {
+        binding.apply {
+            // turn on
+            tvSearchKeysLabel.visibility = View.VISIBLE
+            tvSearchResultsLabel.visibility = View.VISIBLE
+            mdDivider1.visibility = View.VISIBLE
+            mdDivider2.visibility = View.VISIBLE
+            // turn off
+            ivZoomIcon.visibility = View.INVISIBLE
+            tvSearchDescLabel.visibility = View.INVISIBLE
+            tvSearchExampleLabel.visibility = View.INVISIBLE
+        }
     }
 }

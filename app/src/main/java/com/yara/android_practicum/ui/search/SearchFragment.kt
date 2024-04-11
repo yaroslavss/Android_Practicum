@@ -13,8 +13,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.jakewharton.rxbinding4.appcompat.queryTextChanges
 import com.yara.android_practicum.databinding.FragmentSearchBinding
 import com.yara.android_practicum.ui.news.NewsViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
@@ -58,16 +56,13 @@ class SearchFragment : Fragment() {
 
         // init search view
         binding.svSearch.queryTextChanges()
-            //.subscribeOn(Schedulers.io())
             .map {
                 it.toString().lowercase(Locale.getDefault()).trim()
             }
             // delay input
             .debounce(500, TimeUnit.MILLISECONDS)
-            //.observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { str ->
-                    println("!!! $str")
                     viewModel.filterEventsByTitle(str)
                 },
                 { exception ->

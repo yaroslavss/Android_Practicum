@@ -32,8 +32,13 @@ class NewsViewModel : ViewModel() {
 
     private val _eventsLiveData = MutableLiveData<Resource<Events>>()
     val eventsLiveData: LiveData<Resource<Events>> = _eventsLiveData
+
+    private val _searchResultsLiveData = MutableLiveData<Resource<Events>>()
+    val searchResultsLiveData: LiveData<Resource<Events>> = _searchResultsLiveData
+
     private val _categoriesLiveData = MutableLiveData<Resource<Categories>>()
     val categoriesLiveData: LiveData<Resource<Categories>> = _categoriesLiveData
+
     lateinit var allEvents: Events
     val filters = mutableSetOf<Int>()
 
@@ -75,24 +80,29 @@ class NewsViewModel : ViewModel() {
 
     fun addFilter(id: Int) {
         filters.add(id)
-        filterEvents()
+        filterEventsByCategory()
     }
 
     fun removeFilter(id: Int) {
         filters.remove(id)
-        filterEvents()
+        filterEventsByCategory()
     }
 
     fun filterEventsByTitle(str: String) {
-        _eventsLiveData.postValue(Resource.Success(allEvents.filter {
-            it.title.startsWith(
-                str,
-                true
-            )
-        }))
+        _searchResultsLiveData.postValue(Resource.Success(
+            if (str == "") {
+                emptyList<Event>()
+            } else {
+                allEvents.filter {
+                    it.title.startsWith(
+                        str,
+                        true
+                    )
+                }
+            }))
     }
 
-    private fun filterEvents() {
+    private fun filterEventsByCategory() {
         _eventsLiveData.value =
             Resource.Success(allEvents.filter { filters.containsAny(it.categories) })
     }
