@@ -6,19 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentSearchEventsBinding
-import com.yara.android_practicum.ui.search.SearchViewModel
+import com.yara.android_practicum.ui.news.NewsViewModel
+import com.yara.android_practicum.utils.Resource
 
 class SearchEventsFragment : Fragment() {
 
     private var _binding: FragmentSearchEventsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<SearchViewModel>()
+    private val viewModel by activityViewModels<NewsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,14 +42,35 @@ class SearchEventsFragment : Fragment() {
         divider.setDrawable(resources.getDrawable(R.drawable.search_recycler_divider, null))
         binding.rvSearchResults.addItemDecoration(divider)
 
-        viewModel.searchResultsLiveData.observe(viewLifecycleOwner) { list ->
-            adapter.results = list
-            adapter.notifyDataSetChanged()
+        viewModel.eventsLiveData.observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resource.Success -> {
+                    switchInitialLayout()
+                    adapter.results = resource.data
+                    adapter.notifyDataSetChanged()
+                }
+
+                else -> {}
+            }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun switchInitialLayout() {
+        binding.apply {
+            // turn on
+            tvSearchKeysLabel.visibility = View.VISIBLE
+            tvSearchResultsLabel.visibility = View.VISIBLE
+            mdDivider1.visibility = View.VISIBLE
+            mdDivider2.visibility = View.VISIBLE
+            // turn off
+            ivZoomIcon.visibility = View.INVISIBLE
+            tvSearchDescLabel.visibility = View.INVISIBLE
+            tvSearchExampleLabel.visibility = View.INVISIBLE
+        }
     }
 }

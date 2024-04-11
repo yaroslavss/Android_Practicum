@@ -83,6 +83,15 @@ class NewsViewModel : ViewModel() {
         filterEvents()
     }
 
+    fun filterEventsByTitle(str: String) {
+        _eventsLiveData.postValue(Resource.Success(allEvents.filter {
+            it.title.startsWith(
+                str,
+                true
+            )
+        }))
+    }
+
     private fun filterEvents() {
         _eventsLiveData.value =
             Resource.Success(allEvents.filter { filters.containsAny(it.categories) })

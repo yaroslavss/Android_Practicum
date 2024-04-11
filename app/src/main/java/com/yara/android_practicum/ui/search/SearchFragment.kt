@@ -1,19 +1,29 @@
 package com.yara.android_practicum.ui.search
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.jakewharton.rxbinding4.appcompat.queryTextChanges
 import com.yara.android_practicum.databinding.FragmentSearchBinding
+import com.yara.android_practicum.ui.news.NewsViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel by activityViewModels<NewsViewModel>()
 
     private lateinit var adapter: VPAdapter
     private lateinit var viewPager: ViewPager2
@@ -31,6 +41,7 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -44,6 +55,25 @@ class SearchFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabNames[position]
         }.attach()
+
+        // init search view
+        binding.svSearch.queryTextChanges()
+            //.subscribeOn(Schedulers.io())
+            .map {
+                it.toString().lowercase(Locale.getDefault()).trim()
+            }
+            // delay input
+            .debounce(500, TimeUnit.MILLISECONDS)
+            //.observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { str ->
+                    println("!!! $str")
+                    viewModel.filterEventsByTitle(str)
+                },
+                { exception ->
+                    println("!!! ${exception.message}")
+                }
+            )
     }
 
     override fun onDestroyView() {

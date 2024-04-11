@@ -82,7 +82,9 @@ dependencies {
     // rxjava
     implementation("io.reactivex.rxjava3:rxjava:$rxJavaVersion")
     implementation("io.reactivex.rxjava3:rxandroid:$rxAndroidVersion")
+    // rxbinding
     implementation("com.jakewharton.rxbinding4:rxbinding:$rxBindingVersion")
+    implementation("com.jakewharton.rxbinding4:rxbinding-appcompat:$rxBindingVersion")
 
     // test
     testImplementation("junit:junit:$junitVersion")

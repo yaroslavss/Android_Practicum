@@ -48,6 +48,8 @@
     <string name="searchbar_hint">Введите название организации</string>
     <string name="search_keys_label">Ключевые слова: мастер-класс, помощь</string>
     <string name="search_results_label">Результаты поиска: 109 мероприятий</string>
+    <string name="search_desc_label">Напишите в строке поиска название мероприятия или ключевые слова.</string>
+    <string name="search_example_label">Например, <a href="">мастер-класс, помощь</a></string>
 
     <!-- Help fragment -->
     <string name="help_subtitle">Выберите категорию помощи</string>
