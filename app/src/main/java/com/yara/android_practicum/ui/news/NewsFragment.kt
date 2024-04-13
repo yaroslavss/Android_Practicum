@@ -1,5 +1,6 @@
 package com.yara.android_practicum.ui.news
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentNewsBinding
@@ -29,11 +31,23 @@ class NewsFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.toolbar.title = getString(R.string.news_fragment_label)
         val navController = findNavController()
+
+        // set bottom navigation bage
+        val bottomNavView = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        viewModel.newsQnt.subscribe { qnt ->
+            if (bottomNavView != null) {
+                bottomNavView.getOrCreateBadge(R.id.newsFragment).apply {
+                    number = qnt
+                    isVisible = true
+                }
+            }
+        }
 
         // init adapter
         val adapter = EventsRecyclerAdapter { event ->

@@ -15,4 +15,5 @@ data class Event(
     val dateEnd: @RawValue LocalDate,
     val dateString: String,
     val categories: List<Int>,
+    var isUnread: Boolean,
 ) : Parcelable

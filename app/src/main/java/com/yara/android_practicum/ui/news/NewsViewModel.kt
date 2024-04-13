@@ -23,6 +23,7 @@ import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.Constants
 import com.yara.android_practicum.utils.Resource
 import com.yara.android_practicum.utils.containsAny
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import java.io.IOException
 import java.io.InputStream
 
@@ -41,6 +42,7 @@ class NewsViewModel : ViewModel() {
 
     lateinit var allEvents: Events
     val filters = mutableSetOf<Int>()
+    val newsQnt: BehaviorSubject<Int> = BehaviorSubject.create()
 
     private val eventsRepository = EventsRepositoryImpl(AssetReaderImpl(EventDeserializer))
     private val categoriesRepository =
@@ -59,6 +61,8 @@ class NewsViewModel : ViewModel() {
                     intent.getSerializableExtra(Constants.PARCELABLE_EVENT_LIST_KEY) as List<EventSerialized>
                 allEvents = events.toDomainModelList()
                 _eventsLiveData.value = Resource.Success(allEvents)
+                // set bage for bottom navigation view
+                publishUnreadEventsQnt(allEvents.filter { it.isUnread }.size)
             }
         }
     }
@@ -103,8 +107,23 @@ class NewsViewModel : ViewModel() {
     }
 
     private fun filterEventsByCategory() {
-        _eventsLiveData.value =
-            Resource.Success(allEvents.filter { filters.containsAny(it.categories) })
+        val tmpEvents = allEvents.filter { filters.containsAny(it.categories) }
+        _eventsLiveData.value = Resource.Success(tmpEvents)
+        publishUnreadEventsQnt(tmpEvents.filter { it.isUnread }.size)
+    }
+
+    fun setEventRead(event: Event) {
+        event.isUnread = false
+        publishUnreadEventsQnt(
+            allEvents
+                .filter { filters.containsAny(it.categories) }
+                .filter { it.isUnread }
+                .size
+        )
+    }
+
+    private fun publishUnreadEventsQnt(qnt: Int) {
+        newsQnt.onNext(qnt)
     }
 
     private fun loadCategories(inputStream: InputStream) {
