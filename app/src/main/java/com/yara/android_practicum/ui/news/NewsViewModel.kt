@@ -1,20 +1,11 @@
 package com.yara.android_practicum.ui.news
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
-import androidx.core.content.ContextCompat.registerReceiver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.yara.android_practicum.App
-import com.yara.android_practicum.data.mapper.toDomainModelList
-import com.yara.android_practicum.data.model.EventSerialized
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.repository.EventsRepositoryImpl
-import com.yara.android_practicum.data.service.ReadJsonIntentService
 import com.yara.android_practicum.data.util.AssetReaderImpl
 import com.yara.android_practicum.data.util.CategoryDeserializer
 import com.yara.android_practicum.data.util.EventDeserializer
@@ -35,6 +26,7 @@ class NewsViewModel : ViewModel() {
     private val _eventsLiveData = MutableLiveData<Resource<Events>>()
     val eventsLiveData: LiveData<Resource<Events>> = _eventsLiveData
 
+    var eventsObservable: Observable<Resource<Events>>
     var categoriesObservable: Observable<Resource<Categories>>
 
     private val _searchResultsLiveData = MutableLiveData<Resource<Events>>()
@@ -47,7 +39,11 @@ class NewsViewModel : ViewModel() {
     val filters = mutableSetOf<Int>()
     val newsQnt: BehaviorSubject<Int> = BehaviorSubject.create()
 
-    private val eventsRepository = EventsRepositoryImpl(AssetReaderImpl(EventDeserializer))
+    private val eventsRepository =
+        EventsRepositoryImpl(
+            AssetReaderImpl(EventDeserializer),
+            App.instance.executorService
+        )
     private val categoriesRepository =
         CategoriesRepositoryImpl(
             AssetReaderImpl(CategoryDeserializer),
@@ -55,20 +51,9 @@ class NewsViewModel : ViewModel() {
         )
 
     private val context = App.instance
-    lateinit var inputStream1: InputStream
 
-    private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action == "SEND_EVENTS_ACTION") {
-                val events =
-                    intent.getSerializableExtra(Constants.PARCELABLE_EVENT_LIST_KEY) as List<EventSerialized>
-                allEvents = events.toDomainModelList()
-                _eventsLiveData.value = Resource.Success(allEvents)
-                // set bage for bottom navigation view
-                publishUnreadEventsQnt(allEvents.filter { it.isUnread }.size)
-            }
-        }
-    }
+    lateinit var inputStream1: InputStream
+    lateinit var inputStream2: InputStream
 
     init {
         try {
@@ -79,11 +64,14 @@ class NewsViewModel : ViewModel() {
             categoriesObservable =
                 Observable.just(Resource.Error("Exception while opening asset file"))
         }
-
-        // start intent service and register receiver
-        registerReceiver(context, receiver, IntentFilter("SEND_EVENTS_ACTION"), RECEIVER_NOT_EXPORTED)
-        val intent = Intent(context, ReadJsonIntentService::class.java)
-        App.instance.startService(intent)
+        try {
+            inputStream2 = context.assets.open(Constants.EVENTS_ASSET_FILENAME)
+            eventsObservable = loadEvents(inputStream2)
+                .map { Resource.Success(it) }
+        } catch (e: IOException) {
+            eventsObservable =
+                Observable.just(Resource.Error("Exception while opening asset file"))
+        }
     }
 
     fun addFilter(id: Int) {
@@ -129,6 +117,9 @@ class NewsViewModel : ViewModel() {
     private fun publishUnreadEventsQnt(qnt: Int) {
         newsQnt.onNext(qnt)
     }
+
+    private fun loadEvents(inputStream: InputStream): Observable<Events> =
+        eventsRepository.readEvents(inputStream)
 
     private fun loadCategories(inputStream: InputStream): Observable<Categories> =
         categoriesRepository.readCategories(inputStream)
