@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentHelpBinding
 import com.yara.android_practicum.utils.Resource
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 class HelpFragment : Fragment() {
 
@@ -28,7 +29,7 @@ class HelpFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,16 +44,23 @@ class HelpFragment : Fragment() {
         val x = (resources.displayMetrics.density * RECYCLER_GRID_SPACING).toInt() //converting dp to pixels
         binding.rvCategories.addItemDecoration(SpacingItemDecorator(x)) //setting space between items in RecyclerView
 
-        viewModel.categoriesLiveData.observe(viewLifecycleOwner) { resource ->
-            when (resource) {
-                is Resource.Success -> {
-                    hideProgressBar()
-                    adapter.addItems(resource.data)
-                }
-                is Resource.Error -> showError(view, resource.message.toString())
-                else -> {}
-            }
-        }
+        // load data from Observable
+        viewModel.categoriesObservable
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    when (it) {
+                        is Resource.Success -> {
+                            hideProgressBar()
+                            adapter.addItems(it.data)
+                        }
+                        is Resource.Error -> showError(view, it.message.toString())
+                        else -> {}
+                    }
+                },
+                { println("!!! Error") },
+                { println("!!! Completed")}
+            )
     }
 
     override fun onDestroyView() {

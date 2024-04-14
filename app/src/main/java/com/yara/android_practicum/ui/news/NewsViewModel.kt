@@ -23,6 +23,7 @@ import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.Constants
 import com.yara.android_practicum.utils.Resource
 import com.yara.android_practicum.utils.containsAny
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import java.io.IOException
 import java.io.InputStream
@@ -33,6 +34,8 @@ class NewsViewModel : ViewModel() {
 
     private val _eventsLiveData = MutableLiveData<Resource<Events>>()
     val eventsLiveData: LiveData<Resource<Events>> = _eventsLiveData
+
+    var categoriesObservable: Observable<Resource<Categories>>
 
     private val _searchResultsLiveData = MutableLiveData<Resource<Events>>()
     val searchResultsLiveData: LiveData<Resource<Events>> = _searchResultsLiveData
@@ -70,10 +73,11 @@ class NewsViewModel : ViewModel() {
     init {
         try {
             inputStream1 = context.assets.open(Constants.CATEGORIES_ASSET_FILENAME)
-            loadCategories(inputStream1)
+            categoriesObservable = loadCategories(inputStream1)
+                .map { Resource.Success(it) }
         } catch (e: IOException) {
-            _categoriesLiveData.value =
-                Resource.Error("Exception while opening categories asset file")
+            categoriesObservable =
+                Observable.just(Resource.Error("Exception while opening asset file"))
         }
 
         // start intent service and register receiver
@@ -126,13 +130,6 @@ class NewsViewModel : ViewModel() {
         newsQnt.onNext(qnt)
     }
 
-    private fun loadCategories(inputStream: InputStream) {
-        categoriesRepository.readCategories(inputStream) { resource ->
-            if (resource is Resource.Success) {
-                val categories = resource.data
-                filters.addAll(categories.map { it.id })
-                _categoriesLiveData.postValue(resource)
-            }
-        }
-    }
+    private fun loadCategories(inputStream: InputStream): Observable<Categories> =
+        categoriesRepository.readCategories(inputStream)
 }
