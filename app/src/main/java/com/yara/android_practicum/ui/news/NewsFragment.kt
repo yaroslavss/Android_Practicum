@@ -14,7 +14,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentNewsBinding
 import com.yara.android_practicum.utils.Constants
-import com.yara.android_practicum.utils.Resource
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 class NewsFragment : Fragment() {
@@ -61,21 +60,19 @@ class NewsFragment : Fragment() {
         binding.rvEvents.layoutManager = LinearLayoutManager(activity)
 
         // load data from Observable
-        viewModel.eventsObservable
+        viewModel.loadEvents()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    when (it) {
-                        is Resource.Success -> {
-                            hideProgressBar()
-                            adapter.differ.submitList(it.data)
-                        }
-
-                        is Resource.Error -> showError(view, it.message.toString())
-                        else -> {}
+                    hideProgressBar()
+                    adapter.differ.submitList(it)
+                },
+                { e ->
+                    run {
+                        hideProgressBar()
+                        showError(view, e.message.toString())
                     }
                 },
-                { println("!!! Error: events") },
                 { println("!!! Completed: events") }
             )
 

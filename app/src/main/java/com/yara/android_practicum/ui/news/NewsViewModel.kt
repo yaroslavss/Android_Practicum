@@ -17,7 +17,6 @@ import com.yara.android_practicum.utils.containsAny
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import java.io.IOException
-import java.io.InputStream
 
 typealias Events = List<Event>
 
@@ -25,9 +24,6 @@ class NewsViewModel : ViewModel() {
 
     private val _eventsLiveData = MutableLiveData<Resource<Events>>()
     val eventsLiveData: LiveData<Resource<Events>> = _eventsLiveData
-
-    var eventsObservable: Observable<Resource<Events>>
-    var categoriesObservable: Observable<Resource<Categories>>
 
     private val _searchResultsLiveData = MutableLiveData<Resource<Events>>()
     val searchResultsLiveData: LiveData<Resource<Events>> = _searchResultsLiveData
@@ -51,28 +47,6 @@ class NewsViewModel : ViewModel() {
         )
 
     private val context = App.instance
-
-    lateinit var inputStream1: InputStream
-    lateinit var inputStream2: InputStream
-
-    init {
-        try {
-            inputStream1 = context.assets.open(Constants.CATEGORIES_ASSET_FILENAME)
-            categoriesObservable = loadCategories(inputStream1)
-                .map { Resource.Success(it) }
-        } catch (e: IOException) {
-            categoriesObservable =
-                Observable.just(Resource.Error("Exception while opening asset file"))
-        }
-        try {
-            inputStream2 = context.assets.open(Constants.EVENTS_ASSET_FILENAME)
-            eventsObservable = loadEvents(inputStream2)
-                .map { Resource.Success(it) }
-        } catch (e: IOException) {
-            eventsObservable =
-                Observable.just(Resource.Error("Exception while opening asset file"))
-        }
-    }
 
     fun addFilter(id: Int) {
         filters.add(id)
@@ -118,9 +92,21 @@ class NewsViewModel : ViewModel() {
         newsQnt.onNext(qnt)
     }
 
-    private fun loadEvents(inputStream: InputStream): Observable<Events> =
-        eventsRepository.readEvents(inputStream)
+    fun loadEvents(): Observable<Events> {
+        return try {
+            val inputStream = context.assets.open(Constants.EVENTS_ASSET_FILENAME)
+            eventsRepository.readEvents(inputStream)
+        } catch (e: IOException) {
+            Observable.error(e)
+        }
+    }
 
-    private fun loadCategories(inputStream: InputStream): Observable<Categories> =
-        categoriesRepository.readCategories(inputStream)
+    fun loadCategories(): Observable<Categories> {
+        return try {
+            val inputStream = context.assets.open(Constants.CATEGORIES_ASSET_FILENAME)
+            categoriesRepository.readCategories(inputStream)
+        } catch (e: IOException) {
+            Observable.error(e)
+        }
+    }
 }
