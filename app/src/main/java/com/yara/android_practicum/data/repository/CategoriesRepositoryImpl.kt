@@ -5,6 +5,7 @@ import com.yara.android_practicum.data.model.CategorySerialized
 import com.yara.android_practicum.domain.repository.CategoriesRepository
 import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.AssetReader
+import com.yara.android_practicum.utils.Constants.EXECUTOR_TIMEOUT
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.InputStream
@@ -26,8 +27,4 @@ class CategoriesRepositoryImpl(
 
     private fun readCategoriesSynchronous(inputStream: InputStream): Categories =
         assetDataSource.readList(inputStream).toDomainModelList()
-
-    companion object {
-        const val EXECUTOR_TIMEOUT = 5000L
-    }
 }
