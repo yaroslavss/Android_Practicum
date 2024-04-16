@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentHelpBinding
-import com.yara.android_practicum.utils.Resource
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 class HelpFragment : Fragment() {
@@ -45,22 +44,22 @@ class HelpFragment : Fragment() {
         binding.rvCategories.addItemDecoration(SpacingItemDecorator(x)) //setting space between items in RecyclerView
 
         // load data from Observable
-        viewModel.categoriesObservable
+        viewModel.loadCategories()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    when (it) {
-                        is Resource.Success -> {
-                            hideProgressBar()
-                            adapter.addItems(it.data)
-                        }
-                        is Resource.Error -> showError(view, it.message.toString())
-                        else -> {}
+                    hideProgressBar()
+                    adapter.addItems(it)
+                },
+                { e ->
+                    run {
+                        hideProgressBar()
+                        showError(view, e.message.toString())
                     }
                 },
-                { println("!!! Error") },
-                { println("!!! Completed")}
+                { println("!!! Completed: help categories") }
             )
+
     }
 
     override fun onDestroyView() {
