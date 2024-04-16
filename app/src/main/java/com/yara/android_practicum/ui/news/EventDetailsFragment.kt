@@ -71,7 +71,7 @@ class EventDetailsFragment : Fragment() {
                 binding.ivEventImage3.setImageResource(it as Int)
             }
 
-            // set bage for bottom navigation view
+            // set badge for bottom navigation view
             viewModel.setEventRead(it)
         }
     }

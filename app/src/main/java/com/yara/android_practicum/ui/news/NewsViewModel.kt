@@ -9,11 +9,13 @@ import com.yara.android_practicum.data.repository.EventsRepositoryImpl
 import com.yara.android_practicum.data.util.AssetReaderImpl
 import com.yara.android_practicum.data.util.CategoryDeserializer
 import com.yara.android_practicum.data.util.EventDeserializer
+import com.yara.android_practicum.domain.model.Category
 import com.yara.android_practicum.domain.model.Event
 import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.Constants
 import com.yara.android_practicum.utils.Resource
 import com.yara.android_practicum.utils.containsAny
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import java.io.IOException
@@ -31,7 +33,7 @@ class NewsViewModel : ViewModel() {
     private val _categoriesLiveData = MutableLiveData<Resource<Categories>>()
     val categoriesLiveData: LiveData<Resource<Categories>> = _categoriesLiveData
 
-    lateinit var allEvents: Events
+    private val allEvents: MutableList<Event> = mutableListOf()
     val filters = mutableSetOf<Int>()
     val newsQnt: BehaviorSubject<Int> = BehaviorSubject.create()
 
@@ -47,6 +49,15 @@ class NewsViewModel : ViewModel() {
         )
 
     private val context = App.instance
+
+    init {
+        loadCategories()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
+        loadEvents()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
+    }
 
     fun addFilter(id: Int) {
         filters.add(id)
@@ -99,6 +110,12 @@ class NewsViewModel : ViewModel() {
         } catch (e: IOException) {
             Observable.error(e)
         }
+            .doOnNext {
+                it.toCollection(allEvents)
+                _eventsLiveData.postValue(Resource.Success(it))
+                // set badge for bottom navigation view
+                publishUnreadEventsQnt(allEvents.filter { it.isUnread }.size)
+            }
     }
 
     fun loadCategories(): Observable<Categories> {
@@ -108,5 +125,11 @@ class NewsViewModel : ViewModel() {
         } catch (e: IOException) {
             Observable.error(e)
         }
+            .doOnNext {
+                val categories: MutableList<Category> = mutableListOf()
+                it.toCollection(categories)
+                filters.addAll(categories.map { it.id })
+                _categoriesLiveData.postValue(Resource.Success(it))
+            }
     }
 }

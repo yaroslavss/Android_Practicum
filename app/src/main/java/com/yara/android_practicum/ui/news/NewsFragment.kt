@@ -14,7 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentNewsBinding
 import com.yara.android_practicum.utils.Constants
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import com.yara.android_practicum.utils.Resource
 
 class NewsFragment : Fragment() {
 
@@ -38,7 +38,7 @@ class NewsFragment : Fragment() {
         binding.toolbar.title = getString(R.string.news_fragment_label)
         val navController = findNavController()
 
-        // set bottom navigation bage
+        // set bottom navigation badge
         val bottomNavView = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
         viewModel.newsQnt.subscribe { qnt ->
             if (bottomNavView != null) {
@@ -59,22 +59,18 @@ class NewsFragment : Fragment() {
         binding.rvEvents.adapter = adapter
         binding.rvEvents.layoutManager = LinearLayoutManager(activity)
 
-        // load data from Observable
-        viewModel.loadEvents()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
+        // load data from LiveData
+        viewModel.eventsLiveData.observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resource.Success -> {
                     hideProgressBar()
-                    adapter.differ.submitList(it)
-                },
-                { e ->
-                    run {
-                        hideProgressBar()
-                        showError(view, e.message.toString())
-                    }
-                },
-                { println("!!! Completed: events") }
-            )
+                    adapter.differ.submitList(resource.data)
+                }
+
+                is Resource.Error -> showError(view, resource.message.toString())
+                else -> {}
+            }
+        }
 
         // proceed toolbar menu item click
         binding.toolbar.setOnMenuItemClickListener {
