@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentLoginBinding
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class LoginFragment : Fragment() {
@@ -40,17 +41,16 @@ class LoginFragment : Fragment() {
         var emailFull = false
         var passwordFull = false
 
-        val resultEmail = binding.tietEmail.textChanges().subscribe { charSeq ->
-            emailFull = charSeq.length > 5
-            btnLogin.isEnabled = emailFull && passwordFull
-        }
-        val resultPassword = binding.tietPassword.textChanges().subscribe { charSeq ->
-            passwordFull = charSeq.length > 5
-            btnLogin.isEnabled = emailFull && passwordFull
+        val resultEmail = binding.tietEmail.textChanges()
+        val resultPassword = binding.tietPassword.textChanges()
+
+        val result = Observable.combineLatest(resultEmail, resultPassword) { str1, str2 ->
+            str1.length > 5 && str2.length > 5
+        }.subscribe { result ->
+            btnLogin.isEnabled = result
         }
 
-        allDisposables.add(resultEmail)
-        allDisposables.add(resultPassword)
+        allDisposables.addAll(result)
 
         // proceed login button click
         binding.btnLogin.setOnClickListener {
