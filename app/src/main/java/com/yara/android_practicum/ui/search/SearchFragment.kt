@@ -61,6 +61,7 @@ class SearchFragment : Fragment() {
         val result = binding.svSearch.queryTextChanges()
             // delay input
             .debounce(SEARCH_STRING_DELAY, TimeUnit.MILLISECONDS)
+            .filter { it.length > 1 }
             .map {
                 it.toString().lowercase(Locale.getDefault()).trim()
             }
