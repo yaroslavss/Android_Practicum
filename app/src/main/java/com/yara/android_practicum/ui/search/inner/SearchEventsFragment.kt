@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -38,8 +40,17 @@ class SearchEventsFragment : Fragment() {
 
         binding.rvSearchResults.adapter = adapter
         binding.rvSearchResults.layoutManager = LinearLayoutManager(activity)
+
         val divider = DividerItemDecoration(activity, LinearLayoutManager.VERTICAL)
-        divider.setDrawable(resources.getDrawable(R.drawable.search_recycler_divider, null))
+        val drawable = ResourcesCompat.getDrawable(
+            context?.getResources()!!,
+            R.drawable.search_recycler_divider,
+            null
+        )
+        if (drawable != null) {
+            divider.setDrawable(drawable)
+        }
+
         binding.rvSearchResults.addItemDecoration(divider)
 
         viewModel.searchResultsLiveData.observe(viewLifecycleOwner) { resource ->
@@ -63,14 +74,14 @@ class SearchEventsFragment : Fragment() {
     private fun switchInitialLayout() {
         binding.apply {
             // turn on
-            tvSearchKeysLabel.visibility = View.VISIBLE
-            tvSearchResultsLabel.visibility = View.VISIBLE
-            mdDivider1.visibility = View.VISIBLE
-            mdDivider2.visibility = View.VISIBLE
+            tvSearchKeysLabel.isVisible = true
+            tvSearchResultsLabel.isVisible = true
+            mdDivider1.isVisible = true
+            mdDivider2.isVisible = true
             // turn off
-            ivZoomIcon.visibility = View.INVISIBLE
-            tvSearchDescLabel.visibility = View.INVISIBLE
-            tvSearchExampleLabel.visibility = View.INVISIBLE
+            ivZoomIcon.isVisible = false
+            tvSearchDescLabel.isVisible = false
+            tvSearchExampleLabel.isVisible = false
         }
     }
 }

@@ -59,11 +59,11 @@ class SearchFragment : Fragment() {
 
         // init search view
         val result = binding.svSearch.queryTextChanges()
+            // delay input
+            .debounce(SEARCH_STRING_DELAY, TimeUnit.MILLISECONDS)
             .map {
                 it.toString().lowercase(Locale.getDefault()).trim()
             }
-            // delay input
-            .debounce(500, TimeUnit.MILLISECONDS)
             .subscribe(
                 { str ->
                     viewModel.filterEventsByTitle(str)
@@ -80,5 +80,9 @@ class SearchFragment : Fragment() {
         super.onDestroyView()
         _binding = null
         allDisposables.clear()
+    }
+
+    companion object  {
+        const val SEARCH_STRING_DELAY = 500L
     }
 }
