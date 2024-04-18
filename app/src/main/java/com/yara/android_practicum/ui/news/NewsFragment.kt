@@ -15,6 +15,7 @@ import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentNewsBinding
 import com.yara.android_practicum.utils.Constants
 import com.yara.android_practicum.utils.Resource
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class NewsFragment : Fragment() {
 
@@ -22,6 +23,8 @@ class NewsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by activityViewModels<NewsViewModel>()
+
+    private val allDisposables = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +43,7 @@ class NewsFragment : Fragment() {
 
         // set bottom navigation badge
         val bottomNavView = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        viewModel.newsQnt.subscribe { qnt ->
+        val result = viewModel.newsQnt.subscribe { qnt ->
             if (bottomNavView != null) {
                 bottomNavView.getOrCreateBadge(R.id.newsFragment).apply {
                     number = qnt
@@ -48,6 +51,7 @@ class NewsFragment : Fragment() {
                 }
             }
         }
+        allDisposables.add(result)
 
         // init adapter
         val adapter = EventsRecyclerAdapter { event ->
@@ -84,6 +88,7 @@ class NewsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        allDisposables.clear()
     }
 
     private fun showError(view: View, message: String) {

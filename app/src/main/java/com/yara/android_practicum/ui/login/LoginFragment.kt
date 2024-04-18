@@ -10,11 +10,14 @@ import androidx.navigation.fragment.findNavController
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentLoginBinding
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+
+    private val allDisposables = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,14 +39,18 @@ class LoginFragment : Fragment() {
         // edit text views
         var emailFull = false
         var passwordFull = false
-        binding.tietEmail.textChanges().subscribe { charSeq ->
+
+        val resultEmail = binding.tietEmail.textChanges().subscribe { charSeq ->
             emailFull = charSeq.length > 5
             btnLogin.isEnabled = emailFull && passwordFull
         }
-        binding.tietPassword.textChanges().subscribe { charSeq ->
+        val resultPassword = binding.tietPassword.textChanges().subscribe { charSeq ->
             passwordFull = charSeq.length > 5
             btnLogin.isEnabled = emailFull && passwordFull
         }
+
+        allDisposables.add(resultEmail)
+        allDisposables.add(resultPassword)
 
         // proceed login button click
         binding.btnLogin.setOnClickListener {
@@ -54,5 +61,6 @@ class LoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        allDisposables.clear()
     }
 }

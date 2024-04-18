@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentHelpBinding
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class HelpFragment : Fragment() {
 
@@ -19,6 +20,8 @@ class HelpFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by viewModels<HelpViewModel>()
+
+    private val allDisposables = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +47,7 @@ class HelpFragment : Fragment() {
         binding.rvCategories.addItemDecoration(SpacingItemDecorator(x)) //setting space between items in RecyclerView
 
         // load data from Observable
-        viewModel.loadCategories()
+        val result = viewModel.loadCategories()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
@@ -60,11 +63,13 @@ class HelpFragment : Fragment() {
                 { println("!!! Completed: help categories") }
             )
 
+        allDisposables.add(result)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        allDisposables.clear()
     }
 
     private fun showError(view: View, message: String) {

@@ -13,6 +13,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.jakewharton.rxbinding4.appcompat.queryTextChanges
 import com.yara.android_practicum.databinding.FragmentSearchBinding
 import com.yara.android_practicum.ui.news.NewsViewModel
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
@@ -22,6 +23,8 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by activityViewModels<NewsViewModel>()
+
+    private val allDisposables = CompositeDisposable()
 
     private lateinit var adapter: VPAdapter
     private lateinit var viewPager: ViewPager2
@@ -55,7 +58,7 @@ class SearchFragment : Fragment() {
         }.attach()
 
         // init search view
-        binding.svSearch.queryTextChanges()
+        val result = binding.svSearch.queryTextChanges()
             .map {
                 it.toString().lowercase(Locale.getDefault()).trim()
             }
@@ -69,10 +72,13 @@ class SearchFragment : Fragment() {
                     println("!!! ${exception.message}")
                 }
             )
+
+        allDisposables.add(result)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        allDisposables.clear()
     }
 }

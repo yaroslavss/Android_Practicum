@@ -17,6 +17,7 @@ import com.yara.android_practicum.utils.Resource
 import com.yara.android_practicum.utils.containsAny
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import java.io.IOException
 
@@ -50,13 +51,18 @@ class NewsViewModel : ViewModel() {
 
     private val context = App.instance
 
+    private val allDisposables = CompositeDisposable()
+
     init {
-        loadCategories()
+        val resultCategories = loadCategories()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe()
-        loadEvents()
+        val resultEvents = loadEvents()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe()
+
+        allDisposables.addAll(resultCategories)
+        allDisposables.addAll(resultEvents)
     }
 
     fun addFilter(id: Int) {
@@ -131,5 +137,9 @@ class NewsViewModel : ViewModel() {
                 filters.addAll(categories.map { it.id })
                 _categoriesLiveData.postValue(Resource.Success(it))
             }
+    }
+
+    override fun onCleared() {
+        allDisposables.clear()
     }
 }
