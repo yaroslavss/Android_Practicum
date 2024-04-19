@@ -34,6 +34,9 @@ class SearchNpoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // init default view
+        switchInitialLayout(true)
+
         // init adapter
         val adapter = SearchResultsRecyclerAdapter(listOf())
 
@@ -55,7 +58,11 @@ class SearchNpoFragment : Fragment() {
         viewModel.searchResultsLiveData.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    switchInitialLayout()
+                    if (resource.data.isEmpty()) {
+                        switchInitialLayout(true)
+                    } else {
+                        switchInitialLayout(false)
+                    }
                     adapter.results = resource.data
                     adapter.notifyDataSetChanged()
                 }
@@ -70,17 +77,17 @@ class SearchNpoFragment : Fragment() {
         _binding = null
     }
 
-    private fun switchInitialLayout() {
+    private fun switchInitialLayout(on: Boolean) {
         binding.apply {
-            // turn on
-            tvSearchKeysLabel.isVisible = true
-            tvSearchResultsLabel.isVisible = true
-            mdDivider1.isVisible = true
-            mdDivider2.isVisible = true
             // turn off
-            ivZoomIcon.isVisible = false
-            tvSearchDescLabel.isVisible = false
-            tvSearchExampleLabel.isVisible = false
+            tvSearchKeysLabel.isVisible = !on
+            tvSearchResultsLabel.isVisible = !on
+            mdDivider1.isVisible = !on
+            mdDivider2.isVisible = !on
+            // turn on
+            ivZoomIcon.isVisible = on
+            tvSearchDescLabel.isVisible = on
+            tvSearchExampleLabel.isVisible = on
         }
     }
 }
