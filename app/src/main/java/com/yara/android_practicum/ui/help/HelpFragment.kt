@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentHelpBinding
-import com.yara.android_practicum.utils.Resource
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class HelpFragment : Fragment() {
 
@@ -19,6 +20,8 @@ class HelpFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by viewModels<HelpViewModel>()
+
+    private val allDisposables = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +31,7 @@ class HelpFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,21 +46,30 @@ class HelpFragment : Fragment() {
         val x = (resources.displayMetrics.density * RECYCLER_GRID_SPACING).toInt() //converting dp to pixels
         binding.rvCategories.addItemDecoration(SpacingItemDecorator(x)) //setting space between items in RecyclerView
 
-        viewModel.categoriesLiveData.observe(viewLifecycleOwner) { resource ->
-            when (resource) {
-                is Resource.Success -> {
+        // load data from Observable
+        val result = viewModel.loadCategories()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
                     hideProgressBar()
-                    adapter.addItems(resource.data)
-                }
-                is Resource.Error -> showError(view, resource.message.toString())
-                else -> {}
-            }
-        }
+                    adapter.addItems(it)
+                },
+                { e ->
+                    run {
+                        hideProgressBar()
+                        showError(view, e.message.toString())
+                    }
+                },
+                { println("!!! Completed: help categories") }
+            )
+
+        allDisposables.add(result)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        allDisposables.clear()
     }
 
     private fun showError(view: View, message: String) {

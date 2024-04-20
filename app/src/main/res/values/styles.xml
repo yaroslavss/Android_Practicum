@@ -129,4 +129,14 @@
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/black_54</item>
     </style>
+
+    <style name="TextStyle13">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">@color/black_38</item>
+    </style>
+
+    <style name="LoginInputLabel" parent="TextStyle13" />
 </resources>

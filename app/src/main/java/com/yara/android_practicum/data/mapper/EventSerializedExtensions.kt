@@ -22,7 +22,8 @@ private fun createEventFromSerialized(event: EventSerialized): Event {
         dateStart = eds,
         dateEnd = ede,
         dateString = "Осталось ${today.daysUntil(eds)} дней (${eds.dayOfMonth}.${eds.monthNumber} - ${ede.dayOfMonth}.${ede.monthNumber})",
-        categories = event.categories.map { it.toInt() }
+        categories = event.categories.map { it.toInt() },
+        isUnread = true,
     )
 }
 

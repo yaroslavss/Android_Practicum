@@ -5,8 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yara.android_practicum.databinding.ItemSearchResultBinding
+import com.yara.android_practicum.ui.news.Events
 
-class SearchResultsRecyclerAdapter(var results: List<String>) :
+class SearchResultsRecyclerAdapter(var results: Events) :
     RecyclerView.Adapter<SearchResultsRecyclerAdapter.SearchResultsViewHolder>() {
 
     private var _binding: ItemSearchResultBinding? = null
@@ -27,7 +28,7 @@ class SearchResultsRecyclerAdapter(var results: List<String>) :
     override fun onBindViewHolder(holder: SearchResultsViewHolder, position: Int) {
         val item = results[position]
         holder.itemView.apply {
-            binding.tvSearchResultsText.text = item
+            binding.tvSearchResultsText.text = item.title
         }
     }
 }

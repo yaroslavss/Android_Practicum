@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.yara.android_practicum.databinding.FragmentEventDetailsBinding
 import com.yara.android_practicum.domain.model.Event
@@ -15,6 +16,8 @@ class EventDetailsFragment : Fragment() {
 
     private var _binding: FragmentEventDetailsBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel by activityViewModels<NewsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,6 +70,9 @@ class EventDetailsFragment : Fragment() {
             image3.let {
                 binding.ivEventImage3.setImageResource(it as Int)
             }
+
+            // set badge for bottom navigation view
+            viewModel.setEventRead(it)
         }
     }
 
