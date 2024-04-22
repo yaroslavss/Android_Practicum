@@ -18,7 +18,8 @@ import com.yara.android_practicum.utils.containsAny
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.subjects.BehaviorSubject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.io.IOException
 
 typealias Events = List<Event>
@@ -36,7 +37,9 @@ class NewsViewModel : ViewModel() {
 
     private val allEvents: MutableList<Event> = mutableListOf()
     val filters = mutableSetOf<Int>()
-    val newsQnt: BehaviorSubject<Int> = BehaviorSubject.create()
+
+    private val _newsQnt = MutableStateFlow(0)
+    val newsQnt = _newsQnt.asStateFlow()
 
     private val eventsRepository =
         EventsRepositoryImpl(
@@ -106,7 +109,7 @@ class NewsViewModel : ViewModel() {
     }
 
     private fun publishUnreadEventsQnt(qnt: Int) {
-        newsQnt.onNext(qnt)
+        _newsQnt.value = qnt
     }
 
     fun loadEvents(): Observable<Events> {

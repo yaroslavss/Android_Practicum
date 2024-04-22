@@ -1,12 +1,14 @@
 package com.yara.android_practicum.ui.news
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -15,7 +17,7 @@ import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentNewsBinding
 import com.yara.android_practicum.utils.Constants
 import com.yara.android_practicum.utils.Resource
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.launch
 
 class NewsFragment : Fragment() {
 
@@ -23,8 +25,6 @@ class NewsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by activityViewModels<NewsViewModel>()
-
-    private val allDisposables = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +34,6 @@ class NewsFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,15 +42,17 @@ class NewsFragment : Fragment() {
 
         // set bottom navigation badge
         val bottomNavView = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        val result = viewModel.newsQnt.subscribe { qnt ->
-            if (bottomNavView != null) {
-                bottomNavView.getOrCreateBadge(R.id.newsFragment).apply {
-                    number = qnt
-                    isVisible = true
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.newsQnt.collect { qnt ->
+                    bottomNavView?.getOrCreateBadge(R.id.newsFragment)?.apply {
+                        number = qnt
+                        isVisible = true
+                    }
                 }
             }
         }
-        allDisposables.add(result)
 
         // init adapter
         val adapter = EventsRecyclerAdapter { event ->
@@ -88,7 +89,6 @@ class NewsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        allDisposables.clear()
     }
 
     private fun showError(view: View, message: String) {
