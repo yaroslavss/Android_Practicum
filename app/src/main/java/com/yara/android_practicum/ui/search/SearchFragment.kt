@@ -5,17 +5,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.jakewharton.rxbinding4.appcompat.queryTextChanges
 import com.yara.android_practicum.databinding.FragmentSearchBinding
 import com.yara.android_practicum.ui.news.NewsViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.util.Locale
-import java.util.concurrent.TimeUnit
 
 class SearchFragment : Fragment() {
 
@@ -23,8 +32,6 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by activityViewModels<NewsViewModel>()
-
-    private val allDisposables = CompositeDisposable()
 
     private lateinit var adapter: VPAdapter
     private lateinit var viewPager: ViewPager2
@@ -42,6 +49,7 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,31 +66,43 @@ class SearchFragment : Fragment() {
         }.attach()
 
         // init search view
-        val result = binding.svSearch.queryTextChanges()
-            // delay input
-            .debounce(SEARCH_STRING_DELAY, TimeUnit.MILLISECONDS)
-            .map {
-                it.toString().lowercase(Locale.getDefault()).trim()
-            }
-            .subscribe(
-                { str ->
-                    viewModel.filterEventsByTitle(str)
-                },
-                { exception ->
-                    println("!!! ${exception.message}")
+        lifecycleScope.launch {
+            binding.svSearch.getQueryTextChangeStateFlow()
+                .debounce(SEARCH_STRING_DELAY)
+                .map {
+                    it.toString().lowercase(Locale.getDefault()).trim()
                 }
-            )
-
-        allDisposables.add(result)
+                .distinctUntilChanged()
+                .flowOn(Dispatchers.Default)
+                .collect { str ->
+                    viewModel.filterEventsByTitle(str)
+                }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        allDisposables.clear()
     }
 
-    companion object  {
+    companion object {
         const val SEARCH_STRING_DELAY = 500L
     }
+}
+
+fun SearchView.getQueryTextChangeStateFlow(): StateFlow<String> {
+    val query = MutableStateFlow("")
+
+    setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String): Boolean {
+            query.value = newText
+            return true
+        }
+    })
+
+    return query
 }
