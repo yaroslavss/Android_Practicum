@@ -9,12 +9,16 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentSearchEventsBinding
 import com.yara.android_practicum.ui.news.NewsViewModel
 import com.yara.android_practicum.utils.Resource
+import kotlinx.coroutines.launch
 
 class SearchEventsFragment : Fragment() {
 
@@ -31,7 +35,7 @@ class SearchEventsFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -56,19 +60,23 @@ class SearchEventsFragment : Fragment() {
 
         binding.rvSearchResults.addItemDecoration(divider)
 
-        viewModel.searchResultsLiveData.observe(viewLifecycleOwner) { resource ->
-            when (resource) {
-                is Resource.Success -> {
-                    if (resource.data.isEmpty()) {
-                        switchInitialLayout(true)
-                    } else {
-                        switchInitialLayout(false)
-                    }
-                    adapter.results = resource.data
-                    adapter.notifyDataSetChanged()
-                }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.searchResults.collect { resource ->
+                    when (resource) {
+                        is Resource.Success -> {
+                            if (resource.data.isEmpty()) {
+                                switchInitialLayout(true)
+                            } else {
+                                switchInitialLayout(false)
+                            }
+                            adapter.results = resource.data
+                            adapter.notifyDataSetChanged()
+                        }
 
-                else -> {}
+                        else -> {}
+                    }
+                }
             }
         }
     }

@@ -18,7 +18,8 @@ import com.yara.android_practicum.utils.containsAny
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.subjects.BehaviorSubject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.io.IOException
 
 typealias Events = List<Event>
@@ -28,15 +29,18 @@ class NewsViewModel : ViewModel() {
     private val _eventsLiveData = MutableLiveData<Resource<Events>>()
     val eventsLiveData: LiveData<Resource<Events>> = _eventsLiveData
 
-    private val _searchResultsLiveData = MutableLiveData<Resource<Events>>()
-    val searchResultsLiveData: LiveData<Resource<Events>> = _searchResultsLiveData
+    private val _searchResults: MutableStateFlow<Resource<Events>> =
+        MutableStateFlow(Resource.Success(emptyList()))
+    val searchResults = _searchResults.asStateFlow()
 
     private val _categoriesLiveData = MutableLiveData<Resource<Categories>>()
     val categoriesLiveData: LiveData<Resource<Categories>> = _categoriesLiveData
 
     private val allEvents: MutableList<Event> = mutableListOf()
     val filters = mutableSetOf<Int>()
-    val newsQnt: BehaviorSubject<Int> = BehaviorSubject.create()
+
+    private val _newsQnt = MutableStateFlow(0)
+    val newsQnt = _newsQnt.asStateFlow()
 
     private val eventsRepository =
         EventsRepositoryImpl(
@@ -75,18 +79,16 @@ class NewsViewModel : ViewModel() {
         filterEventsByCategory()
     }
 
-    fun filterEventsByTitle(str: String) {
-        _searchResultsLiveData.postValue(Resource.Success(
-            if (str == "") {
-                emptyList<Event>()
-            } else {
-                allEvents.filter {
-                    it.title.startsWith(
-                        str,
-                        true
-                    )
-                }
-            }))
+    suspend fun filterEventsByTitle(str: String) {
+        val result = Resource.Success(if (str == "") {
+            emptyList<Event>()
+        } else {
+            allEvents.filter {
+                it.title.startsWith(str, true)
+            }
+        })
+
+        _searchResults.emit(result)
     }
 
     private fun filterEventsByCategory() {
@@ -106,7 +108,7 @@ class NewsViewModel : ViewModel() {
     }
 
     private fun publishUnreadEventsQnt(qnt: Int) {
-        newsQnt.onNext(qnt)
+        _newsQnt.value = qnt
     }
 
     fun loadEvents(): Observable<Events> {
