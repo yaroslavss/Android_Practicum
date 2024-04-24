@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.isDigitsOnly
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.yara.android_practicum.R
@@ -25,10 +26,16 @@ class CategoriesRecyclerAdapter :
 
         fun bind(category: Category) {
             name.text = category.name
-            //icon.setImageResource(category.icon)
-            Glide.with(context)
-                .load(category.icon)
-                .into(binding.ivCategoryIcon)
+
+            // icon from json asset file
+            if (category.icon.isDigitsOnly()) {
+                icon.setImageResource(category.icon.toInt())
+            } else {
+                // icon from network API
+                Glide.with(context)
+                    .load(category.icon)
+                    .into(icon)
+            }
         }
     }
 

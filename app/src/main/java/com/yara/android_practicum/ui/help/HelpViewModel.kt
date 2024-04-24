@@ -3,7 +3,6 @@ package com.yara.android_practicum.ui.help
 import androidx.lifecycle.ViewModel
 import com.yara.android_practicum.App
 import com.yara.android_practicum.data.api.RetrofitInstance
-import com.yara.android_practicum.data.mapper.toDomainModelList
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.util.AssetReaderImpl
 import com.yara.android_practicum.data.util.CategoryDeserializer
@@ -35,5 +34,7 @@ class HelpViewModel : ViewModel() {
     }
 
     fun getCategories(): Observable<Categories> =
-        RetrofitInstance.api.getCategories().map { it.toDomainModelList() }
+        categoriesRepository.getCategories().onErrorResumeNext {
+            loadCategories()
+        }
 }

@@ -1,6 +1,5 @@
 package com.yara.android_practicum.domain.repository
 
-import com.yara.android_practicum.data.model.CategoryAPI
 import com.yara.android_practicum.ui.help.Categories
 import io.reactivex.rxjava3.core.Observable
 import java.io.InputStream
@@ -9,5 +8,5 @@ interface CategoriesRepository {
 
     fun readCategories(inputStream: InputStream): Observable<Categories>
 
-    fun getCategories(): Observable<List<CategoryAPI>>
+    fun getCategories(): Observable<Categories>
 }
