@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ItemCategoryBinding
 import com.yara.android_practicum.domain.model.Category
@@ -17,13 +18,17 @@ class CategoriesRecyclerAdapter :
     inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val binding = ItemCategoryBinding.bind(itemView)
+        private val context = itemView.context
 
         private val name = binding.tvCategoryName
         private val icon = binding.ivCategoryIcon
 
         fun bind(category: Category) {
             name.text = category.name
-            icon.setImageResource(category.icon)
+            //icon.setImageResource(category.icon)
+            Glide.with(context)
+                .load(category.icon)
+                .into(binding.ivCategoryIcon)
         }
     }
 

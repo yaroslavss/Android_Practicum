@@ -54,6 +54,7 @@ val kotlinxDatetimeVersion = "0.5.0"
 val rxJavaVersion = "3.1.8"
 val rxAndroidVersion = "3.0.2"
 val rxBindingVersion = "4.0.0"
+val glideVersion = "4.16.0"
 val junitVersion = "4.13.2"
 
 dependencies {
@@ -88,6 +89,9 @@ dependencies {
     // rxbinding
     implementation("com.jakewharton.rxbinding4:rxbinding:$rxBindingVersion")
     implementation("com.jakewharton.rxbinding4:rxbinding-appcompat:$rxBindingVersion")
+
+    // glide
+    implementation("com.github.bumptech.glide:glide:$glideVersion")
 
     // test
     testImplementation("junit:junit:$junitVersion")
