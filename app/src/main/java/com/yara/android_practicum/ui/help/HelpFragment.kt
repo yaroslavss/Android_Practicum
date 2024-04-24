@@ -46,8 +46,8 @@ class HelpFragment : Fragment() {
         val x = (resources.displayMetrics.density * RECYCLER_GRID_SPACING).toInt() //converting dp to pixels
         binding.rvCategories.addItemDecoration(SpacingItemDecorator(x)) //setting space between items in RecyclerView
 
-        // load data from Observable
-        val result = viewModel.loadCategories()
+        // load data from network
+        val result = viewModel.getCategories()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
