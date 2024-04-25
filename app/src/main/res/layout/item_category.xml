@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/ivCategoryIcon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/category_icon_height"
         android:layout_marginTop="@dimen/spacing_s"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"

@@ -26,6 +26,7 @@
     <!-- News (events) fragment -->
     <dimen name="event_title_horizontal_margin">40dp</dimen>
     <dimen name="spacing_10_dp">10dp</dimen>
+    <dimen name="event_image_height">222dp</dimen>
 
     <!-- Event's details fragment -->
     <dimen name="event_date_string_drawable_padding">10dp</dimen>
@@ -47,6 +48,7 @@
 
     <!-- Help fragment -->
     <dimen name="spacing_s">12dp</dimen>
+    <dimen name="category_icon_height">80dp</dimen>
 
     <!-- Profile fragment -->
     <dimen name="profile_label_margin_top">16dp</dimen>

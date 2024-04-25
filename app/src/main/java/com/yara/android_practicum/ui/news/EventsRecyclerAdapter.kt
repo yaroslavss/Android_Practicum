@@ -43,17 +43,25 @@ class EventsRecyclerAdapter(private val onItemClick: (event: Event) -> Unit) :
         @SuppressLint("DiscouragedApi")
         fun bind(event: Event) {
             title.text = event.title
-            /*image.setImageResource(
-                context.resources.getIdentifier(
-                    event.images.first(),
-                    "drawable",
-                    context.packageName
-                )
-            )*/
+
+            val imageToShow = event.images.first()
             // icon from network API
-            Glide.with(context)
-                .load(event.images.first())
-                .into(image)
+            if (imageToShow.startsWith("http", true)) {
+                Glide.with(context)
+                    .load(imageToShow)
+                    .centerCrop()
+                    .into(image)
+            } else {
+                // icon from json asset file
+                image.setImageResource(
+                    context.resources.getIdentifier(
+                        imageToShow,
+                        "drawable",
+                        context.packageName
+                    )
+                )
+            }
+
             description.text = event.description
             bottomPane.text = event.dateString
         }
