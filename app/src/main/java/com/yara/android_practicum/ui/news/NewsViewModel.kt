@@ -60,9 +60,15 @@ class NewsViewModel : ViewModel() {
     private val allDisposables = CompositeDisposable()
 
     init {
-        val resultCategories = loadCategories()
+        val resultCategories = getCategories()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
+            .subscribe {
+                val categories: MutableList<Category> = mutableListOf()
+                it.toCollection(categories)
+                filters.addAll(categories.map { it.id })
+                _categoriesLiveData.postValue(Resource.Success(it))
+            }
+
         val resultEvents = loadEvents()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe()
@@ -135,13 +141,12 @@ class NewsViewModel : ViewModel() {
         } catch (e: IOException) {
             Observable.error(e)
         }
-            .doOnNext {
-                val categories: MutableList<Category> = mutableListOf()
-                it.toCollection(categories)
-                filters.addAll(categories.map { it.id })
-                _categoriesLiveData.postValue(Resource.Success(it))
-            }
     }
+
+    fun getCategories(): Observable<Categories> =
+        categoriesRepository.getCategories().onErrorResumeNext {
+            loadCategories()
+        }
 
     override fun onCleared() {
         allDisposables.clear()
