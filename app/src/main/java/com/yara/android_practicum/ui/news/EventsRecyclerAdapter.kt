@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ItemEventBinding
 import com.yara.android_practicum.domain.model.Event
@@ -42,13 +43,17 @@ class EventsRecyclerAdapter(private val onItemClick: (event: Event) -> Unit) :
         @SuppressLint("DiscouragedApi")
         fun bind(event: Event) {
             title.text = event.title
-            image.setImageResource(
+            /*image.setImageResource(
                 context.resources.getIdentifier(
                     event.images.first(),
                     "drawable",
                     context.packageName
                 )
-            )
+            )*/
+            // icon from network API
+            Glide.with(context)
+                .load(event.images.first())
+                .into(image)
             description.text = event.description
             bottomPane.text = event.dateString
         }

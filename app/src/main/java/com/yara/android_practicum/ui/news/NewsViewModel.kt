@@ -46,7 +46,8 @@ class NewsViewModel : ViewModel() {
     private val eventsRepository =
         EventsRepositoryImpl(
             AssetReaderImpl(EventDeserializer),
-            App.instance.executorService
+            App.instance.executorService,
+            RetrofitInstance.api
         )
     private val categoriesRepository =
         CategoriesRepositoryImpl(
@@ -69,9 +70,14 @@ class NewsViewModel : ViewModel() {
                 _categoriesLiveData.postValue(Resource.Success(it))
             }
 
-        val resultEvents = loadEvents()
+        val resultEvents = getEvents()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
+            .subscribe {
+                it.toCollection(allEvents)
+                _eventsLiveData.postValue(Resource.Success(it))
+                // set badge for bottom navigation view
+                publishUnreadEventsQnt(allEvents.filter { it.isUnread }.size)
+            }
 
         allDisposables.addAll(resultCategories)
         allDisposables.addAll(resultEvents)
@@ -126,12 +132,6 @@ class NewsViewModel : ViewModel() {
         } catch (e: IOException) {
             Observable.error(e)
         }
-            .doOnNext {
-                it.toCollection(allEvents)
-                _eventsLiveData.postValue(Resource.Success(it))
-                // set badge for bottom navigation view
-                publishUnreadEventsQnt(allEvents.filter { it.isUnread }.size)
-            }
     }
 
     fun loadCategories(): Observable<Categories> {
@@ -142,6 +142,11 @@ class NewsViewModel : ViewModel() {
             Observable.error(e)
         }
     }
+
+    fun getEvents(): Observable<Events> =
+        eventsRepository.getEvents().onErrorResumeNext {
+            loadEvents()
+        }
 
     fun getCategories(): Observable<Categories> =
         categoriesRepository.getCategories().onErrorResumeNext {
