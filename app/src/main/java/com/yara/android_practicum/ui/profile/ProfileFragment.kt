@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentProfileBinding
 import com.yara.android_practicum.utils.CallbackListener
@@ -54,6 +55,7 @@ class ProfileFragment : Fragment() {
     private fun showImage(imageToShow: Int, imageView: ImageView) {
         Glide.with(requireActivity())
             .load(imageToShow)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
             .centerCrop()
             .into(imageView)
     }

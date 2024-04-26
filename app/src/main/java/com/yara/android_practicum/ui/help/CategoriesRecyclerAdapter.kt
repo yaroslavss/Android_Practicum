@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.text.isDigitsOnly
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ItemCategoryBinding
 import com.yara.android_practicum.domain.model.Category
@@ -34,6 +35,8 @@ class CategoriesRecyclerAdapter :
                 // icon from network API
                 Glide.with(context)
                     .load(category.icon)
+                    .placeholder(R.drawable.icon_animals)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(icon)
             }
         }

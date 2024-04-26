@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentEventDetailsBinding
 import com.yara.android_practicum.domain.model.Event
 import com.yara.android_practicum.utils.Constants
@@ -82,6 +84,8 @@ class EventDetailsFragment : Fragment() {
         if (imageToShow.startsWith("http", true)) {
             Glide.with(requireActivity())
                 .load(imageToShow)
+                .placeholder(R.drawable.news_img_1)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .centerCrop()
                 .into(imageView)
         } else {
