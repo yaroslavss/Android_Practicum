@@ -16,4 +16,7 @@ data class Event(
     val dateString: String,
     val categories: List<Int>,
     var isUnread: Boolean,
+    val phone: String,
+    val address: String,
+    val organisation: String,
 ) : Parcelable

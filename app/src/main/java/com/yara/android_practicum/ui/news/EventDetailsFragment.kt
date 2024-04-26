@@ -45,9 +45,15 @@ class EventDetailsFragment : Fragment() {
         }
 
         event?.let {
-            binding.toolbar.title = it.title
-            binding.tvEventTitle.text = it.title
-            binding.tvEventDateString.text = it.dateString
+            binding.apply {
+                toolbar.title = it.title
+                tvEventTitle.text = it.title
+                tvEventDateString.text = it.dateString
+                tvSponsorTitle.text = it.organisation
+                tvSponsorAddress.text = it.address
+                tvSponsorPhone.text = it.phone
+                tvEventText.text = it.description
+            }
 
             if (event.images.size > 0) {
                 showImage(event.images.first(), binding.ivEventImageMain)

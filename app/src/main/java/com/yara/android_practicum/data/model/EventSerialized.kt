@@ -17,5 +17,11 @@ data class EventSerialized(
     @SerializedName("date_end")
     val dateEnd: String,
     @SerializedName("categories")
-    val categories: List<String>
+    val categories: List<String>,
+    @SerializedName("phone")
+    val phone: String,
+    @SerializedName("address")
+    val address: String,
+    @SerializedName("organisation")
+    val organisation: String,
 ) : Serializable

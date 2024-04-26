@@ -25,6 +25,9 @@ private fun createEventFromAPI(event: EventAPI): Event {
         dateString = "Осталось X дней",
         categories = event.category.map { it },
         isUnread = true,
+        phone = event.phone,
+        address = event.address,
+        organisation = event.organisation,
     )
 }
 

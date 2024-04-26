@@ -72,12 +72,16 @@ class NewsViewModel : ViewModel() {
 
         val resultEvents = getEvents()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                it.toCollection(allEvents)
-                _eventsLiveData.postValue(Resource.Success(it))
-                // set badge for bottom navigation view
-                publishUnreadEventsQnt(allEvents.filter { it.isUnread }.size)
-            }
+            .subscribe(
+                {
+                    it.toCollection(allEvents)
+                    _eventsLiveData.postValue(Resource.Success(it))
+                    // set badge for bottom navigation view
+                    publishUnreadEventsQnt(allEvents.filter { it.isUnread }.size)
+                },
+                { e -> _eventsLiveData.postValue(Resource.Error(e.message)) },
+                {}
+            )
 
         allDisposables.addAll(resultCategories)
         allDisposables.addAll(resultEvents)

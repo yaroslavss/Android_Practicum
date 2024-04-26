@@ -30,6 +30,7 @@
 
     <!-- Event's details fragment -->
     <dimen name="event_date_string_drawable_padding">10dp</dimen>
+    <dimen name="event_address_margin_right">80dp</dimen>
     <dimen name="event_image_main_height">158dp</dimen>
     <dimen name="event_image_ordinal_height">74dp</dimen>
     <dimen name="event_images_gideline_vertical_percent">0.6</dimen>
