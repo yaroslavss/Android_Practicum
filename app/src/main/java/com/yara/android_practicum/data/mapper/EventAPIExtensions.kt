@@ -3,26 +3,33 @@ package com.yara.android_practicum.data.mapper
 import com.yara.android_practicum.data.model.EventAPI
 import com.yara.android_practicum.domain.model.Event
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.daysUntil
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.todayIn
 
 private fun createEventFromAPI(event: EventAPI): Event {
-    // calculate date string
-    val today: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
-    //val eds = LocalDate.parse(event.startDate)
-    //val ede = LocalDate.parse(event.endDate)
+    // calculate date fields
+    val tz = TimeZone.currentSystemDefault()
+    val today: LocalDate = Clock.System.todayIn(tz)
 
+    val instantStart = Instant.fromEpochSeconds(event.startDate)
+    val eds = instantStart.toLocalDateTime(tz).date
+
+    val instantEnd = Instant.fromEpochSeconds(event.endDate)
+    val ede = instantEnd.toLocalDateTime(tz).date
+
+    // event
     return Event(
         id = event.id,
         title = event.name,
         description = event.description,
         images = event.photos,
-        dateStart = LocalDate.fromEpochDays((event.startDate / 86400).toInt()),
-        dateEnd = LocalDate.fromEpochDays((event.endDate / 86400).toInt()),
-        //dateString = " ${today.daysUntil(eds)} дней (${eds.dayOfMonth}.${eds.monthNumber} - ${ede.dayOfMonth}.${ede.monthNumber})",
-        dateString = "Осталось X дней",
+        dateStart = eds,
+        dateEnd = ede,
+        dateString = " ${today.daysUntil(eds)} дней (${eds.dayOfMonth}.${eds.monthNumber} - ${ede.dayOfMonth}.${ede.monthNumber})",
         categories = event.category.map { it },
         isUnread = true,
         phone = event.phone,
