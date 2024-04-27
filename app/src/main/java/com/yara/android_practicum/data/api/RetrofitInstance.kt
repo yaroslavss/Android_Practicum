@@ -6,6 +6,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import tech.thdev.network.flowcalladapterfactory.FlowCallAdapterFactory
 
 class RetrofitInstance {
 
@@ -20,6 +21,7 @@ class RetrofitInstance {
             Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .addCallAdapterFactory(FlowCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

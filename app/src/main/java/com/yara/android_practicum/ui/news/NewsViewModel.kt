@@ -3,6 +3,7 @@ package com.yara.android_practicum.ui.news
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.App
 import com.yara.android_practicum.data.api.RetrofitInstance
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
@@ -10,7 +11,6 @@ import com.yara.android_practicum.data.repository.EventsRepositoryImpl
 import com.yara.android_practicum.data.util.AssetReaderImpl
 import com.yara.android_practicum.data.util.CategoryDeserializer
 import com.yara.android_practicum.data.util.EventDeserializer
-import com.yara.android_practicum.domain.model.Category
 import com.yara.android_practicum.domain.model.Event
 import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.Constants
@@ -19,8 +19,11 @@ import com.yara.android_practicum.utils.containsAny
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 import java.io.IOException
 
 typealias Events = List<Event>
@@ -61,14 +64,13 @@ class NewsViewModel : ViewModel() {
     private val allDisposables = CompositeDisposable()
 
     init {
-        val resultCategories = getCategories()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                val categories: MutableList<Category> = mutableListOf()
-                it.toCollection(categories)
-                filters.addAll(categories.map { it.id })
-                _categoriesLiveData.postValue(Resource.Success(it))
-            }
+        viewModelScope.launch {
+            getCategories()
+                .collect() { categories ->
+                    filters.addAll(categories.map { it.id })
+                    _categoriesLiveData.postValue(Resource.Success(categories))
+                }
+        }
 
         val resultEvents = getEvents()
             .observeOn(AndroidSchedulers.mainThread())
@@ -83,7 +85,6 @@ class NewsViewModel : ViewModel() {
                 {}
             )
 
-        allDisposables.addAll(resultCategories)
         allDisposables.addAll(resultEvents)
     }
 
@@ -152,10 +153,8 @@ class NewsViewModel : ViewModel() {
             loadEvents()
         }
 
-    fun getCategories(): Observable<Categories> =
-        categoriesRepository.getCategories().onErrorResumeNext {
-            loadCategories()
-        }
+    fun getCategories(): Flow<Categories> =
+        categoriesRepository.getCategories().catch { loadCategories() }
 
     override fun onCleared() {
         allDisposables.clear()
