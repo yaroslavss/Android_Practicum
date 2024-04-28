@@ -7,7 +7,7 @@ private fun createCategoryFromLocal(category: CategoryLocal) =
     Category(
         id = category.id,
         name = category.name,
-        icon = category.icon,
+        icon = category.icon.toString(),
     )
 
 fun CategoryLocal.toDomainModel() = createCategoryFromLocal(this)

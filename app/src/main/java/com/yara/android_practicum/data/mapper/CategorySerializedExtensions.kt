@@ -12,7 +12,7 @@ private fun createCategoryFromSerialized(category: CategorySerialized): Category
     return Category(
         id = category.id,
         name = category.name,
-        icon = iconId,
+        icon = iconId.toString(),
     )
 }
 

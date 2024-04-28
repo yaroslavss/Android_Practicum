@@ -1,5 +1,6 @@
 package com.yara.android_practicum.data.repository
 
+import com.yara.android_practicum.data.api.RemoteAPI
 import com.yara.android_practicum.data.mapper.toDomainModelList
 import com.yara.android_practicum.data.model.CategorySerialized
 import com.yara.android_practicum.domain.repository.CategoriesRepository
@@ -13,7 +14,8 @@ import java.util.concurrent.Executor
 
 class CategoriesRepositoryImpl(
     private val assetDataSource: AssetReader<CategorySerialized>,
-    private val executor: Executor
+    private val executor: Executor,
+    private val remoteAPI: RemoteAPI,
 ) : CategoriesRepository {
 
     override fun readCategories(inputStream: InputStream): Observable<Categories> =
@@ -24,6 +26,11 @@ class CategoriesRepositoryImpl(
                 emitter.onNext(categories)
             }
             .subscribeOn(Schedulers.from(executor))
+
+    override fun getCategories(): Observable<Categories> =
+        remoteAPI.getCategories()
+            .subscribeOn(Schedulers.io())
+            .map { it.toDomainModelList() }
 
     private fun readCategoriesSynchronous(inputStream: InputStream): Categories =
         assetDataSource.readList(inputStream).toDomainModelList()

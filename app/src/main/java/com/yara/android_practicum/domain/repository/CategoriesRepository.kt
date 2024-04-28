@@ -7,4 +7,6 @@ import java.io.InputStream
 interface CategoriesRepository {
 
     fun readCategories(inputStream: InputStream): Observable<Categories>
+
+    fun getCategories(): Observable<Categories>
 }

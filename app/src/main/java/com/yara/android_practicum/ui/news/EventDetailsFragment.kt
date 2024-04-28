@@ -5,9 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentEventDetailsBinding
 import com.yara.android_practicum.domain.model.Event
 import com.yara.android_practicum.utils.Constants
@@ -43,32 +47,26 @@ class EventDetailsFragment : Fragment() {
         }
 
         event?.let {
-            binding.toolbar.title = it.title
-            binding.tvEventTitle.text = it.title
-            binding.tvEventDateString.text = it.dateString
-            val imageMain = context?.resources?.getIdentifier(
-                event.images.first(),
-                "drawable",
-                context?.packageName
-            )
-            imageMain.let {
-                binding.ivEventImageMain.setImageResource(it as Int)
+            binding.apply {
+                toolbar.title = it.title
+                tvEventTitle.text = it.title
+                tvEventDateString.text = it.dateString
+                tvSponsorTitle.text = it.organisation
+                tvSponsorAddress.text = it.address
+                tvSponsorPhone.text = it.phone
+                tvEventText.text = it.description
             }
-            val image2 = context?.resources?.getIdentifier(
-                event.images.get(1),
-                "drawable",
-                context?.packageName
-            )
-            image2.let {
-                binding.ivEventImage2.setImageResource(it as Int)
+
+            if (event.images.size > 0) {
+                showImage(event.images.first(), binding.ivEventImageMain)
             }
-            val image3 = context?.resources?.getIdentifier(
-                event.images.get(2),
-                "drawable",
-                context?.packageName
-            )
-            image3.let {
-                binding.ivEventImage3.setImageResource(it as Int)
+
+            if (event.images.size > 1) {
+                showImage(event.images.get(1), binding.ivEventImage2)
+            }
+
+            if (event.images.size > 2) {
+                showImage(event.images.get(2), binding.ivEventImage3)
             }
 
             // set badge for bottom navigation view
@@ -79,5 +77,26 @@ class EventDetailsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showImage(imageToShow: String, imageView: ImageView) {
+        // icon from network
+        if (imageToShow.startsWith("http", true)) {
+            Glide.with(requireActivity())
+                .load(imageToShow)
+                .placeholder(R.drawable.news_img_1)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .centerCrop()
+                .into(imageView)
+        } else {
+            // icon from json asset file
+            imageView.setImageResource(
+                context?.resources?.getIdentifier(
+                    imageToShow,
+                    "drawable",
+                    context?.packageName
+                ) as Int
+            )
+        }
     }
 }

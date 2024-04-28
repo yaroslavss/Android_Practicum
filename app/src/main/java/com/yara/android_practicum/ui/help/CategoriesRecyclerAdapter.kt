@@ -4,7 +4,10 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.isDigitsOnly
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ItemCategoryBinding
 import com.yara.android_practicum.domain.model.Category
@@ -17,13 +20,25 @@ class CategoriesRecyclerAdapter :
     inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val binding = ItemCategoryBinding.bind(itemView)
+        private val context = itemView.context
 
         private val name = binding.tvCategoryName
         private val icon = binding.ivCategoryIcon
 
         fun bind(category: Category) {
             name.text = category.name
-            icon.setImageResource(category.icon)
+
+            // icon from json asset file
+            if (category.icon.isDigitsOnly()) {
+                icon.setImageResource(category.icon.toInt())
+            } else {
+                // icon from network API
+                Glide.with(context)
+                    .load(category.icon)
+                    .placeholder(R.drawable.icon_animals)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(icon)
+            }
         }
     }
 

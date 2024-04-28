@@ -7,4 +7,6 @@ import java.io.InputStream
 interface EventsRepository {
 
     fun readEvents(inputStream: InputStream): Observable<Events>
+
+    fun getEvents(): Observable<Events>
 }

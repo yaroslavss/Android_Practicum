@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.yara.android_practicum.App
+import com.yara.android_practicum.data.api.RetrofitInstance
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.repository.EventsRepositoryImpl
 import com.yara.android_practicum.data.util.AssetReaderImpl
@@ -45,12 +46,14 @@ class NewsViewModel : ViewModel() {
     private val eventsRepository =
         EventsRepositoryImpl(
             AssetReaderImpl(EventDeserializer),
-            App.instance.executorService
+            App.instance.executorService,
+            RetrofitInstance.api
         )
     private val categoriesRepository =
         CategoriesRepositoryImpl(
             AssetReaderImpl(CategoryDeserializer),
-            App.instance.executorService
+            App.instance.executorService,
+            RetrofitInstance.api
         )
 
     private val context = App.instance
@@ -58,12 +61,27 @@ class NewsViewModel : ViewModel() {
     private val allDisposables = CompositeDisposable()
 
     init {
-        val resultCategories = loadCategories()
+        val resultCategories = getCategories()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
-        val resultEvents = loadEvents()
+            .subscribe {
+                val categories: MutableList<Category> = mutableListOf()
+                it.toCollection(categories)
+                filters.addAll(categories.map { it.id })
+                _categoriesLiveData.postValue(Resource.Success(it))
+            }
+
+        val resultEvents = getEvents()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
+            .subscribe(
+                {
+                    it.toCollection(allEvents)
+                    _eventsLiveData.postValue(Resource.Success(it))
+                    // set badge for bottom navigation view
+                    publishUnreadEventsQnt(allEvents.filter { it.isUnread }.size)
+                },
+                { e -> _eventsLiveData.postValue(Resource.Error(e.message)) },
+                {}
+            )
 
         allDisposables.addAll(resultCategories)
         allDisposables.addAll(resultEvents)
@@ -118,12 +136,6 @@ class NewsViewModel : ViewModel() {
         } catch (e: IOException) {
             Observable.error(e)
         }
-            .doOnNext {
-                it.toCollection(allEvents)
-                _eventsLiveData.postValue(Resource.Success(it))
-                // set badge for bottom navigation view
-                publishUnreadEventsQnt(allEvents.filter { it.isUnread }.size)
-            }
     }
 
     fun loadCategories(): Observable<Categories> {
@@ -133,13 +145,17 @@ class NewsViewModel : ViewModel() {
         } catch (e: IOException) {
             Observable.error(e)
         }
-            .doOnNext {
-                val categories: MutableList<Category> = mutableListOf()
-                it.toCollection(categories)
-                filters.addAll(categories.map { it.id })
-                _categoriesLiveData.postValue(Resource.Success(it))
-            }
     }
+
+    fun getEvents(): Observable<Events> =
+        eventsRepository.getEvents().onErrorResumeNext {
+            loadEvents()
+        }
+
+    fun getCategories(): Observable<Categories> =
+        categoriesRepository.getCategories().onErrorResumeNext {
+            loadCategories()
+        }
 
     override fun onCleared() {
         allDisposables.clear()

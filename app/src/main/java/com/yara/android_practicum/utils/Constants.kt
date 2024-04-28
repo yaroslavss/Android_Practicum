@@ -8,4 +8,6 @@ object Constants {
     const val PARCELABLE_EVENT_KEY = "event"
 
     const val EXECUTOR_TIMEOUT = 2000L
+
+    const val API_BASE_URL = "https://662676fd052332d55322f5d5.mockapi.io"
 }

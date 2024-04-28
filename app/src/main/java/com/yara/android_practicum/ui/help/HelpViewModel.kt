@@ -2,6 +2,7 @@ package com.yara.android_practicum.ui.help
 
 import androidx.lifecycle.ViewModel
 import com.yara.android_practicum.App
+import com.yara.android_practicum.data.api.RetrofitInstance
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.util.AssetReaderImpl
 import com.yara.android_practicum.data.util.CategoryDeserializer
@@ -17,7 +18,8 @@ class HelpViewModel : ViewModel() {
     private val categoriesRepository =
         CategoriesRepositoryImpl(
             AssetReaderImpl(CategoryDeserializer),
-            App.instance.executorService
+            App.instance.executorService,
+            RetrofitInstance.api
         )
 
     private val context = App.instance
@@ -30,4 +32,9 @@ class HelpViewModel : ViewModel() {
             Observable.error(e)
         }
     }
+
+    fun getCategories(): Observable<Categories> =
+        categoriesRepository.getCategories().onErrorResumeNext {
+            loadCategories()
+        }
 }

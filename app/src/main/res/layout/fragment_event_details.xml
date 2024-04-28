@@ -51,7 +51,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/default_margin"
         android:layout_marginTop="@dimen/spacing_10_dp"
-        android:text="@string/event_sponsor_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvEventDateString"
         tools:text="Благотворительный Фонд «Счастливый Мир»" />
@@ -78,21 +77,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_m"
-        android:text="@string/event_sponsor_address"
+        android:layout_marginEnd="@dimen/event_address_margin_right"
         android:textColor="@color/black_70"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/glVertical"
         app:layout_constraintTop_toBottomOf="@id/tvSponsorTitle"
-        tools:text="Санкт-Петербург, Кирочная улица," />
-
-    <TextView
-        android:id="@+id/tvSponsorAddress1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/event_sponsor_address_1"
-        android:textColor="@color/black_70"
-        app:layout_constraintStart_toStartOf="@id/glVertical"
-        app:layout_constraintTop_toBottomOf="@id/tvSponsorAddress"
-        tools:text="д. 50А, каб. 208" />
+        tools:text="@string/event_sponsor_address" />
 
     <ImageView
         android:id="@+id/ivPhoneIcon"
@@ -102,28 +92,17 @@
         android:layout_marginTop="@dimen/spacing_m"
         android:src="@drawable/ic_phone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSponsorAddress1" />
+        app:layout_constraintTop_toBottomOf="@id/tvSponsorAddress" />
 
     <TextView
         android:id="@+id/tvSponsorPhone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_m"
-        android:text="@string/event_sponsor_phone"
         android:textColor="@color/black_70"
         app:layout_constraintStart_toStartOf="@id/glVertical"
-        app:layout_constraintTop_toBottomOf="@id/tvSponsorAddress1"
-        tools:text="+7 (937) 037 37-73" />
-
-    <TextView
-        android:id="@+id/tvSponsorPhone1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/event_sponsor_phone_1"
-        android:textColor="@color/black_70"
-        app:layout_constraintStart_toStartOf="@id/glVertical"
-        app:layout_constraintTop_toBottomOf="@id/tvSponsorPhone"
-        tools:text="+7 (937) 016 16-16" />
+        app:layout_constraintTop_toBottomOf="@id/tvSponsorAddress"
+        tools:text="@string/event_sponsor_phone" />
 
     <ImageView
         android:id="@+id/ivMailIcon"
@@ -133,7 +112,7 @@
         android:layout_marginTop="@dimen/spacing_m"
         android:src="@drawable/ic_mail"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSponsorPhone1" />
+        app:layout_constraintTop_toBottomOf="@id/tvSponsorPhone" />
 
     <TextView
         android:id="@+id/tvSponsorMail"
@@ -143,7 +122,7 @@
         android:text="@string/event_sponsor_mail"
         android:textColor="@color/black_70"
         app:layout_constraintStart_toStartOf="@id/glVertical"
-        app:layout_constraintTop_toBottomOf="@id/tvSponsorPhone1" />
+        app:layout_constraintTop_toBottomOf="@id/tvSponsorPhone" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glVertical1"
@@ -196,25 +175,11 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/default_margin"
         android:layout_marginTop="@dimen/spacing_m"
-        android:text="@string/event_text"
         android:textColor="@color/black_70"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivEventImageMain"
-        tools:text="Участники и болельщики смогли весело и активно провести время на «Петербургском благотворительном марафоне» и при этом финансово поучаствовать в помощи детям." />
-
-    <TextView
-        android:id="@+id/tvEventText1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/default_margin"
-        android:layout_marginTop="@dimen/spacing_10_dp"
-        android:text="@string/event_text_1"
-        android:textColor="@color/black_70"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEventText"
-        tools:text="При этом финансово поучаствовать в помощи детям. При этом финансово поучаствовать в помощи детям." />
+        tools:text="@string/event_text" />
 
     <TextView
         android:id="@+id/tvSponsorLink"
@@ -226,7 +191,7 @@
         android:textColor="@color/black_70"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEventText1" />
+        app:layout_constraintTop_toBottomOf="@id/tvEventText" />
 
     <LinearLayout
         android:id="@+id/llEventAvatarPane"

@@ -72,7 +72,11 @@ class NewsFragment : Fragment() {
                     adapter.differ.submitList(resource.data)
                 }
 
-                is Resource.Error -> showError(view, resource.message.toString())
+                is Resource.Error -> {
+                    hideProgressBar()
+                    showError(view, resource.message.toString())
+                }
+
                 else -> {}
             }
         }
