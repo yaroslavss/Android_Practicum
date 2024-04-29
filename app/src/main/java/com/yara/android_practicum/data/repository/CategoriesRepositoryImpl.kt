@@ -7,35 +7,25 @@ import com.yara.android_practicum.domain.repository.CategoriesRepository
 import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.AssetReader
 import com.yara.android_practicum.utils.Constants.EXECUTOR_TIMEOUT
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import java.io.InputStream
-import java.util.concurrent.Executor
 
 class CategoriesRepositoryImpl(
     private val assetDataSource: AssetReader<CategorySerialized>,
-    private val executor: Executor,
     private val remoteAPI: RemoteAPI,
 ) : CategoriesRepository {
 
-    override fun readCategories(inputStream: InputStream): Observable<Categories> =
-        Observable
-            .create { emitter ->
-                Thread.sleep(EXECUTOR_TIMEOUT)
-                val categories = readCategoriesSynchronous(inputStream)
-                emitter.onNext(categories)
-            }
-            .subscribeOn(Schedulers.from(executor))
+    override suspend fun readCategories(inputStream: InputStream): Categories {
+        delay(EXECUTOR_TIMEOUT)
+        return assetDataSource.readList(inputStream).toDomainModelList()
+    }
 
     override fun getCategories(): Flow<Categories> =
         remoteAPI.getCategories()
             .map { it.toDomainModelList() }
             .flowOn(Dispatchers.IO)
-
-    private fun readCategoriesSynchronous(inputStream: InputStream): Categories =
-        assetDataSource.readList(inputStream).toDomainModelList()
 }

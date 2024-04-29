@@ -11,6 +11,7 @@ import com.yara.android_practicum.data.repository.EventsRepositoryImpl
 import com.yara.android_practicum.data.util.AssetReaderImpl
 import com.yara.android_practicum.data.util.CategoryDeserializer
 import com.yara.android_practicum.data.util.EventDeserializer
+import com.yara.android_practicum.domain.model.Category
 import com.yara.android_practicum.domain.model.Event
 import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.Constants
@@ -19,6 +20,7 @@ import com.yara.android_practicum.utils.containsAny
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -55,7 +57,6 @@ class NewsViewModel : ViewModel() {
     private val categoriesRepository =
         CategoriesRepositoryImpl(
             AssetReaderImpl(CategoryDeserializer),
-            App.instance.executorService,
             RetrofitInstance.api
         )
 
@@ -139,13 +140,20 @@ class NewsViewModel : ViewModel() {
         }
     }
 
-    fun loadCategories(): Observable<Categories> {
-        return try {
-            val inputStream = context.assets.open(Constants.CATEGORIES_ASSET_FILENAME)
-            categoriesRepository.readCategories(inputStream)
+    suspend fun loadCategories(): Categories {
+        var categories = listOf<Category>()
+        val inputStream = context.assets.open(Constants.CATEGORIES_ASSET_FILENAME)
+
+        try {
+            val deferred = viewModelScope.async {
+                categoriesRepository.readCategories(inputStream)
+            }
+            categories = deferred.await()
         } catch (e: IOException) {
-            Observable.error(e)
+            println("!!! Error while reading categories asset file")
         }
+
+        return categories
     }
 
     fun getEvents(): Observable<Events> =
@@ -154,7 +162,9 @@ class NewsViewModel : ViewModel() {
         }
 
     fun getCategories(): Flow<Categories> =
-        categoriesRepository.getCategories().catch { loadCategories() }
+        categoriesRepository.getCategories().catch {
+            emit(loadCategories())
+        }
 
     override fun onCleared() {
         allDisposables.clear()
