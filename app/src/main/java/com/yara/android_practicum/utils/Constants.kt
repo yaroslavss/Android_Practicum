@@ -10,4 +10,9 @@ object Constants {
     const val EXECUTOR_TIMEOUT = 2000L
 
     const val API_BASE_URL = "https://662676fd052332d55322f5d5.mockapi.io"
+
+    // DB constants
+    const val HELP_DATABASE = "help_db"
+    const val CATEGORIES_TABLE = "categories"
+    const val EVENTS_TABLE = "events"
 }
