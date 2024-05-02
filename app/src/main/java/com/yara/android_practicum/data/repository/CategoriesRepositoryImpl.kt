@@ -1,7 +1,10 @@
 package com.yara.android_practicum.data.repository
 
 import com.yara.android_practicum.data.api.RemoteAPI
+import com.yara.android_practicum.data.db.HelpDao
+import com.yara.android_practicum.data.db.entity.CategoryEntity
 import com.yara.android_practicum.data.mapper.toDomainModelList
+import com.yara.android_practicum.data.mapper.toEntityList
 import com.yara.android_practicum.data.model.CategorySerialized
 import com.yara.android_practicum.domain.repository.CategoriesRepository
 import com.yara.android_practicum.ui.help.Categories
@@ -17,6 +20,7 @@ import java.io.InputStream
 class CategoriesRepositoryImpl(
     private val assetDataSource: AssetReader<CategorySerialized>,
     private val remoteAPI: RemoteAPI,
+    private val helpDao: HelpDao,
 ) : CategoriesRepository {
 
     override suspend fun readCategories(inputStream: InputStream): Categories {
@@ -24,8 +28,17 @@ class CategoriesRepositoryImpl(
         return assetDataSource.readList(inputStream).toDomainModelList()
     }
 
-    override fun getCategories(): Flow<Categories> =
+    override fun getCategories(): Flow<List<CategoryEntity>> =
         remoteAPI.getCategories()
-            .map { it.toDomainModelList() }
+            .map { it.toEntityList() }
             .flowOn(Dispatchers.IO)
+
+    override suspend fun insertCategoryListIntoDB() {
+        getCategories().collect { categories ->
+            helpDao.insertCategoryList(categories)
+        }
+    }
+
+    override fun queryCategoriesFromDB(): Flow<Categories> =
+        helpDao.getCategories().map { it.toDomainModelList() }
 }
