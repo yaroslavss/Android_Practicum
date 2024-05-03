@@ -7,31 +7,25 @@ import com.yara.android_practicum.domain.repository.EventsRepository
 import com.yara.android_practicum.ui.news.Events
 import com.yara.android_practicum.utils.AssetReader
 import com.yara.android_practicum.utils.Constants.EXECUTOR_TIMEOUT
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import java.io.InputStream
-import java.util.concurrent.Executor
 
 class EventsRepositoryImpl(
     private val assetDataSource: AssetReader<EventSerialized>,
-    private val executor: Executor,
     private val remoteAPI: RemoteAPI,
 ) : EventsRepository {
 
-    override fun readEvents(inputStream: InputStream): Observable<Events> =
-        Observable
-            .create { emitter ->
-                Thread.sleep(EXECUTOR_TIMEOUT)
-                val events = readEventsSynchronous(inputStream)
-                emitter.onNext(events)
-            }
-            .subscribeOn(Schedulers.from(executor))
+    override suspend fun readEvents(inputStream: InputStream): Events {
+        delay(EXECUTOR_TIMEOUT)
+        return assetDataSource.readList(inputStream).toDomainModelList()
+    }
 
-    override fun getEvents(): Observable<Events> =
+    override fun getEvents(): Flow<Events> =
         remoteAPI.getEvents()
-            .subscribeOn(Schedulers.io())
             .map { it.toDomainModelList() }
-
-    private fun readEventsSynchronous(inputStream: InputStream): Events =
-        assetDataSource.readList(inputStream).toDomainModelList()
+            .flowOn(Dispatchers.IO)
 }

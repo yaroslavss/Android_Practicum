@@ -3,6 +3,7 @@ package com.yara.android_practicum.ui.news
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.App
 import com.yara.android_practicum.data.api.RetrofitInstance
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
@@ -16,11 +17,12 @@ import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.Constants
 import com.yara.android_practicum.utils.Resource
 import com.yara.android_practicum.utils.containsAny
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 import java.io.IOException
 
 typealias Events = List<Event>
@@ -46,45 +48,34 @@ class NewsViewModel : ViewModel() {
     private val eventsRepository =
         EventsRepositoryImpl(
             AssetReaderImpl(EventDeserializer),
-            App.instance.executorService,
             RetrofitInstance.api
         )
     private val categoriesRepository =
         CategoriesRepositoryImpl(
             AssetReaderImpl(CategoryDeserializer),
-            App.instance.executorService,
             RetrofitInstance.api
         )
 
     private val context = App.instance
 
-    private val allDisposables = CompositeDisposable()
-
     init {
-        val resultCategories = getCategories()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                val categories: MutableList<Category> = mutableListOf()
-                it.toCollection(categories)
-                filters.addAll(categories.map { it.id })
-                _categoriesLiveData.postValue(Resource.Success(it))
-            }
+        viewModelScope.launch {
+            getCategories()
+                .collect { categories ->
+                    filters.addAll(categories.map { it.id })
+                    _categoriesLiveData.postValue(Resource.Success(categories))
+                }
+        }
 
-        val resultEvents = getEvents()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    it.toCollection(allEvents)
-                    _eventsLiveData.postValue(Resource.Success(it))
+        viewModelScope.launch {
+            getEvents()
+                .collect { events ->
+                    events.toCollection(allEvents)
+                    _eventsLiveData.postValue(Resource.Success(events))
                     // set badge for bottom navigation view
                     publishUnreadEventsQnt(allEvents.filter { it.isUnread }.size)
-                },
-                { e -> _eventsLiveData.postValue(Resource.Error(e.message)) },
-                {}
-            )
-
-        allDisposables.addAll(resultCategories)
-        allDisposables.addAll(resultEvents)
+                }
+        }
     }
 
     fun addFilter(id: Int) {
@@ -99,7 +90,7 @@ class NewsViewModel : ViewModel() {
 
     suspend fun filterEventsByTitle(str: String) {
         val result = Resource.Success(if (str == "") {
-            emptyList<Event>()
+            emptyList()
         } else {
             allEvents.filter {
                 it.title.startsWith(str, true)
@@ -129,35 +120,45 @@ class NewsViewModel : ViewModel() {
         _newsQnt.value = qnt
     }
 
-    fun loadEvents(): Observable<Events> {
-        return try {
-            val inputStream = context.assets.open(Constants.EVENTS_ASSET_FILENAME)
-            eventsRepository.readEvents(inputStream)
+    private suspend fun loadEvents(): Events {
+        var events = listOf<Event>()
+        val inputStream = context.assets.open(Constants.EVENTS_ASSET_FILENAME)
+
+        try {
+            val deferred = viewModelScope.async {
+                eventsRepository.readEvents(inputStream)
+            }
+            events = deferred.await()
         } catch (e: IOException) {
-            Observable.error(e)
+            println("!!! Error while reading events asset file")
         }
+
+        return events
     }
 
-    fun loadCategories(): Observable<Categories> {
-        return try {
-            val inputStream = context.assets.open(Constants.CATEGORIES_ASSET_FILENAME)
-            categoriesRepository.readCategories(inputStream)
+    private suspend fun loadCategories(): Categories {
+        var categories = listOf<Category>()
+        val inputStream = context.assets.open(Constants.CATEGORIES_ASSET_FILENAME)
+
+        try {
+            val deferred = viewModelScope.async {
+                categoriesRepository.readCategories(inputStream)
+            }
+            categories = deferred.await()
         } catch (e: IOException) {
-            Observable.error(e)
+            println("!!! Error while reading categories asset file")
         }
+
+        return categories
     }
 
-    fun getEvents(): Observable<Events> =
-        eventsRepository.getEvents().onErrorResumeNext {
-            loadEvents()
+    private fun getEvents(): Flow<Events> =
+        eventsRepository.getEvents().catch {
+            emit(loadEvents())
         }
 
-    fun getCategories(): Observable<Categories> =
-        categoriesRepository.getCategories().onErrorResumeNext {
-            loadCategories()
+    private fun getCategories(): Flow<Categories> =
+        categoriesRepository.getCategories().catch {
+            emit(loadCategories())
         }
-
-    override fun onCleared() {
-        allDisposables.clear()
-    }
 }

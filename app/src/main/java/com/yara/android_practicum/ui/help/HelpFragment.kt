@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentHelpBinding
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 
 class HelpFragment : Fragment() {
 
@@ -20,8 +23,6 @@ class HelpFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by viewModels<HelpViewModel>()
-
-    private val allDisposables = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +32,7 @@ class HelpFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("NotifyDataSetChanged", "CheckResult")
+    @SuppressLint("NotifyDataSetChanged", "UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -47,29 +48,24 @@ class HelpFragment : Fragment() {
         binding.rvCategories.addItemDecoration(SpacingItemDecorator(x)) //setting space between items in RecyclerView
 
         // load data from network
-        val result = viewModel.getCategories()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    hideProgressBar()
-                    adapter.addItems(it)
-                },
-                { e ->
-                    run {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getCategories()
+                    .catch { e ->
                         hideProgressBar()
-                        showError(view, e.message.toString())
+                        showError(view, "Ошибка: $e")
                     }
-                },
-                { println("!!! Completed: help categories") }
-            )
-
-        allDisposables.add(result)
+                    .collect { categories ->
+                        hideProgressBar()
+                        adapter.addItems(categories)
+                    }
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        allDisposables.clear()
     }
 
     private fun showError(view: View, message: String) {
