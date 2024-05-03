@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.App
 import com.yara.android_practicum.data.api.RetrofitInstance
-import com.yara.android_practicum.data.db.entity.HelpDatabase
+import com.yara.android_practicum.data.db.HelpDatabase
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.repository.EventsRepositoryImpl
 import com.yara.android_practicum.data.util.AssetReaderImpl
@@ -62,7 +62,7 @@ class NewsViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            getCategories()
+            queryCategories()
                 .collect { categories ->
                     filters.addAll(categories.map { it.id })
                     _categoriesLiveData.postValue(Resource.Success(categories))
@@ -159,8 +159,5 @@ class NewsViewModel : ViewModel() {
             emit(loadEvents())
         }
 
-    private fun getCategories(): Flow<Categories> =
-        categoriesRepository.getCategories().catch {
-            emit(loadCategories())
-        }
+    fun queryCategories(): Flow<Categories> = categoriesRepository.queryCategoriesFromDB()
 }
