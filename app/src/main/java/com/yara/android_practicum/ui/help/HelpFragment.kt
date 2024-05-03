@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
@@ -22,7 +22,7 @@ class HelpFragment : Fragment() {
     private var _binding: FragmentHelpBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<HelpViewModel>()
+    private val viewModel by navGraphViewModels<HelpViewModel>(R.id.nav_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
