@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.yara.android_practicum.data.db.entity.CategoryEntity
 import com.yara.android_practicum.utils.Constants.HELP_DATABASE
 
@@ -14,6 +15,7 @@ import com.yara.android_practicum.utils.Constants.HELP_DATABASE
     version = 1,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class HelpDatabase : RoomDatabase() {
 
     abstract fun HelpDao(): HelpDao
