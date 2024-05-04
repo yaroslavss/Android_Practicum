@@ -11,7 +11,7 @@ interface CategoriesRepository {
 
     fun getCategories(): Flow<List<CategoryEntity>>
 
-    suspend fun insertCategoryListIntoDB()
+    suspend fun insertCategoryListIntoDB(categories: List<CategoryEntity>)
 
     fun queryCategoriesFromDB(): Flow<Categories>
 }

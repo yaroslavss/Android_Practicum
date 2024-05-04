@@ -53,8 +53,8 @@ class HelpViewModel : ViewModel() {
     fun queryCategories(): Flow<Categories> = categoriesRepository.queryCategoriesFromDB()
 
     private suspend fun initCategories() {
-        categoriesRepository.getCategories().collect {
-            categoriesRepository.insertCategoryListIntoDB()
+        categoriesRepository.getCategories().collect { categories ->
+            categoriesRepository.insertCategoryListIntoDB(categories)
         }
     }
 }

@@ -33,10 +33,8 @@ class CategoriesRepositoryImpl(
             .map { it.toEntityList() }
             .flowOn(Dispatchers.IO)
 
-    override suspend fun insertCategoryListIntoDB() {
-        getCategories().collect { categories ->
-            helpDao.insertCategoryList(categories)
-        }
+    override suspend fun insertCategoryListIntoDB(categories: List<CategoryEntity>) {
+        helpDao.insertCategoryList(categories)
     }
 
     override fun queryCategoriesFromDB(): Flow<Categories> =

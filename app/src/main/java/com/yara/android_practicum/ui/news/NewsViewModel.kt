@@ -22,7 +22,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -51,7 +50,8 @@ class NewsViewModel : ViewModel() {
     private val eventsRepository =
         EventsRepositoryImpl(
             AssetReaderImpl(EventDeserializer),
-            RetrofitInstance.api
+            RetrofitInstance.api,
+            HelpDatabase.getInstance(context).HelpDao(),
         )
     private val categoriesRepository =
         CategoriesRepositoryImpl(
@@ -70,7 +70,8 @@ class NewsViewModel : ViewModel() {
         }
 
         viewModelScope.launch {
-            getEvents()
+            initEvents()
+            queryEvents()
                 .collect { events ->
                     events.toCollection(allEvents)
                     _eventsLiveData.postValue(Resource.Success(events))
@@ -154,10 +155,13 @@ class NewsViewModel : ViewModel() {
         return categories
     }
 
-    private fun getEvents(): Flow<Events> =
-        eventsRepository.getEvents().catch {
-            emit(loadEvents())
-        }
+    private fun queryCategories(): Flow<Categories> = categoriesRepository.queryCategoriesFromDB()
 
-    fun queryCategories(): Flow<Categories> = categoriesRepository.queryCategoriesFromDB()
+    private fun queryEvents(): Flow<Events> = eventsRepository.queryEventsFromDB()
+
+    private suspend fun initEvents() {
+        eventsRepository.getEvents().collect { events ->
+            eventsRepository.insertEventListIntoDB(events)
+        }
+    }
 }
