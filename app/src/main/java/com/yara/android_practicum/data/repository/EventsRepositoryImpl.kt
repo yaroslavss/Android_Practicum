@@ -3,6 +3,8 @@ package com.yara.android_practicum.data.repository
 import com.yara.android_practicum.data.api.RemoteAPI
 import com.yara.android_practicum.data.db.HelpDao
 import com.yara.android_practicum.data.db.entity.EventEntity
+import com.yara.android_practicum.data.db.entity.relation.EventCategoryCrossRef
+import com.yara.android_practicum.data.db.entity.relation.EventWithCategories
 import com.yara.android_practicum.data.mapper.toDomainModelList
 import com.yara.android_practicum.data.mapper.toEntityList
 import com.yara.android_practicum.data.model.EventSerialized
@@ -37,6 +39,13 @@ class EventsRepositoryImpl(
         helpDao.insertEventList(events)
     }
 
+    override suspend fun insertEventCategoryCrossRefIntoDB(eventCategoryCrossRef: EventCategoryCrossRef) {
+        helpDao.insertEventCategoryCrossRef(eventCategoryCrossRef)
+    }
+
     override fun queryEventsFromDB(): Flow<Events> =
         helpDao.getEvents().map { it.toDomainModelList() }
+
+    override fun queryEventsWithCategoriesFromDB(): Flow<List<EventWithCategories>> =
+        helpDao.getEventsWithCategories()
 }

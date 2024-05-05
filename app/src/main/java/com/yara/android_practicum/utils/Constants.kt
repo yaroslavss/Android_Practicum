@@ -15,4 +15,5 @@ object Constants {
     const val HELP_DATABASE = "help_db"
     const val CATEGORIES_TABLE = "categories"
     const val EVENTS_TABLE = "events"
+    const val EVENTS_CATEGORIES_TABLE = "events_categories"
 }

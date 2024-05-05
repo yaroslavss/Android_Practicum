@@ -18,9 +18,9 @@ data class EventEntity(
     val endDate: LocalDate,
     val status: String,
     val photos: String,
-    val category: String,   // TODO: convert to foreign key
+    val category: String,   // list of categories
     @ColumnInfo(name = "is_unread")
-    val isUnread: Boolean,
+    var isUnread: Boolean,
     @ColumnInfo(name = "create_at")
     val createAt: LocalDate,
     val phone: String,
