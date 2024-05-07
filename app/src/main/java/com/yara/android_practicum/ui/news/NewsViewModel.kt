@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.io.IOException
+import javax.inject.Inject
 
 typealias Events = List<Event>
 
@@ -56,14 +57,19 @@ class NewsViewModel : ViewModel() {
             RetrofitInstance.api,
             HelpDatabase.getInstance(context).HelpDao(),
         )
-    private val categoriesRepository =
+    /*private val categoriesRepository =
         CategoriesRepositoryImpl(
             AssetReaderImpl(CategoryDeserializer),
             RetrofitInstance.api,
             HelpDatabase.getInstance(context).HelpDao(),
-        )
+        )*/
+
+    @Inject
+    lateinit var categoriesRepository: CategoriesRepositoryImpl
 
     init {
+        App.instance.dagger.inject(this)
+
         viewModelScope.launch {
             queryCategories()
                 .collect { categories ->

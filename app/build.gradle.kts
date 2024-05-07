@@ -39,6 +39,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -59,6 +60,7 @@ val rxAndroidVersion = "3.0.2"
 val rxBindingVersion = "4.0.0"
 val glideVersion = "4.16.0"
 val roomVersion = "2.6.1"
+val daggerVersion = "2.51.1"
 val junitVersion = "4.13.2"
 
 dependencies {
@@ -103,6 +105,10 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")  // to use coroutines
+
+    // dagger
+    implementation("com.google.dagger:dagger:$daggerVersion")
+    kapt("com.google.dagger:dagger-compiler:$daggerVersion")
 
     // test
     testImplementation("junit:junit:$junitVersion")

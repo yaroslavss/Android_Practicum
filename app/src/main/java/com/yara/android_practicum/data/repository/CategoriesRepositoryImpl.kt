@@ -13,19 +13,21 @@ import com.yara.android_practicum.utils.Constants.EXECUTOR_TIMEOUT
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import java.io.InputStream
+import javax.inject.Inject
 
-class CategoriesRepositoryImpl(
-    private val assetDataSource: AssetReader<CategorySerialized>,
+class CategoriesRepositoryImpl @Inject constructor(
+    //private val assetDataSource: AssetReader<CategorySerialized>,
     private val remoteAPI: RemoteAPI,
-    private val helpDao: HelpDao,
+    //private val helpDao: HelpDao,
 ) : CategoriesRepository {
 
     override suspend fun readCategories(inputStream: InputStream): Categories {
         delay(EXECUTOR_TIMEOUT)
-        return assetDataSource.readList(inputStream).toDomainModelList()
+        return listOf()//assetDataSource.readList(inputStream).toDomainModelList()
     }
 
     override fun getCategories(): Flow<List<CategoryEntity>> =
@@ -34,9 +36,9 @@ class CategoriesRepositoryImpl(
             .flowOn(Dispatchers.IO)
 
     override suspend fun insertCategoryListIntoDB(categories: List<CategoryEntity>) {
-        helpDao.insertCategoryList(categories)
+        //helpDao.insertCategoryList(categories)
     }
 
-    override fun queryCategoriesFromDB(): Flow<Categories> =
-        helpDao.getCategories().map { it.toDomainModelList() }
+    override fun queryCategoriesFromDB(): Flow<Categories> = emptyFlow()
+        //helpDao.getCategories().map { it.toDomainModelList() }
 }

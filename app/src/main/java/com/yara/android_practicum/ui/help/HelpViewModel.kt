@@ -14,6 +14,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.io.IOException
+import javax.inject.Inject
 
 typealias Categories = List<Category>
 
@@ -21,14 +22,19 @@ class HelpViewModel : ViewModel() {
 
     private val context = App.instance
 
-    private val categoriesRepository =
+    /*private val categoriesRepository =
         CategoriesRepositoryImpl(
             AssetReaderImpl(CategoryDeserializer),
             RetrofitInstance.api,
             HelpDatabase.getInstance(context).HelpDao(),
-        )
+        )*/
+
+    @Inject
+    lateinit var categoriesRepository: CategoriesRepositoryImpl
 
     init {
+        App.instance.dagger.inject(this)
+
         viewModelScope.launch {
             initCategories()
         }
