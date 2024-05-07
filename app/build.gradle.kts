@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.parcelize")
     id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
 }
 
@@ -57,7 +58,7 @@ val rxJavaVersion = "3.1.8"
 val rxAndroidVersion = "3.0.2"
 val rxBindingVersion = "4.0.0"
 val glideVersion = "4.16.0"
-val roomVersion = "2.5.2"
+val roomVersion = "2.6.1"
 val junitVersion = "4.13.2"
 
 dependencies {
@@ -100,7 +101,7 @@ dependencies {
 
     // room
     implementation("androidx.room:room-runtime:$roomVersion")
-    kapt("androidx.room:room-compiler:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")  // to use coroutines
 
     // test
