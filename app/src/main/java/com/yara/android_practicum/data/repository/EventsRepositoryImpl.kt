@@ -18,8 +18,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import java.io.InputStream
+import javax.inject.Inject
 
-class EventsRepositoryImpl(
+class EventsRepositoryImpl @Inject constructor(
     private val assetDataSource: AssetReader<EventSerialized>,
     private val remoteAPI: RemoteAPI,
     private val helpDao: HelpDao,

@@ -5,16 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.App
-import com.yara.android_practicum.data.api.RetrofitInstance
-import com.yara.android_practicum.data.db.HelpDatabase
 import com.yara.android_practicum.data.db.entity.relation.EventCategoryCrossRef
 import com.yara.android_practicum.data.db.entity.relation.EventWithCategories
 import com.yara.android_practicum.data.mapper.toDomainModel
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.repository.EventsRepositoryImpl
-import com.yara.android_practicum.data.util.AssetReaderImpl
-import com.yara.android_practicum.data.util.CategoryDeserializer
-import com.yara.android_practicum.data.util.EventDeserializer
 import com.yara.android_practicum.domain.model.Category
 import com.yara.android_practicum.domain.model.Event
 import com.yara.android_practicum.ui.help.Categories
@@ -33,6 +28,14 @@ typealias Events = List<Event>
 
 class NewsViewModel : ViewModel() {
 
+    private val context = App.instance
+
+    @Inject
+    lateinit var categoriesRepository: CategoriesRepositoryImpl
+
+    @Inject
+    lateinit var eventsRepository: EventsRepositoryImpl
+
     private val _eventsLiveData = MutableLiveData<Resource<Events>>()
     val eventsLiveData: LiveData<Resource<Events>> = _eventsLiveData
 
@@ -48,24 +51,6 @@ class NewsViewModel : ViewModel() {
 
     private val _newsQnt = MutableStateFlow(0)
     val newsQnt = _newsQnt.asStateFlow()
-
-    private val context = App.instance
-
-    private val eventsRepository =
-        EventsRepositoryImpl(
-            AssetReaderImpl(EventDeserializer),
-            RetrofitInstance.api,
-            HelpDatabase.getInstance(context).HelpDao(),
-        )
-    /*private val categoriesRepository =
-        CategoriesRepositoryImpl(
-            AssetReaderImpl(CategoryDeserializer),
-            RetrofitInstance.api,
-            HelpDatabase.getInstance(context).HelpDao(),
-        )*/
-
-    @Inject
-    lateinit var categoriesRepository: CategoriesRepositoryImpl
 
     init {
         App.instance.dagger.inject(this)
