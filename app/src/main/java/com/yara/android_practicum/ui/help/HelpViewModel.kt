@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.App
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.domain.model.Category
+import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
 import com.yara.android_practicum.utils.Constants
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
@@ -19,15 +19,19 @@ class HelpViewModel : ViewModel() {
     private val context = App.instance
 
     @Inject
+    lateinit var getAllCategoriesUseCase: GetAllCategoriesUseCase
+
+    @Inject
     lateinit var categoriesRepository: CategoriesRepositoryImpl
+
+    private val scope = viewModelScope
+    private var isFirstRun = 1
 
     init {
         App.instance.dagger.inject(this)
-
-        viewModelScope.launch {
-            initCategories()
-        }
     }
+
+    var categories: Flow<Categories> = getAllCategoriesUseCase(isFirstRun--, scope)
 
     suspend fun loadCategories(): Categories {
         var categories = listOf<Category>()
@@ -43,13 +47,5 @@ class HelpViewModel : ViewModel() {
         }
 
         return categories
-    }
-
-    fun queryCategories(): Flow<Categories> = categoriesRepository.queryCategoriesFromDB()
-
-    private suspend fun initCategories() {
-        categoriesRepository.getCategories().collect { categories ->
-            categoriesRepository.insertCategoryListIntoDB(categories)
-        }
     }
 }

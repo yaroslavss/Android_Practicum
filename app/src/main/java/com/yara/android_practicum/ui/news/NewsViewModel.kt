@@ -12,6 +12,7 @@ import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.repository.EventsRepositoryImpl
 import com.yara.android_practicum.domain.model.Category
 import com.yara.android_practicum.domain.model.Event
+import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
 import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.Constants
 import com.yara.android_practicum.utils.Resource
@@ -29,6 +30,9 @@ typealias Events = List<Event>
 class NewsViewModel : ViewModel() {
 
     private val context = App.instance
+
+    @Inject
+    lateinit var getAllCategoriesUseCase: GetAllCategoriesUseCase
 
     @Inject
     lateinit var categoriesRepository: CategoriesRepositoryImpl
@@ -52,18 +56,20 @@ class NewsViewModel : ViewModel() {
     private val _newsQnt = MutableStateFlow(0)
     val newsQnt = _newsQnt.asStateFlow()
 
+    private val scope = viewModelScope
+
     init {
         App.instance.dagger.inject(this)
 
-        viewModelScope.launch {
-            queryCategories()
+        scope.launch {
+            getAllCategoriesUseCase(0, scope)
                 .collect { categories ->
                     filters.addAll(categories.map { it.id })
                     _categoriesLiveData.postValue(Resource.Success(categories))
                 }
         }
 
-        viewModelScope.launch {
+        scope.launch {
             initEvents()
             queryEventsWithCategories().collect { list ->
                 list.toCollection(allEvents)
@@ -154,8 +160,6 @@ class NewsViewModel : ViewModel() {
 
         return categories
     }
-
-    private fun queryCategories(): Flow<Categories> = categoriesRepository.queryCategoriesFromDB()
 
     private fun queryEventsWithCategories(): Flow<List<EventWithCategories>> =
         eventsRepository.queryEventsWithCategoriesFromDB()

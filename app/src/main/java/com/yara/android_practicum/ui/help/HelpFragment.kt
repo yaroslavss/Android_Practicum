@@ -50,7 +50,7 @@ class HelpFragment : Fragment() {
         // load data from network
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.queryCategories()
+                viewModel.categories
                     .catch { e ->
                         hideProgressBar()
                         showError(view, "Ошибка: $e")
