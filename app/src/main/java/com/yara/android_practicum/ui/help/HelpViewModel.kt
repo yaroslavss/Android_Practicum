@@ -25,13 +25,12 @@ class HelpViewModel : ViewModel() {
     lateinit var categoriesRepository: CategoriesRepositoryImpl
 
     private val scope = viewModelScope
-    private var isFirstRun = 1
+
+    val categoriesFlow: Flow<Categories> by lazy { getAllCategoriesUseCase(scope) }
 
     init {
         App.instance.dagger.inject(this)
     }
-
-    var categories: Flow<Categories> = getAllCategoriesUseCase(isFirstRun--, scope)
 
     suspend fun loadCategories(): Categories {
         var categories = listOf<Category>()

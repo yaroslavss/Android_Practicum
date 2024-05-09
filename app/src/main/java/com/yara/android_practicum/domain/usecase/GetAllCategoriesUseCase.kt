@@ -11,12 +11,10 @@ class GetAllCategoriesUseCase @Inject constructor(
     private val categoriesRepository: CategoriesRepositoryImpl,
 ) {
 
-    operator fun invoke(isFirstRun: Int, scope: CoroutineScope): Flow<Categories> {
-        if (isFirstRun > 0) {
-            scope.launch {
-                categoriesRepository.getCategories().collect { categories ->
-                    categoriesRepository.insertCategoryListIntoDB(categories)
-                }
+    operator fun invoke(scope: CoroutineScope): Flow<Categories> {
+        scope.launch {
+            categoriesRepository.getCategories().collect { categories ->
+                categoriesRepository.insertCategoryListIntoDB(categories)
             }
         }
 

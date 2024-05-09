@@ -62,7 +62,7 @@ class NewsViewModel : ViewModel() {
         App.instance.dagger.inject(this)
 
         scope.launch {
-            getAllCategoriesUseCase(0, scope)
+            getAllCategoriesUseCase(scope)
                 .collect { categories ->
                     filters.addAll(categories.map { it.id })
                     _categoriesLiveData.postValue(Resource.Success(categories))
