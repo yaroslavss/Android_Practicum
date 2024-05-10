@@ -1,5 +1,7 @@
 package com.yara.android_practicum.data.mapper
 
+import com.yara.android_practicum.App
+import com.yara.android_practicum.R
 import com.yara.android_practicum.data.db.entity.EventEntity
 import com.yara.android_practicum.data.model.EventAPI
 import com.yara.android_practicum.domain.model.Event
@@ -15,6 +17,7 @@ private val tz = TimeZone.currentSystemDefault()
 
 private fun createEventFromEntity(eventEntity: EventEntity): Event {
     // calculate date string
+    val context = App.instance
     val today: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
     val eds = eventEntity.startDate
     val ede = eventEntity.endDate
@@ -26,7 +29,14 @@ private fun createEventFromEntity(eventEntity: EventEntity): Event {
         images = eventEntity.photos.split(", "),
         dateStart = eventEntity.startDate,
         dateEnd = eventEntity.endDate,
-        dateString = "Осталось ${today.daysUntil(eds)} дней (${eds.dayOfMonth}.${eds.monthNumber} - ${ede.dayOfMonth}.${ede.monthNumber})",
+        dateString = context.getString(
+            R.string.event_date_string_format,
+            today.daysUntil(eds),
+            eds.dayOfMonth,
+            eds.monthNumber,
+            ede.dayOfMonth,
+            ede.monthNumber
+        ),
         categories = eventEntity.category.split(", ").map { it.toInt() },
         isUnread = eventEntity.isUnread,
         phone = eventEntity.phone,
