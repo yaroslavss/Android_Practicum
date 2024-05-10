@@ -33,7 +33,7 @@ class NewsViewModel : ViewModel() {
     lateinit var getAllCategoriesUseCase: GetAllCategoriesUseCase
 
     @Inject
-    lateinit var GetAllEventsWithCategoriesUseCase: GetAllEventsWithCategoriesUseCase
+    lateinit var getAllEventsWithCategoriesUseCase: GetAllEventsWithCategoriesUseCase
 
     @Inject
     lateinit var getEventsByCategoriesUseCase: GetEventsByCategoriesUseCase
@@ -74,7 +74,7 @@ class NewsViewModel : ViewModel() {
         }
 
         scope.launch {
-            GetAllEventsWithCategoriesUseCase(scope)
+            getAllEventsWithCategoriesUseCase(scope)
                 .collect { events ->
                     events.toCollection(allEvents)
                     _eventsLiveData.postValue(Resource.Success(events))
