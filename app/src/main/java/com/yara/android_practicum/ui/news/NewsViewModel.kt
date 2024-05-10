@@ -5,20 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.App
-import com.yara.android_practicum.data.db.entity.relation.EventCategoryCrossRef
-import com.yara.android_practicum.data.db.entity.relation.EventWithCategories
-import com.yara.android_practicum.data.mapper.toDomainModel
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.repository.EventsRepositoryImpl
 import com.yara.android_practicum.domain.model.Category
 import com.yara.android_practicum.domain.model.Event
 import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
+import com.yara.android_practicum.domain.usecase.GetAllEventsWithCategoriesUseCase
 import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.Constants
 import com.yara.android_practicum.utils.Resource
 import com.yara.android_practicum.utils.containsAny
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -33,6 +30,9 @@ class NewsViewModel : ViewModel() {
 
     @Inject
     lateinit var getAllCategoriesUseCase: GetAllCategoriesUseCase
+
+    @Inject
+    lateinit var GetAllEventsWithCategoriesUseCase: GetAllEventsWithCategoriesUseCase
 
     @Inject
     lateinit var categoriesRepository: CategoriesRepositoryImpl
@@ -50,7 +50,7 @@ class NewsViewModel : ViewModel() {
     private val _categoriesLiveData = MutableLiveData<Resource<Categories>>()
     val categoriesLiveData: LiveData<Resource<Categories>> = _categoriesLiveData
 
-    private val allEvents: MutableList<EventWithCategories> = mutableListOf()
+    private val allEvents: MutableList<Event> = mutableListOf()
     val filters = mutableSetOf<Int>()
 
     private val _newsQnt = MutableStateFlow(0)
@@ -70,15 +70,13 @@ class NewsViewModel : ViewModel() {
         }
 
         scope.launch {
-            initEvents()
-            queryEventsWithCategories().collect { list ->
-                list.toCollection(allEvents)
-                _eventsLiveData.postValue(Resource.Success(allEvents.map {
-                    it.event.toDomainModel()
-                }))
-                // set badge for bottom navigation view
-                publishUnreadEventsQnt(allEvents.filter { it.event.isUnread }.size)
-            }
+            GetAllEventsWithCategoriesUseCase(scope)
+                .collect { events ->
+                    events.toCollection(allEvents)
+                    _eventsLiveData.postValue(Resource.Success(events))
+                    // set badge for bottom navigation view
+                    publishUnreadEventsQnt(events.size)
+                }
         }
     }
 
@@ -97,30 +95,29 @@ class NewsViewModel : ViewModel() {
             emptyList()
         } else {
             allEvents.filter {
-                it.event.title.startsWith(str, true)
+                it.title.startsWith(str, true)
             }
         }
 
         _searchResults.emit(
-            Resource.Success(result.map { it.event.toDomainModel() })
+            Resource.Success(result)
         )
     }
 
     private fun filterEventsByCategory() {
-        val tmpEvents =
-            allEvents.filter { filters.containsAny(it.categories.map { ctg -> ctg.id }) }
-        _eventsLiveData.value = Resource.Success(tmpEvents.map { it.event.toDomainModel() })
-        publishUnreadEventsQnt(tmpEvents.filter { it.event.isUnread }.size)
+        val tmpEvents = allEvents.filter { filters.containsAny(it.categories) }
+        _eventsLiveData.value = Resource.Success(tmpEvents)
+        publishUnreadEventsQnt(tmpEvents.filter { it.isUnread }.size)
     }
 
     fun setEventRead(event: Event) {
-        allEvents.find { it.event.id == event.id }.let {
-            it?.event?.isUnread = false
+        allEvents.find { it.id == event.id }.let {
+            it?.isUnread = false
         }
         publishUnreadEventsQnt(
             allEvents
-                .filter { filters.containsAny(it.categories.map { ctg -> ctg.id }) }
-                .filter { it.event.isUnread }
+                .filter { filters.containsAny(it.categories) }
+                .filter { it.isUnread }
                 .size
         )
     }
@@ -159,26 +156,5 @@ class NewsViewModel : ViewModel() {
         }
 
         return categories
-    }
-
-    private fun queryEventsWithCategories(): Flow<List<EventWithCategories>> =
-        eventsRepository.queryEventsWithCategoriesFromDB()
-
-    private suspend fun initEvents() {
-        eventsRepository.getEvents().collect { events ->
-            eventsRepository.insertEventListIntoDB(events)
-            events.forEach { event ->
-                insertEventCategoryCrossRefIntoDB(event.id, event.category)
-            }
-        }
-    }
-
-    private suspend fun insertEventCategoryCrossRefIntoDB(eventId: Int, categoriesStr: String) {
-        val categories = categoriesStr.split(", ").map { it.toInt() }
-        categories.forEach {
-            eventsRepository.insertEventCategoryCrossRefIntoDB(
-                EventCategoryCrossRef(eventId = eventId, categoryId = it)
-            )
-        }
     }
 }
