@@ -51,4 +51,8 @@ class EventsRepositoryImpl @Inject constructor(
     override fun queryEventsWithCategoriesFromDB(): Flow<List<EventWithCategories>> =
         helpDao.getEventsWithCategories().distinctUntilChanged()
 
+    override fun queryEventsByCategoriesFromDB(categories: Array<Int>): Flow<Events> =
+        helpDao.getEventsByCategories(categories)
+            .distinctUntilChanged()
+            .map { it.toDomainModelList() }
 }

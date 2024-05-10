@@ -11,6 +11,7 @@ import com.yara.android_practicum.domain.model.Category
 import com.yara.android_practicum.domain.model.Event
 import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
 import com.yara.android_practicum.domain.usecase.GetAllEventsWithCategoriesUseCase
+import com.yara.android_practicum.domain.usecase.GetEventsByCategoriesUseCase
 import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.Constants
 import com.yara.android_practicum.utils.Resource
@@ -33,6 +34,9 @@ class NewsViewModel : ViewModel() {
 
     @Inject
     lateinit var GetAllEventsWithCategoriesUseCase: GetAllEventsWithCategoriesUseCase
+
+    @Inject
+    lateinit var getEventsByCategoriesUseCase: GetEventsByCategoriesUseCase
 
     @Inject
     lateinit var categoriesRepository: CategoriesRepositoryImpl
@@ -105,9 +109,13 @@ class NewsViewModel : ViewModel() {
     }
 
     private fun filterEventsByCategory() {
-        val tmpEvents = allEvents.filter { filters.containsAny(it.categories) }
-        _eventsLiveData.value = Resource.Success(tmpEvents)
-        publishUnreadEventsQnt(tmpEvents.filter { it.isUnread }.size)
+        scope.launch {
+            getEventsByCategoriesUseCase(filters.toTypedArray())
+                .collect { events ->
+                    _eventsLiveData.value = Resource.Success(events)
+                    publishUnreadEventsQnt(events.filter { it.isUnread }.size)
+                }
+        }
     }
 
     fun setEventRead(event: Event) {
