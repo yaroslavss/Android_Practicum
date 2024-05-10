@@ -13,6 +13,7 @@ import com.yara.android_practicum.utils.Constants.EXECUTOR_TIMEOUT
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import java.io.InputStream
@@ -39,5 +40,7 @@ class CategoriesRepositoryImpl @Inject constructor(
     }
 
     override fun queryCategoriesFromDB(): Flow<Categories> =
-        helpDao.getCategories().map { it.toDomainModelList() }
+        helpDao.getCategories()
+            .distinctUntilChanged()
+            .map { it.toDomainModelList() }
 }
