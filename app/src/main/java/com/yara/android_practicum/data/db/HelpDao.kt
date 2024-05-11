@@ -46,4 +46,7 @@ interface HelpDao {
     """
     )
     fun getEventsByCategories(categories: Array<Int>): Flow<List<EventEntity>>
+
+    @Query("SELECT * FROM $EVENTS_TABLE WHERE title LIKE :strToFind || '%'")
+    fun filterEventsByTitle(strToFind: String): Flow<List<EventEntity>>
 }

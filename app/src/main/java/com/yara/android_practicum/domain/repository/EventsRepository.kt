@@ -22,4 +22,6 @@ interface EventsRepository {
     fun queryEventsWithCategoriesFromDB(): Flow<List<EventWithCategories>>
 
     fun queryEventsByCategoriesFromDB(categories: Array<Int>): Flow<Events>
+
+    fun queryEventsByTitleFromDB(strToFind: String): Flow<Events>
 }

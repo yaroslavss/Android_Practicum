@@ -55,4 +55,9 @@ class EventsRepositoryImpl @Inject constructor(
         helpDao.getEventsByCategories(categories)
             .distinctUntilChanged()
             .map { it.toDomainModelList() }
+
+    override fun queryEventsByTitleFromDB(strToFind: String): Flow<Events> =
+        helpDao.filterEventsByTitle(strToFind)
+            .distinctUntilChanged()
+            .map { it.toDomainModelList() }
 }

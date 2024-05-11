@@ -30,5 +30,6 @@ class SearchResultsRecyclerAdapter(var results: Events) :
         holder.itemView.apply {
             binding.tvSearchResultsText.text = item.title
         }
+        holder.setIsRecyclable(false)
     }
 }

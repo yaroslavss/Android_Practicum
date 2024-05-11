@@ -9,6 +9,7 @@ import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.repository.EventsRepositoryImpl
 import com.yara.android_practicum.domain.model.Category
 import com.yara.android_practicum.domain.model.Event
+import com.yara.android_practicum.domain.usecase.FilterEventsByTitleUseCase
 import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
 import com.yara.android_practicum.domain.usecase.GetAllEventsWithCategoriesUseCase
 import com.yara.android_practicum.domain.usecase.GetEventsByCategoriesUseCase
@@ -19,6 +20,7 @@ import com.yara.android_practicum.utils.containsAny
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
@@ -37,6 +39,9 @@ class NewsViewModel : ViewModel() {
 
     @Inject
     lateinit var getEventsByCategoriesUseCase: GetEventsByCategoriesUseCase
+
+    @Inject
+    lateinit var filterEventsByTitleUseCase: FilterEventsByTitleUseCase
 
     @Inject
     lateinit var categoriesRepository: CategoriesRepositoryImpl
@@ -94,18 +99,16 @@ class NewsViewModel : ViewModel() {
         filterEventsByCategory()
     }
 
-    suspend fun filterEventsByTitle(str: String) {
-        val result = if (str == "") {
-            emptyList()
-        } else {
-            allEvents.filter {
-                it.title.startsWith(str, true)
-            }
+    fun filterEventsByTitle(str: String) {
+        scope.launch {
+            filterEventsByTitleUseCase(str)
+                .onEmpty {
+                    _searchResults.emit(Resource.Success(emptyList()))
+                }
+                .collect { events ->
+                    _searchResults.emit(Resource.Success(events))
+                }
         }
-
-        _searchResults.emit(
-            Resource.Success(result)
-        )
     }
 
     private fun filterEventsByCategory() {
