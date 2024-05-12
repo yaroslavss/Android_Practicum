@@ -5,11 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.App
 import com.yara.android_practicum.data.api.RetrofitInstance
 import com.yara.android_practicum.data.db.HelpDatabase
+import com.yara.android_practicum.data.mapper.toEntityList
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.util.AssetReaderImpl
 import com.yara.android_practicum.data.util.CategoryDeserializer
 import com.yara.android_practicum.domain.model.Category
 import com.yara.android_practicum.utils.Constants
+import com.yara.android_practicum.utils.Resource
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import java.io.IOException
@@ -45,9 +47,9 @@ class HelpViewModel : ViewModel() {
 
     fun queryCategories(): Flow<Categories> = categoriesRepository.queryCategoriesFromDB()
 
-    suspend fun initCategories() {
-        categoriesRepository.getCategories().collect { categories ->
-            categoriesRepository.insertCategoryListIntoDB(categories)
+    suspend fun initCategories() =
+        when (val result = categoriesRepository.getCategories()) {
+            is Resource.Success -> categoriesRepository.insertCategoryListIntoDB(result.data.toEntityList())
+            else -> {}
         }
-    }
 }

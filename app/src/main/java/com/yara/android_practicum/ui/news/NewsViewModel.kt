@@ -10,6 +10,7 @@ import com.yara.android_practicum.data.db.HelpDatabase
 import com.yara.android_practicum.data.db.entity.relation.EventCategoryCrossRef
 import com.yara.android_practicum.data.db.entity.relation.EventWithCategories
 import com.yara.android_practicum.data.mapper.toDomainModel
+import com.yara.android_practicum.data.mapper.toEntityList
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.repository.EventsRepositoryImpl
 import com.yara.android_practicum.data.util.AssetReaderImpl
@@ -169,17 +170,19 @@ class NewsViewModel : ViewModel() {
     private fun queryEventsWithCategories(): Flow<List<EventWithCategories>> =
         eventsRepository.queryEventsWithCategoriesFromDB()
 
-    private suspend fun initEvents() {
-        eventsRepository.getEvents().collect { events ->
-            eventsRepository.insertEventListIntoDB(events)
-            events.forEach { event ->
-                insertEventCategoryCrossRefIntoDB(event.id, event.category)
+    private suspend fun initEvents() =
+        when (val result = eventsRepository.getEvents()) {
+            is Resource.Success -> {
+                eventsRepository.insertEventListIntoDB(result.data.toEntityList())
+                result.data.forEach { event ->
+                    insertEventCategoryCrossRefIntoDB(event.id, event.category)
+                }
             }
-        }
-    }
 
-    private suspend fun insertEventCategoryCrossRefIntoDB(eventId: Int, categoriesStr: String) {
-        val categories = categoriesStr.split(", ").map { it.toInt() }
+            else -> {}
+        }
+
+    private suspend fun insertEventCategoryCrossRefIntoDB(eventId: Int, categories: List<Int>) {
         categories.forEach {
             eventsRepository.insertEventCategoryCrossRefIntoDB(
                 EventCategoryCrossRef(eventId = eventId, categoryId = it)
