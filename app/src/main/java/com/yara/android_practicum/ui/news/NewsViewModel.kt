@@ -6,6 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.App
 import com.yara.android_practicum.data.api.RetrofitInstance
+import com.yara.android_practicum.data.db.HelpDatabase
+import com.yara.android_practicum.data.db.entity.relation.EventCategoryCrossRef
+import com.yara.android_practicum.data.db.entity.relation.EventWithCategories
+import com.yara.android_practicum.data.mapper.toDomainModel
+import com.yara.android_practicum.data.mapper.toEntityList
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.repository.EventsRepositoryImpl
 import com.yara.android_practicum.data.util.AssetReaderImpl
@@ -21,7 +26,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -39,28 +43,30 @@ class NewsViewModel : ViewModel() {
     private val _categoriesLiveData = MutableLiveData<Resource<Categories>>()
     val categoriesLiveData: LiveData<Resource<Categories>> = _categoriesLiveData
 
-    private val allEvents: MutableList<Event> = mutableListOf()
+    private val allEvents: MutableList<EventWithCategories> = mutableListOf()
     val filters = mutableSetOf<Int>()
 
     private val _newsQnt = MutableStateFlow(0)
     val newsQnt = _newsQnt.asStateFlow()
 
+    private val context = App.instance
+
     private val eventsRepository =
         EventsRepositoryImpl(
             AssetReaderImpl(EventDeserializer),
-            RetrofitInstance.api
+            RetrofitInstance.api,
+            HelpDatabase.getInstance(context).HelpDao(),
         )
     private val categoriesRepository =
         CategoriesRepositoryImpl(
             AssetReaderImpl(CategoryDeserializer),
-            RetrofitInstance.api
+            RetrofitInstance.api,
+            HelpDatabase.getInstance(context).HelpDao(),
         )
-
-    private val context = App.instance
 
     init {
         viewModelScope.launch {
-            getCategories()
+            queryCategories()
                 .collect { categories ->
                     filters.addAll(categories.map { it.id })
                     _categoriesLiveData.postValue(Resource.Success(categories))
@@ -68,13 +74,15 @@ class NewsViewModel : ViewModel() {
         }
 
         viewModelScope.launch {
-            getEvents()
-                .collect { events ->
-                    events.toCollection(allEvents)
-                    _eventsLiveData.postValue(Resource.Success(events))
-                    // set badge for bottom navigation view
-                    publishUnreadEventsQnt(allEvents.filter { it.isUnread }.size)
-                }
+            initEvents()
+            queryEventsWithCategories().collect { list ->
+                list.toCollection(allEvents)
+                _eventsLiveData.postValue(Resource.Success(allEvents.map {
+                    it.event.toDomainModel()
+                }))
+                // set badge for bottom navigation view
+                publishUnreadEventsQnt(allEvents.filter { it.event.isUnread }.size)
+            }
         }
     }
 
@@ -89,29 +97,34 @@ class NewsViewModel : ViewModel() {
     }
 
     suspend fun filterEventsByTitle(str: String) {
-        val result = Resource.Success(if (str == "") {
+        val result = if (str == "") {
             emptyList()
         } else {
             allEvents.filter {
-                it.title.startsWith(str, true)
+                it.event.title.startsWith(str, true)
             }
-        })
+        }
 
-        _searchResults.emit(result)
+        _searchResults.emit(
+            Resource.Success(result.map { it.event.toDomainModel() })
+        )
     }
 
     private fun filterEventsByCategory() {
-        val tmpEvents = allEvents.filter { filters.containsAny(it.categories) }
-        _eventsLiveData.value = Resource.Success(tmpEvents)
-        publishUnreadEventsQnt(tmpEvents.filter { it.isUnread }.size)
+        val tmpEvents =
+            allEvents.filter { filters.containsAny(it.categories.map { ctg -> ctg.id }) }
+        _eventsLiveData.value = Resource.Success(tmpEvents.map { it.event.toDomainModel() })
+        publishUnreadEventsQnt(tmpEvents.filter { it.event.isUnread }.size)
     }
 
     fun setEventRead(event: Event) {
-        event.isUnread = false
+        allEvents.find { it.event.id == event.id }.let {
+            it?.event?.isUnread = false
+        }
         publishUnreadEventsQnt(
             allEvents
-                .filter { filters.containsAny(it.categories) }
-                .filter { it.isUnread }
+                .filter { filters.containsAny(it.categories.map { ctg -> ctg.id }) }
+                .filter { it.event.isUnread }
                 .size
         )
     }
@@ -152,13 +165,28 @@ class NewsViewModel : ViewModel() {
         return categories
     }
 
-    private fun getEvents(): Flow<Events> =
-        eventsRepository.getEvents().catch {
-            emit(loadEvents())
+    private fun queryCategories(): Flow<Categories> = categoriesRepository.queryCategoriesFromDB()
+
+    private fun queryEventsWithCategories(): Flow<List<EventWithCategories>> =
+        eventsRepository.queryEventsWithCategoriesFromDB()
+
+    private suspend fun initEvents() =
+        when (val result = eventsRepository.getEvents()) {
+            is Resource.Success -> {
+                eventsRepository.insertEventListIntoDB(result.data.toEntityList())
+                result.data.forEach { event ->
+                    insertEventCategoryCrossRefIntoDB(event.id, event.category)
+                }
+            }
+
+            else -> {}
         }
 
-    private fun getCategories(): Flow<Categories> =
-        categoriesRepository.getCategories().catch {
-            emit(loadCategories())
+    private suspend fun insertEventCategoryCrossRefIntoDB(eventId: Int, categories: List<Int>) {
+        categories.forEach {
+            eventsRepository.insertEventCategoryCrossRefIntoDB(
+                EventCategoryCrossRef(eventId = eventId, categoryId = it)
+            )
         }
+    }
 }
