@@ -11,6 +11,9 @@ import com.yara.android_practicum.utils.Constants.EVENTS_CATEGORIES_TABLE
 data class EventCategoryCrossRef(
     @ColumnInfo(name = "event_id")
     val eventId: Int,
-    @ColumnInfo(name = "category_id")
+    @ColumnInfo(
+        name = "category_id",
+        index = true,
+    )
     val categoryId: Int,
 )

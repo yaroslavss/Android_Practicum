@@ -3,18 +3,14 @@ package com.yara.android_practicum.ui.help
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.App
-import com.yara.android_practicum.data.api.RetrofitInstance
-import com.yara.android_practicum.data.db.HelpDatabase
-import com.yara.android_practicum.data.mapper.toEntityList
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
-import com.yara.android_practicum.data.util.AssetReaderImpl
-import com.yara.android_practicum.data.util.CategoryDeserializer
 import com.yara.android_practicum.domain.model.Category
+import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
 import com.yara.android_practicum.utils.Constants
-import com.yara.android_practicum.utils.Resource
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import java.io.IOException
+import javax.inject.Inject
 
 typealias Categories = List<Category>
 
@@ -22,12 +18,19 @@ class HelpViewModel : ViewModel() {
 
     private val context = App.instance
 
-    private val categoriesRepository =
-        CategoriesRepositoryImpl(
-            AssetReaderImpl(CategoryDeserializer),
-            RetrofitInstance.api,
-            HelpDatabase.getInstance(context).HelpDao(),
-        )
+    @Inject
+    lateinit var getAllCategoriesUseCase: GetAllCategoriesUseCase
+
+    @Inject
+    lateinit var categoriesRepository: CategoriesRepositoryImpl
+
+    private val scope = viewModelScope
+
+    val categoriesFlow: Flow<Categories> by lazy { queryCategories() }
+
+    init {
+        App.instance.dagger.inject(this)
+    }
 
     suspend fun loadCategories(): Categories {
         var categories = listOf<Category>()
@@ -45,11 +48,7 @@ class HelpViewModel : ViewModel() {
         return categories
     }
 
-    fun queryCategories(): Flow<Categories> = categoriesRepository.queryCategoriesFromDB()
+    private fun queryCategories() = categoriesRepository.queryCategoriesFromDB()
 
-    suspend fun initCategories() =
-        when (val result = categoriesRepository.getCategories()) {
-            is Resource.Success -> categoriesRepository.insertCategoryListIntoDB(result.data.toEntityList())
-            else -> {}
-        }
+    fun initCategories() = getAllCategoriesUseCase(scope)
 }
