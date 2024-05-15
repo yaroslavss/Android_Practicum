@@ -8,11 +8,20 @@ import com.yara.android_practicum.domain.model.Category
 import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
 import com.yara.android_practicum.utils.Constants
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
 typealias Categories = List<Category>
+
+data class CategoriesUiState(
+    val categories: Categories = emptyList(),
+    val isLoading: Boolean = true,
+    val userMessage: String = "",
+)
 
 class HelpViewModel : ViewModel() {
 
@@ -26,10 +35,15 @@ class HelpViewModel : ViewModel() {
 
     private val scope = viewModelScope
 
-    val categoriesFlow: Flow<Categories> by lazy { queryCategories() }
+    private val _uiState = MutableStateFlow(CategoriesUiState())
+    val uiState: StateFlow<CategoriesUiState> = _uiState
 
     init {
         App.instance.dagger.inject(this)
+
+        scope.launch {
+            queryCategories()
+        }
     }
 
     suspend fun loadCategories(): Categories {
@@ -48,7 +62,15 @@ class HelpViewModel : ViewModel() {
         return categories
     }
 
-    private fun queryCategories() = categoriesRepository.queryCategoriesFromDB()
+    private suspend fun queryCategories() = categoriesRepository.queryCategoriesFromDB()
+        .collect { categories ->
+            _uiState.update {
+                _uiState.value.copy(
+                    categories = categories,
+                    isLoading = false,
+                )
+            }
+        }
 
     fun initCategories() = getAllCategoriesUseCase(scope)
 }

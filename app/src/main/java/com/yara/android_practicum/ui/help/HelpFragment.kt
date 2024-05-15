@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentHelpBinding
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class HelpFragment : Fragment() {
@@ -47,17 +46,13 @@ class HelpFragment : Fragment() {
         val x = (resources.displayMetrics.density * RECYCLER_GRID_SPACING).toInt() //converting dp to pixels
         binding.rvCategories.addItemDecoration(SpacingItemDecorator(x)) //setting space between items in RecyclerView
 
-        // load data from network
+        // load data
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.categoriesFlow
-                    .catch { e ->
+                viewModel.uiState
+                    .collect {
                         hideProgressBar()
-                        showError(view, "Ошибка: $e")
-                    }
-                    .collect { categories ->
-                        hideProgressBar()
-                        adapter.addItems(categories)
+                        adapter.addItems(it.categories)
                     }
             }
         }
