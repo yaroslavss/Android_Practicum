@@ -11,7 +11,7 @@ import com.yara.android_practicum.databinding.ItemFilterCategoryBinding
 import com.yara.android_practicum.domain.model.Category
 
 class CategoriesRecyclerAdapter(
-    private val filters: Set<Int>,
+    var filters: Set<Int>,
     private val onItemClick: (category: Category, switch: MaterialSwitch) -> Unit
 ) :
     RecyclerView.Adapter<CategoriesRecyclerAdapter.CategoryViewHolder>() {

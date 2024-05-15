@@ -19,13 +19,24 @@ import com.yara.android_practicum.utils.Resource
 import com.yara.android_practicum.utils.containsAny
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onEmpty
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
 typealias Events = List<Event>
+
+data class NewsUiState(
+    val categories: Categories = emptyList(),
+    val events: Events = emptyList(),
+    val unreadNewsQnt: Int = 0,
+    val filters: MutableSet<Int> = mutableSetOf(),
+    val isLoading: Boolean = true,
+    val userMessage: String = "",
+)
 
 class NewsViewModel : ViewModel() {
 
@@ -56,9 +67,6 @@ class NewsViewModel : ViewModel() {
         MutableStateFlow(Resource.Success(emptyList()))
     val searchResults = _searchResults.asStateFlow()
 
-    private val _categoriesLiveData = MutableLiveData<Resource<Categories>>()
-    val categoriesLiveData: LiveData<Resource<Categories>> = _categoriesLiveData
-
     private val allEvents: MutableList<Event> = mutableListOf()
     val filters = mutableSetOf<Int>()
 
@@ -67,14 +75,23 @@ class NewsViewModel : ViewModel() {
 
     private val scope = viewModelScope
 
+    private val _uiState = MutableStateFlow(NewsUiState())
+    val uiState: StateFlow<NewsUiState> = _uiState
+
     init {
         App.instance.dagger.inject(this)
 
         scope.launch {
-            getAllCategoriesUseCase(scope)
+            queryCategories()
                 .collect { categories ->
-                    filters.addAll(categories.map { it.id })
-                    _categoriesLiveData.postValue(Resource.Success(categories))
+                    _uiState.update {
+                        val filters = categories.map { ctg -> ctg.id }.toMutableSet()
+                        _uiState.value.copy(
+                            categories = categories,
+                            filters = filters,
+                            isLoading = false,
+                        )
+                    }
                 }
         }
 
@@ -136,6 +153,8 @@ class NewsViewModel : ViewModel() {
     private fun publishUnreadEventsQnt(qnt: Int) {
         _newsQnt.value = qnt
     }
+
+    private fun queryCategories() = categoriesRepository.queryCategoriesFromDB()
 
     private suspend fun loadEvents(): Events {
         var events = listOf<Event>()
