@@ -5,8 +5,10 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.yara.android_practicum.data.db.entity.CategoryEntity
 import com.yara.android_practicum.data.db.entity.EventEntity
+import com.yara.android_practicum.data.db.entity.EventUpdateIsUnreadEntity
 import com.yara.android_practicum.data.db.entity.relation.EventCategoryCrossRef
 import com.yara.android_practicum.data.db.entity.relation.EventWithCategories
 import com.yara.android_practicum.utils.Constants.CATEGORIES_TABLE
@@ -28,6 +30,9 @@ interface HelpDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEventCategoryCrossRef(eventCategoryCrossRef: EventCategoryCrossRef)
+
+    @Update(entity = EventEntity::class)
+    suspend fun updateEventIsUnread(event: EventUpdateIsUnreadEntity)
 
     @Query("SELECT * FROM $EVENTS_TABLE")
     fun getEvents(): Flow<List<EventEntity>>

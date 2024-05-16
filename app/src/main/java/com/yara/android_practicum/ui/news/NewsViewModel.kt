@@ -1,10 +1,9 @@
 package com.yara.android_practicum.ui.news
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.App
+import com.yara.android_practicum.data.db.entity.EventUpdateIsUnreadEntity
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.repository.EventsRepositoryImpl
 import com.yara.android_practicum.domain.model.Category
@@ -13,10 +12,10 @@ import com.yara.android_practicum.domain.usecase.FilterEventsByTitleUseCase
 import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
 import com.yara.android_practicum.domain.usecase.GetAllEventsWithCategoriesUseCase
 import com.yara.android_practicum.domain.usecase.GetEventsByCategoriesUseCase
+import com.yara.android_practicum.domain.usecase.UpdateEventSetReadUseCase
 import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.Constants
 import com.yara.android_practicum.utils.Resource
-import com.yara.android_practicum.utils.containsAny
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -55,13 +54,13 @@ class NewsViewModel : ViewModel() {
     lateinit var filterEventsByTitleUseCase: FilterEventsByTitleUseCase
 
     @Inject
+    lateinit var updateEventSetReadUseCase: UpdateEventSetReadUseCase
+
+    @Inject
     lateinit var categoriesRepository: CategoriesRepositoryImpl
 
     @Inject
     lateinit var eventsRepository: EventsRepositoryImpl
-
-    private val _eventsLiveData = MutableLiveData<Resource<Events>>()
-    val eventsLiveData: LiveData<Resource<Events>> = _eventsLiveData
 
     private val _searchResults: MutableStateFlow<Resource<Events>> =
         MutableStateFlow(Resource.Success(emptyList()))
@@ -69,9 +68,6 @@ class NewsViewModel : ViewModel() {
 
     private val allEvents: MutableList<Event> = mutableListOf()
     val filters = mutableSetOf<Int>()
-
-    private val _newsQnt = MutableStateFlow(0)
-    val newsQnt = _newsQnt.asStateFlow()
 
     private val scope = viewModelScope
 
@@ -99,9 +95,12 @@ class NewsViewModel : ViewModel() {
             getAllEventsWithCategoriesUseCase(scope)
                 .collect { events ->
                     events.toCollection(allEvents)
-                    _eventsLiveData.postValue(Resource.Success(events))
-                    // set badge for bottom navigation view
-                    publishUnreadEventsQnt(events.size)
+                    _uiState.update {
+                        _uiState.value.copy(
+                            events = events,
+                            unreadNewsQnt = events.filter { it.isUnread }.size,
+                        )
+                    }
                 }
         }
     }
@@ -132,26 +131,20 @@ class NewsViewModel : ViewModel() {
         scope.launch {
             getEventsByCategoriesUseCase(filters.toTypedArray())
                 .collect { events ->
-                    _eventsLiveData.value = Resource.Success(events)
-                    publishUnreadEventsQnt(events.filter { it.isUnread }.size)
+                    _uiState.update {
+                        _uiState.value.copy(
+                            events = events,
+                            filters = filters,
+                            unreadNewsQnt = events.filter { it.isUnread }.size,
+                        )
+                    }
                 }
         }
     }
 
     fun setEventRead(event: Event) {
-        allEvents.find { it.id == event.id }.let {
-            it?.isUnread = false
-        }
-        publishUnreadEventsQnt(
-            allEvents
-                .filter { filters.containsAny(it.categories) }
-                .filter { it.isUnread }
-                .size
-        )
-    }
-
-    private fun publishUnreadEventsQnt(qnt: Int) {
-        _newsQnt.value = qnt
+        updateEventSetReadUseCase(scope, EventUpdateIsUnreadEntity(event.id, false))
+        filterEventsByCategory()
     }
 
     private fun queryCategories() = categoriesRepository.queryCategoriesFromDB()

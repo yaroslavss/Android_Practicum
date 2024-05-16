@@ -3,6 +3,7 @@ package com.yara.android_practicum.data.repository
 import com.yara.android_practicum.data.api.RemoteAPI
 import com.yara.android_practicum.data.db.HelpDao
 import com.yara.android_practicum.data.db.entity.EventEntity
+import com.yara.android_practicum.data.db.entity.EventUpdateIsUnreadEntity
 import com.yara.android_practicum.data.db.entity.relation.EventCategoryCrossRef
 import com.yara.android_practicum.data.db.entity.relation.EventWithCategories
 import com.yara.android_practicum.data.mapper.toDomainModelList
@@ -55,6 +56,10 @@ class EventsRepositoryImpl @Inject constructor(
 
     override suspend fun insertEventCategoryCrossRefIntoDB(eventCategoryCrossRef: EventCategoryCrossRef) {
         helpDao.insertEventCategoryCrossRef(eventCategoryCrossRef)
+    }
+
+    override suspend fun updateEventIsUnread(event: EventUpdateIsUnreadEntity) {
+        helpDao.updateEventIsUnread(event)
     }
 
     override fun queryEventsFromDB(): Flow<Events> =

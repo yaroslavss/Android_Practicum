@@ -16,7 +16,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentNewsBinding
 import com.yara.android_practicum.utils.Constants
-import com.yara.android_practicum.utils.Resource
 import kotlinx.coroutines.launch
 
 class NewsFragment : Fragment() {
@@ -39,20 +38,7 @@ class NewsFragment : Fragment() {
 
         binding.toolbar.title = getString(R.string.news_fragment_label)
         val navController = findNavController()
-
-        // set bottom navigation badge
         val bottomNavView = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.newsQnt.collect { qnt ->
-                    bottomNavView?.getOrCreateBadge(R.id.newsFragment)?.apply {
-                        number = qnt
-                        isVisible = true
-                    }
-                }
-            }
-        }
 
         // init adapter
         val adapter = EventsRecyclerAdapter { event ->
@@ -64,20 +50,18 @@ class NewsFragment : Fragment() {
         binding.rvEvents.adapter = adapter
         binding.rvEvents.layoutManager = LinearLayoutManager(activity)
 
-        // load data from LiveData
-        viewModel.eventsLiveData.observe(viewLifecycleOwner) { resource ->
-            when (resource) {
-                is Resource.Success -> {
+        // load data from uiState
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
                     hideProgressBar()
-                    adapter.differ.submitList(resource.data)
+                    adapter.differ.submitList(state.events)
+                    // set bottom navigation badge
+                    bottomNavView?.getOrCreateBadge(R.id.newsFragment)?.apply {
+                        number = state.unreadNewsQnt
+                        isVisible = true
+                    }
                 }
-
-                is Resource.Error -> {
-                    hideProgressBar()
-                    showError(view, resource.message.toString())
-                }
-
-                else -> {}
             }
         }
 

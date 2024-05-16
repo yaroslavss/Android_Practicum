@@ -20,7 +20,7 @@ data class EventEntity(
     val photos: String,
     val category: String,   // list of categories
     @ColumnInfo(name = "is_unread")
-    var isUnread: Boolean,
+    val isUnread: Boolean,
     @ColumnInfo(name = "create_at")
     val createAt: LocalDate,
     val phone: String,
