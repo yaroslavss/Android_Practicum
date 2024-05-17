@@ -15,11 +15,9 @@ import com.yara.android_practicum.domain.usecase.GetEventsByCategoriesUseCase
 import com.yara.android_practicum.domain.usecase.UpdateEventSetReadUseCase
 import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.Constants
-import com.yara.android_practicum.utils.Resource
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -31,6 +29,7 @@ typealias Events = List<Event>
 data class NewsUiState(
     val categories: Categories = emptyList(),
     val events: Events = emptyList(),
+    val searchResults: Events = emptyList(),
     val unreadNewsQnt: Int = 0,
     val filters: MutableSet<Int> = mutableSetOf(),
     val isLoading: Boolean = true,
@@ -62,17 +61,12 @@ class NewsViewModel : ViewModel() {
     @Inject
     lateinit var eventsRepository: EventsRepositoryImpl
 
-    private val _searchResults: MutableStateFlow<Resource<Events>> =
-        MutableStateFlow(Resource.Success(emptyList()))
-    val searchResults = _searchResults.asStateFlow()
+    private val _uiState = MutableStateFlow(NewsUiState())
+    val uiState: StateFlow<NewsUiState> = _uiState
 
-    private val allEvents: MutableList<Event> = mutableListOf()
     val filters = mutableSetOf<Int>()
 
     private val scope = viewModelScope
-
-    private val _uiState = MutableStateFlow(NewsUiState())
-    val uiState: StateFlow<NewsUiState> = _uiState
 
     init {
         App.instance.dagger.inject(this)
@@ -94,7 +88,6 @@ class NewsViewModel : ViewModel() {
         scope.launch {
             getAllEventsWithCategoriesUseCase(scope)
                 .collect { events ->
-                    events.toCollection(allEvents)
                     _uiState.update {
                         _uiState.value.copy(
                             events = events,
@@ -119,10 +112,14 @@ class NewsViewModel : ViewModel() {
         scope.launch {
             filterEventsByTitleUseCase(str)
                 .onEmpty {
-                    _searchResults.emit(Resource.Success(emptyList()))
+                    _uiState.update {
+                        _uiState.value.copy(searchResults = emptyList(),)
+                    }
                 }
                 .collect { events ->
-                    _searchResults.emit(Resource.Success(events))
+                    _uiState.update {
+                        _uiState.value.copy(searchResults = events,)
+                    }
                 }
         }
     }
