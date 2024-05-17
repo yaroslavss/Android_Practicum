@@ -38,7 +38,7 @@ class FilterFragment : Fragment() {
         binding.toolbar.title = getString(R.string.filter_fragment_label)
 
         // init adapter
-        val adapter = CategoriesRecyclerAdapter(emptySet()) { category, switch ->
+        val adapter = CategoriesRecyclerAdapter(viewModel.filters) { category, switch ->
             if (switch.isChecked)
                 viewModel.removeFilter(category.id)
             else
@@ -56,7 +56,6 @@ class FilterFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    adapter.filters = state.filters
                     adapter.addItems(state.categories)
                 }
             }

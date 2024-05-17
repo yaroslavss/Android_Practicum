@@ -81,7 +81,7 @@ class NewsViewModel : ViewModel() {
             queryCategories()
                 .collect { categories ->
                     _uiState.update {
-                        val filters = categories.map { ctg -> ctg.id }.toMutableSet()
+                        filters.addAll(categories.map { it.id })
                         _uiState.value.copy(
                             categories = categories,
                             filters = filters,
