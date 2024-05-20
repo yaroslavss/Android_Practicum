@@ -41,8 +41,8 @@ class HelpFragment : Fragment() {
         binding.rvCategories.adapter = adapter
         binding.rvCategories.layoutManager = GridLayoutManager(activity, RECYCLER_GRID_COLUMNS)
 
-        val x = (resources.displayMetrics.density * RECYCLER_GRID_SPACING).toInt() //converting dp to pixels
-        binding.rvCategories.addItemDecoration(SpacingItemDecorator(x)) //setting space between items in RecyclerView
+        val space = (resources.displayMetrics.density * RECYCLER_GRID_SPACING).toInt() //converting dp to pixels
+        binding.rvCategories.addItemDecoration(SpacingItemDecorator(space)) //setting space between items in RecyclerView
 
         // load data
         viewLifecycleOwner.lifecycleScope.launch {
