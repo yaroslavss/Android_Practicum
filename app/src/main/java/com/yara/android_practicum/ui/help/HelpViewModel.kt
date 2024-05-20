@@ -53,5 +53,5 @@ class HelpViewModel : ViewModel() {
             }
         }
 
-    fun initCategories() = getAllCategoriesUseCase(scope)
+    suspend fun initCategories() = getAllCategoriesUseCase()
 }
