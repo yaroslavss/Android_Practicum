@@ -6,7 +6,6 @@ import com.yara.android_practicum.App
 import com.yara.android_practicum.data.db.entity.EventUpdateIsUnreadEntity
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.data.repository.EventsRepositoryImpl
-import com.yara.android_practicum.domain.model.Category
 import com.yara.android_practicum.domain.model.Event
 import com.yara.android_practicum.domain.usecase.FilterEventsByTitleUseCase
 import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
@@ -14,14 +13,11 @@ import com.yara.android_practicum.domain.usecase.GetAllEventsWithCategoriesUseCa
 import com.yara.android_practicum.domain.usecase.GetEventsByCategoriesUseCase
 import com.yara.android_practicum.domain.usecase.UpdateEventSetReadUseCase
 import com.yara.android_practicum.ui.help.Categories
-import com.yara.android_practicum.utils.Constants
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 typealias Events = List<Event>
@@ -145,36 +141,4 @@ class NewsViewModel : ViewModel() {
     }
 
     private fun queryCategories() = categoriesRepository.queryCategoriesFromDB()
-
-    private suspend fun loadEvents(): Events {
-        var events = listOf<Event>()
-        val inputStream = context.assets.open(Constants.EVENTS_ASSET_FILENAME)
-
-        try {
-            val deferred = viewModelScope.async {
-                eventsRepository.readEvents(inputStream)
-            }
-            events = deferred.await()
-        } catch (e: IOException) {
-            println("!!! Error while reading events asset file")
-        }
-
-        return events
-    }
-
-    private suspend fun loadCategories(): Categories {
-        var categories = listOf<Category>()
-        val inputStream = context.assets.open(Constants.CATEGORIES_ASSET_FILENAME)
-
-        try {
-            val deferred = viewModelScope.async {
-                categoriesRepository.readCategories(inputStream)
-            }
-            categories = deferred.await()
-        } catch (e: IOException) {
-            println("!!! Error while reading categories asset file")
-        }
-
-        return categories
-    }
 }

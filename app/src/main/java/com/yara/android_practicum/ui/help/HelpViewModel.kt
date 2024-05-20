@@ -6,13 +6,10 @@ import com.yara.android_practicum.App
 import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.domain.model.Category
 import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
-import com.yara.android_practicum.utils.Constants
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 typealias Categories = List<Category>
@@ -44,22 +41,6 @@ class HelpViewModel : ViewModel() {
         scope.launch {
             queryCategories()
         }
-    }
-
-    suspend fun loadCategories(): Categories {
-        var categories = listOf<Category>()
-        val inputStream = context.assets.open(Constants.CATEGORIES_ASSET_FILENAME)
-
-        try {
-            val deferred = viewModelScope.async {
-                categoriesRepository.readCategories(inputStream)
-            }
-            categories = deferred.await()
-        } catch (e: IOException) {
-            println("!!! Error while reading categories asset file")
-        }
-
-        return categories
     }
 
     private suspend fun queryCategories() = categoriesRepository.queryCategoriesFromDB()
