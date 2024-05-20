@@ -4,6 +4,7 @@ import android.content.Context
 import com.yara.android_practicum.di.module.AssetReaderModule
 import com.yara.android_practicum.di.module.DatabaseModule
 import com.yara.android_practicum.di.module.RemoteModule
+import com.yara.android_practicum.di.module.RepositoryModule
 import com.yara.android_practicum.ui.help.HelpViewModel
 import com.yara.android_practicum.ui.news.NewsViewModel
 import dagger.BindsInstance
@@ -16,6 +17,7 @@ import javax.inject.Singleton
         AssetReaderModule::class,
         DatabaseModule::class,
         RemoteModule::class,
+        RepositoryModule::class,
     ]
 )
 interface AppComponent {

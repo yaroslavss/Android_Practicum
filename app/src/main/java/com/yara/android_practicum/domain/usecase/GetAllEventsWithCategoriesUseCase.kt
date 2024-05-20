@@ -3,7 +3,7 @@ package com.yara.android_practicum.domain.usecase
 import com.yara.android_practicum.data.db.entity.relation.EventCategoryCrossRef
 import com.yara.android_practicum.data.mapper.toDomainModelList
 import com.yara.android_practicum.data.mapper.toEntityList
-import com.yara.android_practicum.data.repository.EventsRepositoryImpl
+import com.yara.android_practicum.domain.repository.EventsRepository
 import com.yara.android_practicum.ui.news.Events
 import com.yara.android_practicum.utils.Resource
 import kotlinx.coroutines.CoroutineScope
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GetAllEventsWithCategoriesUseCase @Inject constructor(
-    private val eventsRepository: EventsRepositoryImpl
+    private val eventsRepository: EventsRepository
 ) {
 
     operator fun invoke(scope: CoroutineScope): Flow<Events> {

@@ -3,8 +3,8 @@ package com.yara.android_practicum.ui.help
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.App
-import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
 import com.yara.android_practicum.domain.model.Category
+import com.yara.android_practicum.domain.repository.CategoriesRepository
 import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,7 +28,7 @@ class HelpViewModel : ViewModel() {
     lateinit var getAllCategoriesUseCase: GetAllCategoriesUseCase
 
     @Inject
-    lateinit var categoriesRepository: CategoriesRepositoryImpl
+    lateinit var categoriesRepository: CategoriesRepository
 
     private val scope = viewModelScope
 

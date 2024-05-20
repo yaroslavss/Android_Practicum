@@ -1,7 +1,7 @@
 package com.yara.android_practicum.domain.usecase
 
 import com.yara.android_practicum.data.mapper.toEntityList
-import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
+import com.yara.android_practicum.domain.repository.CategoriesRepository
 import com.yara.android_practicum.ui.help.Categories
 import com.yara.android_practicum.utils.Resource
 import kotlinx.coroutines.CoroutineScope
@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GetAllCategoriesUseCase @Inject constructor(
-    private val categoriesRepository: CategoriesRepositoryImpl,
+    private val categoriesRepository: CategoriesRepository,
 ) {
 
     operator fun invoke(scope: CoroutineScope): Flow<Categories> {

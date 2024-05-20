@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.App
 import com.yara.android_practicum.data.db.entity.EventUpdateIsUnreadEntity
-import com.yara.android_practicum.data.repository.CategoriesRepositoryImpl
-import com.yara.android_practicum.data.repository.EventsRepositoryImpl
 import com.yara.android_practicum.domain.model.Event
+import com.yara.android_practicum.domain.repository.CategoriesRepository
+import com.yara.android_practicum.domain.repository.EventsRepository
 import com.yara.android_practicum.domain.usecase.FilterEventsByTitleUseCase
 import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
 import com.yara.android_practicum.domain.usecase.GetAllEventsWithCategoriesUseCase
@@ -52,10 +52,10 @@ class NewsViewModel : ViewModel() {
     lateinit var updateEventSetReadUseCase: UpdateEventSetReadUseCase
 
     @Inject
-    lateinit var categoriesRepository: CategoriesRepositoryImpl
+    lateinit var categoriesRepository: CategoriesRepository
 
     @Inject
-    lateinit var eventsRepository: EventsRepositoryImpl
+    lateinit var eventsRepository: EventsRepository
 
     private val _uiState = MutableStateFlow(NewsUiState())
     val uiState: StateFlow<NewsUiState> = _uiState
