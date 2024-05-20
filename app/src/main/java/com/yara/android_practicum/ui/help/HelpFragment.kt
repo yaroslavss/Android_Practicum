@@ -44,13 +44,19 @@ class HelpFragment : Fragment() {
         val space = (resources.displayMetrics.density * RECYCLER_GRID_SPACING).toInt() //converting dp to pixels
         binding.rvCategories.addItemDecoration(SpacingItemDecorator(space)) //setting space between items in RecyclerView
 
-        // load data
+        // load data from uiState
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState
-                    .collect {
-                        hideProgressBar()
-                        adapter.addItems(it.categories)
+                    .collect { state ->
+                        when (state) {
+                            is CategoriesUiState.Success -> {
+                                hideProgressBar()
+                                adapter.addItems(state.categories)
+                            }
+
+                            else -> {}
+                        }
                     }
             }
         }

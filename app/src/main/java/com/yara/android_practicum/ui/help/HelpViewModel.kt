@@ -14,15 +14,13 @@ import javax.inject.Inject
 
 typealias Categories = List<Category>
 
-data class CategoriesUiState(
-    val categories: Categories = emptyList(),
-    val isLoading: Boolean = true,
-    val userMessage: String = "",
-)
+sealed class CategoriesUiState {
+    data object Loading : CategoriesUiState()
+    data class Success(val categories: Categories) : CategoriesUiState()
+    data class Error(val message: String): CategoriesUiState()
+}
 
 class HelpViewModel : ViewModel() {
-
-    private val context = App.instance
 
     @Inject
     lateinit var getAllCategoriesUseCase: GetAllCategoriesUseCase
@@ -32,7 +30,7 @@ class HelpViewModel : ViewModel() {
 
     private val scope = viewModelScope
 
-    private val _uiState = MutableStateFlow(CategoriesUiState())
+    private val _uiState = MutableStateFlow<CategoriesUiState>(CategoriesUiState.Loading)
     val uiState: StateFlow<CategoriesUiState> = _uiState
 
     init {
@@ -45,12 +43,7 @@ class HelpViewModel : ViewModel() {
 
     private suspend fun queryCategories() = categoriesRepository.queryCategoriesFromDB()
         .collect { categories ->
-            _uiState.update {
-                _uiState.value.copy(
-                    categories = categories,
-                    isLoading = false,
-                )
-            }
+            _uiState.value = CategoriesUiState.Success(categories)
         }
 
     suspend fun initCategories() = getAllCategoriesUseCase()
