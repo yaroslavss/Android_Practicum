@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.js.inline.util.aliasArgumentsIfNeeded
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application)
@@ -45,6 +47,9 @@ android {
 }
 
 dependencies {
+    // modules
+    implementation(project(":feature_help"))
+
     // core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

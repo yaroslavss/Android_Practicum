@@ -21,6 +21,8 @@ kotlinVersion = "1.9.21"
 kspPluginVersion = "1.9.21-1.0.15"
 androidGradlePluginVersion = "8.1.2"
 junitVersion = "4.13.2"
+junit = "1.1.5"
+espresso-core = "3.5.1"
 
 [libraries]
 # core
@@ -58,8 +60,11 @@ google-dagger = { group = "com.google.dagger", name = "dagger", version.ref = "d
 google-dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "daggerVersion" }
 # test
 junit = { group = "junit", name = "junit", version.ref = "junitVersion" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspPluginVersion" }
 android-application = { id = "com.android.application", version.ref = "androidGradlePluginVersion" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinVersion" }
+com-android-library = { id = "com.android.library", version.ref = "androidGradlePluginVersion" }

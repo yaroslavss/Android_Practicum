@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Android_Practicum"
 include(":app")
- 
+include(":feature_help")
