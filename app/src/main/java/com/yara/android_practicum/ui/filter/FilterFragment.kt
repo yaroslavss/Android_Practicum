@@ -6,13 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentFilterBinding
 import com.yara.android_practicum.ui.news.NewsViewModel
-import com.yara.android_practicum.utils.Resource
+import kotlinx.coroutines.launch
 
 class FilterFragment : Fragment() {
 
@@ -49,12 +52,12 @@ class FilterFragment : Fragment() {
         divider.setDrawable(resources.getDrawable(R.drawable.search_recycler_divider, null))
         binding.rvCategories.addItemDecoration(divider)
 
-        // load data from LiveData
-        viewModel.categoriesLiveData.observe(viewLifecycleOwner) { resource ->
-            when (resource) {
-                is Resource.Success -> adapter.addItems(resource.data)
-                is Resource.Error -> showError(view, resource.message.toString())
-                else -> {}
+        // load data from uiState
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    adapter.addItems(state.categories)
+                }
             }
         }
     }

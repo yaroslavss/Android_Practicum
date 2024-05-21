@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentSearchNpoBinding
 import com.yara.android_practicum.ui.news.NewsViewModel
-import com.yara.android_practicum.utils.Resource
 import kotlinx.coroutines.launch
 
 class SearchNpoFragment : Fragment() {
@@ -34,7 +33,7 @@ class SearchNpoFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("NotifyDataSetChanged", "UnsafeRepeatOnLifecycleDetector")
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -59,22 +58,18 @@ class SearchNpoFragment : Fragment() {
 
         binding.rvSearchResults.addItemDecoration(divider)
 
-        lifecycleScope.launch {
+        // load data from uiState
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.searchResults.collect { resource ->
-                    when (resource) {
-                        is Resource.Success -> {
-                            if (resource.data.isEmpty()) {
-                                switchInitialLayout(true)
-                            } else {
-                                switchInitialLayout(false)
-                            }
-                            adapter.results = resource.data
-                            adapter.notifyDataSetChanged()
-                        }
-
-                        else -> {}
+                viewModel.uiState.collect { state ->
+                    if (state.searchResults.isEmpty()) {
+                        switchInitialLayout(true)
+                    } else {
+                        switchInitialLayout(false)
                     }
+                    adapter.results = state.searchResults
+                    adapter.notifyDataSetChanged()
+
                 }
             }
         }

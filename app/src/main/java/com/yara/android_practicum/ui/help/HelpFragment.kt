@@ -1,6 +1,5 @@
 package com.yara.android_practicum.ui.help
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentHelpBinding
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class HelpFragment : Fragment() {
@@ -32,7 +30,6 @@ class HelpFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("NotifyDataSetChanged", "UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -44,20 +41,22 @@ class HelpFragment : Fragment() {
         binding.rvCategories.adapter = adapter
         binding.rvCategories.layoutManager = GridLayoutManager(activity, RECYCLER_GRID_COLUMNS)
 
-        val x = (resources.displayMetrics.density * RECYCLER_GRID_SPACING).toInt() //converting dp to pixels
-        binding.rvCategories.addItemDecoration(SpacingItemDecorator(x)) //setting space between items in RecyclerView
+        val space = (resources.displayMetrics.density * RECYCLER_GRID_SPACING).toInt() //converting dp to pixels
+        binding.rvCategories.addItemDecoration(SpacingItemDecorator(space)) //setting space between items in RecyclerView
 
-        // load data from network
-        lifecycleScope.launch {
+        // load data from uiState
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.queryCategories()
-                    .catch { e ->
-                        hideProgressBar()
-                        showError(view, "Ошибка: $e")
-                    }
-                    .collect { categories ->
-                        hideProgressBar()
-                        adapter.addItems(categories)
+                viewModel.uiState
+                    .collect { state ->
+                        when (state) {
+                            is CategoriesUiState.Success -> {
+                                hideProgressBar()
+                                adapter.addItems(state.categories)
+                            }
+
+                            else -> {}
+                        }
                     }
             }
         }

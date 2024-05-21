@@ -13,12 +13,14 @@ import com.yara.android_practicum.utils.Constants.EXECUTOR_TIMEOUT
 import com.yara.android_practicum.utils.Resource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
 import java.io.IOException
 import java.io.InputStream
+import javax.inject.Inject
 
-class CategoriesRepositoryImpl(
+class CategoriesRepositoryImpl @Inject constructor(
     private val assetDataSource: AssetReader<CategorySerialized>,
     private val remoteAPI: RemoteAPI,
     private val helpDao: HelpDao,
@@ -50,5 +52,7 @@ class CategoriesRepositoryImpl(
     }
 
     override fun queryCategoriesFromDB(): Flow<Categories> =
-        helpDao.getCategories().map { it.toDomainModelList() }
+        helpDao.getCategories()
+            .distinctUntilChanged()
+            .map { it.toDomainModelList() }
 }

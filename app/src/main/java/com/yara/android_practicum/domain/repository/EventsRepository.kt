@@ -1,6 +1,7 @@
 package com.yara.android_practicum.domain.repository
 
 import com.yara.android_practicum.data.db.entity.EventEntity
+import com.yara.android_practicum.data.db.entity.EventUpdateIsUnreadEntity
 import com.yara.android_practicum.data.db.entity.relation.EventCategoryCrossRef
 import com.yara.android_practicum.data.db.entity.relation.EventWithCategories
 import com.yara.android_practicum.data.model.EventAPI
@@ -19,7 +20,13 @@ interface EventsRepository {
 
     suspend fun insertEventCategoryCrossRefIntoDB(eventCategoryCrossRef: EventCategoryCrossRef)
 
+    suspend fun updateEventIsUnread(event: EventUpdateIsUnreadEntity)
+
     fun queryEventsFromDB(): Flow<Events>
 
     fun queryEventsWithCategoriesFromDB(): Flow<List<EventWithCategories>>
+
+    fun queryEventsByCategoriesFromDB(categories: Array<Int>): Flow<Events>
+
+    fun queryEventsByTitleFromDB(strToFind: String): Flow<Events>
 }
