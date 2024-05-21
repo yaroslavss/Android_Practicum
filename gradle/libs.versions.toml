@@ -1,0 +1,65 @@
+[versions]
+# libraries
+coreKtxVersion = "1.9.0"
+appcompatVersion = "1.6.1"
+materialVersion = "1.11.0"
+constraintlayoutVersion = "2.1.4"
+legacySupportVersion = "1.0.0"
+lifecycleVersion = "2.7.0"
+navigationVersion = "2.7.6"
+retrofitVersion = "2.9.0"
+okhttp3Version = "4.11.0"
+kotlinxDatetimeVersion = "0.5.0"
+rxJavaVersion = "3.1.8"
+rxAndroidVersion = "3.0.2"
+rxBindingVersion = "4.0.0"
+glideVersion = "4.16.0"
+roomVersion = "2.6.1"
+daggerVersion = "2.51.1"
+# plugins
+kotlinVersion = "1.9.21"
+kspPluginVersion = "1.9.21-1.0.15"
+androidGradlePluginVersion = "8.1.2"
+junitVersion = "4.13.2"
+
+[libraries]
+# core
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtxVersion" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompatVersion" }
+google-android-material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayoutVersion" }
+# lifecycle
+androidx-legacy-support = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportVersion" }
+androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleVersion" }
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleVersion" }
+# navigation
+androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationVersion" }
+androidx-navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationVersion" }
+# retrofit
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitVersion" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3Version" }
+# kotlinx-datetime
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetimeVersion" }
+# rxjava
+rxjava3 = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxJavaVersion" }
+rxjava3-rxandroid = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxAndroidVersion" }
+# rxbinding
+rxbinding = { group = "com.jakewharton.rxbinding4", name = "rxbinding", version.ref = "rxBindingVersion" }
+rxbinding-appcompat = { group = "com.jakewharton.rxbinding4", name = "rxbinding-appcompat", version.ref = "rxBindingVersion" }
+# glide
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glideVersion" }
+# room
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }
+# dagger
+google-dagger = { group = "com.google.dagger", name = "dagger", version.ref = "daggerVersion" }
+google-dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "daggerVersion" }
+# test
+junit = { group = "junit", name = "junit", version.ref = "junitVersion" }
+
+[plugins]
+ksp = { id = "com.google.devtools.ksp", version.ref = "kspPluginVersion" }
+android-application = { id = "com.android.application", version.ref = "androidGradlePluginVersion" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinVersion" }
