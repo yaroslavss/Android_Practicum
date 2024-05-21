@@ -4,21 +4,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ItemSearchResultBinding
+import com.yara.android_practicum.domain.model.Event
 import com.yara.android_practicum.ui.news.Events
 
 class SearchResultsRecyclerAdapter(var results: Events) :
     RecyclerView.Adapter<SearchResultsRecyclerAdapter.SearchResultsViewHolder>() {
 
-    private var _binding: ItemSearchResultBinding? = null
-    private val binding get() = _binding!!
+    inner class SearchResultsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    inner class SearchResultsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+        private val binding = ItemSearchResultBinding.bind(itemView)
+
+        private val title = binding.tvSearchResultsText
+
+        fun bind(event: Event) {
+            title.text = event.title
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultsViewHolder {
-        _binding =
-            ItemSearchResultBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return SearchResultsViewHolder(binding.root)
+        return SearchResultsViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_search_result, parent, false)
+        )
     }
 
     override fun getItemCount(): Int {
@@ -26,10 +34,6 @@ class SearchResultsRecyclerAdapter(var results: Events) :
     }
 
     override fun onBindViewHolder(holder: SearchResultsViewHolder, position: Int) {
-        val item = results[position]
-        holder.itemView.apply {
-            binding.tvSearchResultsText.text = item.title
-        }
-        holder.setIsRecyclable(false)
+        holder.bind(results[position])
     }
 }
