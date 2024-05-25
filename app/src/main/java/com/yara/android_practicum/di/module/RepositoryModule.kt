@@ -1,6 +1,6 @@
 package com.yara.android_practicum.di.module
 
-import com.yara.android_practicum.data.api.RemoteAPI
+import com.yara.core.data.api.RemoteAPI
 import com.yara.android_practicum.data.db.HelpDao
 import com.yara.android_practicum.data.model.CategorySerialized
 import com.yara.android_practicum.data.model.EventSerialized

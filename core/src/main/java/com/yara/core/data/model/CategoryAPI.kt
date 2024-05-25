@@ -1,4 +1,4 @@
-package com.yara.android_practicum.data.model
+package com.yara.core.data.model
 
 import com.google.gson.annotations.SerializedName
 

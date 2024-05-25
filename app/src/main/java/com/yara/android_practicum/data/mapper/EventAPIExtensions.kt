@@ -1,6 +1,6 @@
 package com.yara.android_practicum.data.mapper
 
-import com.yara.android_practicum.data.model.EventAPI
+import com.yara.core.data.model.EventAPI
 import com.yara.android_practicum.domain.model.Event
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant

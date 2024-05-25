@@ -2,10 +2,11 @@
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.yara.feature_help"
+    namespace = "com.yara.core"
     compileSdk = rootProject.extra["compileAndroidSdk"] as Int
 
     defaultConfig {
@@ -32,27 +33,24 @@ android {
         jvmTarget = rootProject.extra["kotlinVersion"] as String
     }
     buildFeatures {
-        viewBinding = true
+        buildConfig = true
     }
 }
 
 dependencies {
-    // module
-    implementation(project(":core"))
-
     // core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.google.android.material)
 
-    // lifecycle
-    implementation(libs.androidx.legacy.support)
-    implementation(libs.androidx.lifecycle.livedata)
-    implementation(libs.androidx.lifecycle.viewmodel)
+    // retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp.logging.interceptor)
 
-    // navigation
-    implementation(libs.androidx.navigation.fragment)
-    implementation(libs.androidx.navigation.ui)
+    // dagger
+    implementation(libs.google.dagger)
+    kapt(libs.google.dagger.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

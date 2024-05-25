@@ -42,12 +42,12 @@ android {
     }
     buildFeatures {
         viewBinding = true
-        buildConfig = true
     }
 }
 
 dependencies {
     // module
+    implementation(project(":core"))
     implementation(project(":feature_help"))
 
     // core

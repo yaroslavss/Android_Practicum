@@ -1,10 +1,10 @@
 package com.yara.android_practicum.data.repository
 
-import com.yara.android_practicum.data.api.RemoteAPI
+import com.yara.core.data.api.RemoteAPI
 import com.yara.android_practicum.data.db.HelpDao
 import com.yara.android_practicum.data.db.entity.CategoryEntity
 import com.yara.android_practicum.data.mapper.toDomainModelList
-import com.yara.android_practicum.data.model.CategoryAPI
+import com.yara.core.data.model.CategoryAPI
 import com.yara.android_practicum.data.model.CategorySerialized
 import com.yara.android_practicum.domain.repository.CategoriesRepository
 import com.yara.android_practicum.ui.help.Categories
