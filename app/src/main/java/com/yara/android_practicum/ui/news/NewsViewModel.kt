@@ -3,7 +3,7 @@ package com.yara.android_practicum.ui.news
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.App
-import com.yara.android_practicum.data.db.entity.EventUpdateIsUnreadEntity
+import com.yara.core.data.db.entity.EventUpdateIsUnreadEntity
 import com.yara.android_practicum.domain.model.Event
 import com.yara.android_practicum.domain.repository.CategoriesRepository
 import com.yara.android_practicum.domain.repository.EventsRepository

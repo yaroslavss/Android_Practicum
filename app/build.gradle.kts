@@ -83,11 +83,6 @@ dependencies {
     // glide
     implementation(libs.glide)
 
-    // room
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.ktx)
-
     // dagger
     implementation(libs.google.dagger)
     kapt(libs.google.dagger.compiler)

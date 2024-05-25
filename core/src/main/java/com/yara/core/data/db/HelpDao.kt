@@ -1,4 +1,4 @@
-package com.yara.android_practicum.data.db
+package com.yara.core.data.db
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -6,14 +6,14 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.yara.android_practicum.data.db.entity.CategoryEntity
-import com.yara.android_practicum.data.db.entity.EventEntity
-import com.yara.android_practicum.data.db.entity.EventUpdateIsUnreadEntity
-import com.yara.android_practicum.data.db.entity.relation.EventCategoryCrossRef
-import com.yara.android_practicum.data.db.entity.relation.EventWithCategories
-import com.yara.android_practicum.utils.Constants.CATEGORIES_TABLE
-import com.yara.android_practicum.utils.Constants.EVENTS_CATEGORIES_TABLE
-import com.yara.android_practicum.utils.Constants.EVENTS_TABLE
+import com.yara.core.data.db.entity.CategoryEntity
+import com.yara.core.data.db.entity.EventEntity
+import com.yara.core.data.db.entity.EventUpdateIsUnreadEntity
+import com.yara.core.data.db.entity.relation.EventCategoryCrossRef
+import com.yara.core.data.db.entity.relation.EventWithCategories
+import com.yara.core.utils.Constants.CATEGORIES_TABLE
+import com.yara.core.utils.Constants.EVENTS_CATEGORIES_TABLE
+import com.yara.core.utils.Constants.EVENTS_TABLE
 import kotlinx.coroutines.flow.Flow
 
 @Dao

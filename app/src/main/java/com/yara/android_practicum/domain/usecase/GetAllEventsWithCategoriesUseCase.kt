@@ -1,6 +1,6 @@
 package com.yara.android_practicum.domain.usecase
 
-import com.yara.android_practicum.data.db.entity.relation.EventCategoryCrossRef
+import com.yara.core.data.db.entity.relation.EventCategoryCrossRef
 import com.yara.android_practicum.data.mapper.toDomainModelList
 import com.yara.android_practicum.data.mapper.toEntityList
 import com.yara.android_practicum.domain.repository.EventsRepository

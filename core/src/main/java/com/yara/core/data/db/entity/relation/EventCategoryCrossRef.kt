@@ -1,8 +1,8 @@
-package com.yara.android_practicum.data.db.entity.relation
+package com.yara.core.data.db.entity.relation
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import com.yara.android_practicum.utils.Constants.EVENTS_CATEGORIES_TABLE
+import com.yara.core.utils.Constants.EVENTS_CATEGORIES_TABLE
 
 @Entity(
     tableName = EVENTS_CATEGORIES_TABLE,

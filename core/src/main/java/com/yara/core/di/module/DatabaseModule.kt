@@ -1,9 +1,9 @@
-package com.yara.android_practicum.di.module
+package com.yara.core.di.module
 
 import android.content.Context
 import androidx.room.Room
-import com.yara.android_practicum.data.db.HelpDatabase
-import com.yara.android_practicum.utils.Constants.HELP_DATABASE
+import com.yara.core.data.db.HelpDatabase
+import com.yara.core.utils.Constants.HELP_DATABASE
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

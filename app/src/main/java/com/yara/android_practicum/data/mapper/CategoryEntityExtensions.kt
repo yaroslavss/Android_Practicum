@@ -1,6 +1,6 @@
 package com.yara.android_practicum.data.mapper
 
-import com.yara.android_practicum.data.db.entity.CategoryEntity
+import com.yara.core.data.db.entity.CategoryEntity
 import com.yara.core.data.model.CategoryAPI
 import com.yara.android_practicum.domain.model.Category
 

@@ -1,6 +1,6 @@
 package com.yara.android_practicum.data.mapper
 
-import com.yara.android_practicum.data.db.entity.relation.EventWithCategories
+import com.yara.core.data.db.entity.relation.EventWithCategories
 
 private fun createEventFromEventWithCategoriesEntity(eventWithCategories: EventWithCategories) =
     eventWithCategories.event.toDomainModel()

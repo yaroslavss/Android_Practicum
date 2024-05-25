@@ -1,11 +1,11 @@
 package com.yara.android_practicum.data.repository
 
 import com.yara.core.data.api.RemoteAPI
-import com.yara.android_practicum.data.db.HelpDao
-import com.yara.android_practicum.data.db.entity.EventEntity
-import com.yara.android_practicum.data.db.entity.EventUpdateIsUnreadEntity
-import com.yara.android_practicum.data.db.entity.relation.EventCategoryCrossRef
-import com.yara.android_practicum.data.db.entity.relation.EventWithCategories
+import com.yara.core.data.db.HelpDao
+import com.yara.core.data.db.entity.EventEntity
+import com.yara.core.data.db.entity.EventUpdateIsUnreadEntity
+import com.yara.core.data.db.entity.relation.EventCategoryCrossRef
+import com.yara.core.data.db.entity.relation.EventWithCategories
 import com.yara.android_practicum.data.mapper.toDomainModelList
 import com.yara.core.data.model.EventAPI
 import com.yara.android_practicum.data.model.EventSerialized

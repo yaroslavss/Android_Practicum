@@ -1,10 +1,11 @@
-package com.yara.android_practicum.data.db.entity.relation
+package com.yara.core.data.db.entity.relation
 
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
-import com.yara.android_practicum.data.db.entity.CategoryEntity
-import com.yara.android_practicum.data.db.entity.EventEntity
+import com.yara.core.data.db.entity.CategoryEntity
+import com.yara.core.data.db.entity.EventEntity
+import com.yara.core.data.db.entity.relation.EventCategoryCrossRef
 
 data class EventWithCategories(
     @Embedded val event: EventEntity,

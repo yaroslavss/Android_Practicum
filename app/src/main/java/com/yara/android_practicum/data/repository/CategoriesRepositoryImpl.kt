@@ -1,8 +1,8 @@
 package com.yara.android_practicum.data.repository
 
 import com.yara.core.data.api.RemoteAPI
-import com.yara.android_practicum.data.db.HelpDao
-import com.yara.android_practicum.data.db.entity.CategoryEntity
+import com.yara.core.data.db.HelpDao
+import com.yara.core.data.db.entity.CategoryEntity
 import com.yara.android_practicum.data.mapper.toDomainModelList
 import com.yara.core.data.model.CategoryAPI
 import com.yara.android_practicum.data.model.CategorySerialized
