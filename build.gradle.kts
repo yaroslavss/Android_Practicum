@@ -1,4 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+
+    val compileAndroidSdk by extra(34)
+    val targetAndroidSdk by extra(33)
+    val minAndroidSdk by extra(26)
+
+    val javaVersion by extra(JavaVersion.VERSION_17)
+    val kotlinVersion by extra("17")
+}
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.application) apply false

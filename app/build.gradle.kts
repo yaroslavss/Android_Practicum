@@ -12,12 +12,12 @@ plugins {
 
 android {
     namespace = "com.yara.android_practicum"
-    compileSdk = 34
+    compileSdk = rootProject.extra["compileAndroidSdk"] as Int
 
     defaultConfig {
         applicationId = "com.yara.android_practicum"
-        minSdk = 26
-        targetSdk = 33
+        minSdk = rootProject.extra["minAndroidSdk"] as Int
+        targetSdk = rootProject.extra["targetAndroidSdk"] as Int
         versionCode = 1
         versionName = "1.0"
 
@@ -34,11 +34,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = rootProject.extra["javaVersion"] as JavaVersion
+        targetCompatibility = rootProject.extra["javaVersion"] as JavaVersion
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = rootProject.extra["kotlinVersion"] as String
     }
     buildFeatures {
         viewBinding = true
@@ -47,9 +47,6 @@ android {
 }
 
 dependencies {
-    // modules
-    implementation(project(":feature_help"))
-
     // core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

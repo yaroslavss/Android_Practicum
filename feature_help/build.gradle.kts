@@ -6,10 +6,10 @@ plugins {
 
 android {
     namespace = "com.yara.feature_help"
-    compileSdk = 33
+    compileSdk = rootProject.extra["compileAndroidSdk"] as Int
 
     defaultConfig {
-        minSdk = 26
+        minSdk = rootProject.extra["minAndroidSdk"] as Int
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -25,20 +25,22 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = rootProject.extra["javaVersion"] as JavaVersion
+        targetCompatibility = rootProject.extra["javaVersion"] as JavaVersion
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = rootProject.extra["kotlinVersion"] as String
     }
 }
 
 dependencies {
     implementation(project(":app"))
 
+    // core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.google.android.material)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
