@@ -1,4 +1,4 @@
-package com.yara.android_practicum.ui.help
+package com.yara.feature_help.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,8 +11,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.yara.android_practicum.R
-import com.yara.android_practicum.databinding.FragmentHelpBinding
+import com.yara.feature_help.R
+import com.yara.feature_help.databinding.FragmentHelpBinding
 import kotlinx.coroutines.launch
 
 class HelpFragment : Fragment() {
@@ -20,7 +20,7 @@ class HelpFragment : Fragment() {
     private var _binding: FragmentHelpBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by navGraphViewModels<HelpViewModel>(R.id.nav_graph)
+    //private val viewModel by navGraphViewModels<HelpViewModel>(R.id.nav_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +36,7 @@ class HelpFragment : Fragment() {
         binding.toolbar.title = getString(R.string.help_fragment_label)
 
         // init adapter
-        val adapter = CategoriesRecyclerAdapter()
+        /*val adapter = CategoriesRecyclerAdapter()
 
         binding.rvCategories.adapter = adapter
         binding.rvCategories.layoutManager = GridLayoutManager(activity, RECYCLER_GRID_COLUMNS)
@@ -59,7 +59,7 @@ class HelpFragment : Fragment() {
                         }
                     }
             }
-        }
+        }*/
     }
 
     override fun onDestroyView() {

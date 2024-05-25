@@ -31,15 +31,25 @@ android {
     kotlinOptions {
         jvmTarget = rootProject.extra["kotlinVersion"] as String
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
-    implementation(project(":app"))
-
     // core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.google.android.material)
+
+    // lifecycle
+    implementation(libs.androidx.legacy.support)
+    implementation(libs.androidx.lifecycle.livedata)
+    implementation(libs.androidx.lifecycle.viewmodel)
+
+    // navigation
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

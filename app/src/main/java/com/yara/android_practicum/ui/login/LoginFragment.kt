@@ -35,7 +35,7 @@ class LoginFragment : Fragment() {
         binding.toolbar.title = getString(R.string.login_fragment_label)
         val navController = findNavController()
         val btnLogin = binding.btnLogin
-        btnLogin.isEnabled = false
+        //btnLogin.isEnabled = false
 
         // edit text views
         var emailFull = false
@@ -44,13 +44,13 @@ class LoginFragment : Fragment() {
         val resultEmail = binding.tietEmail.textChanges()
         val resultPassword = binding.tietPassword.textChanges()
 
-        val result = Observable.combineLatest(resultEmail, resultPassword) { str1, str2 ->
+        /*val result = Observable.combineLatest(resultEmail, resultPassword) { str1, str2 ->
             str1.length > 5 && str2.length > 5
         }.subscribe { result ->
             btnLogin.isEnabled = result
         }
 
-        allDisposables.addAll(result)
+        allDisposables.addAll(result)*/
 
         // proceed login button click
         binding.btnLogin.setOnClickListener {
