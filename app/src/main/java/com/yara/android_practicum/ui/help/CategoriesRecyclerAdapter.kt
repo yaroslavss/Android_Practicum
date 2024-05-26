@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ItemCategoryBinding
-import com.yara.android_practicum.domain.model.Category
+import com.yara.core.domain.model.Category
 
 class CategoriesRecyclerAdapter :
     RecyclerView.Adapter<CategoriesRecyclerAdapter.CategoryViewHolder>() {

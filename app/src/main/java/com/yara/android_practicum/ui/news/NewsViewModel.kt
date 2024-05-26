@@ -2,25 +2,25 @@ package com.yara.android_practicum.ui.news
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yara.android_practicum.App
-import com.yara.core.data.db.entity.EventUpdateIsUnreadEntity
-import com.yara.android_practicum.domain.model.Event
-import com.yara.android_practicum.domain.repository.CategoriesRepository
-import com.yara.android_practicum.domain.repository.EventsRepository
+import com.yara.android_practicum.di.DaggerAppComponent
 import com.yara.android_practicum.domain.usecase.FilterEventsByTitleUseCase
 import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
 import com.yara.android_practicum.domain.usecase.GetAllEventsWithCategoriesUseCase
 import com.yara.android_practicum.domain.usecase.GetEventsByCategoriesUseCase
 import com.yara.android_practicum.domain.usecase.UpdateEventSetReadUseCase
-import com.yara.android_practicum.ui.help.Categories
+import com.yara.core.App
+import com.yara.core.data.db.entity.EventUpdateIsUnreadEntity
+import com.yara.core.domain.model.Categories
+import com.yara.core.domain.model.Event
+import com.yara.core.domain.model.Events
+import com.yara.core.domain.repository.CategoriesRepository
+import com.yara.core.domain.repository.EventsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-typealias Events = List<Event>
 
 data class NewsUiState(
     val categories: Categories = emptyList(),
@@ -65,7 +65,9 @@ class NewsViewModel : ViewModel() {
     private val scope = viewModelScope
 
     init {
-        App.instance.dagger.inject(this)
+        DaggerAppComponent.factory()
+            .create(App.instance)
+            .inject(this)
 
         scope.launch {
             queryCategories()

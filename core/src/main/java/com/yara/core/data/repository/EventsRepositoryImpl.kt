@@ -1,38 +1,27 @@
-package com.yara.android_practicum.data.repository
+package com.yara.core.data.repository
 
+import com.yara.core.data.mapper.toDomainModelList
 import com.yara.core.data.api.RemoteAPI
 import com.yara.core.data.db.HelpDao
 import com.yara.core.data.db.entity.EventEntity
 import com.yara.core.data.db.entity.EventUpdateIsUnreadEntity
 import com.yara.core.data.db.entity.relation.EventCategoryCrossRef
 import com.yara.core.data.db.entity.relation.EventWithCategories
-import com.yara.android_practicum.data.mapper.toDomainModelList
 import com.yara.core.data.model.EventAPI
-import com.yara.android_practicum.data.model.EventSerialized
-import com.yara.android_practicum.domain.repository.EventsRepository
-import com.yara.android_practicum.ui.news.Events
-import com.yara.android_practicum.utils.AssetReader
-import com.yara.android_practicum.utils.Constants.EXECUTOR_TIMEOUT
-import com.yara.android_practicum.utils.Resource
-import kotlinx.coroutines.delay
+import com.yara.core.domain.model.Events
+import com.yara.core.domain.repository.EventsRepository
+import com.yara.core.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
 import java.io.IOException
-import java.io.InputStream
 import javax.inject.Inject
 
 class EventsRepositoryImpl @Inject constructor(
-    private val assetDataSource: AssetReader<EventSerialized>,
     private val remoteAPI: RemoteAPI,
     private val helpDao: HelpDao,
 ) : EventsRepository {
-
-    override suspend fun readEvents(inputStream: InputStream): Events {
-        delay(EXECUTOR_TIMEOUT)
-        return assetDataSource.readList(inputStream).toDomainModelList()
-    }
 
     override suspend fun getEvents(): Resource<List<EventAPI>> =
         try {

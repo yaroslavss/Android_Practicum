@@ -1,9 +1,9 @@
 package com.yara.android_practicum.domain.usecase
 
-import com.yara.android_practicum.data.mapper.toEntityList
-import com.yara.android_practicum.domain.repository.CategoriesRepository
-import com.yara.android_practicum.ui.help.Categories
-import com.yara.android_practicum.utils.Resource
+import com.yara.core.data.mapper.toEntityList
+import com.yara.core.domain.model.Categories
+import com.yara.core.domain.repository.CategoriesRepository
+import com.yara.core.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

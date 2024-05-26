@@ -1,4 +1,4 @@
-package com.yara.android_practicum.utils
+package com.yara.core.utils
 
 sealed class Resource<T>(
     data: T? = null,

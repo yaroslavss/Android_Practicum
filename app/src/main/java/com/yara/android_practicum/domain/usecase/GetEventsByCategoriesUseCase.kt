@@ -1,7 +1,7 @@
 package com.yara.android_practicum.domain.usecase
 
-import com.yara.android_practicum.domain.repository.EventsRepository
-import com.yara.android_practicum.ui.news.Events
+import com.yara.core.domain.model.Events
+import com.yara.core.domain.repository.EventsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

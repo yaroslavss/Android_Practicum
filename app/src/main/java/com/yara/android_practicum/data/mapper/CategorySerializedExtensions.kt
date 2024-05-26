@@ -1,9 +1,9 @@
 package com.yara.android_practicum.data.mapper
 
 import android.annotation.SuppressLint
-import com.yara.android_practicum.App
+import com.yara.core.App
 import com.yara.android_practicum.data.model.CategorySerialized
-import com.yara.android_practicum.domain.model.Category
+import com.yara.core.domain.model.Category
 
 @SuppressLint("DiscouragedApi")
 private fun createCategoryFromSerialized(category: CategorySerialized): Category {

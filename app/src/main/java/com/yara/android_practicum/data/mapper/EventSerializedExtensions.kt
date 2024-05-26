@@ -1,7 +1,7 @@
 package com.yara.android_practicum.data.mapper
 
 import com.yara.android_practicum.data.model.EventSerialized
-import com.yara.android_practicum.domain.model.Event
+import com.yara.core.domain.model.Event
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone

@@ -1,9 +1,11 @@
-package com.yara.android_practicum.domain.model
+package com.yara.core.domain.model
 
 import android.os.Parcelable
 import kotlinx.datetime.LocalDate
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
+
+typealias Events = List<Event>
 
 @Parcelize
 data class Event(

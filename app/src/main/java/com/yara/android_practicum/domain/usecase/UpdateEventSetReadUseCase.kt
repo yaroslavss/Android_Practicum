@@ -1,7 +1,7 @@
 package com.yara.android_practicum.domain.usecase
 
 import com.yara.core.data.db.entity.EventUpdateIsUnreadEntity
-import com.yara.android_practicum.domain.repository.EventsRepository
+import com.yara.core.domain.repository.EventsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ItemSearchResultBinding
-import com.yara.android_practicum.domain.model.Event
-import com.yara.android_practicum.ui.news.Events
+import com.yara.core.domain.model.Event
+import com.yara.core.domain.model.Events
 
 class SearchResultsRecyclerAdapter(var results: Events) :
     RecyclerView.Adapter<SearchResultsRecyclerAdapter.SearchResultsViewHolder>() {

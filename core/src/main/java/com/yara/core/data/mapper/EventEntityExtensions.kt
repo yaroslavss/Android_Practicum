@@ -1,10 +1,10 @@
-package com.yara.android_practicum.data.mapper
+package com.yara.core.data.mapper
 
-import com.yara.android_practicum.App
-import com.yara.android_practicum.R
+import com.yara.core.App
+import com.yara.core.R
 import com.yara.core.data.db.entity.EventEntity
 import com.yara.core.data.model.EventAPI
-import com.yara.android_practicum.domain.model.Event
+import com.yara.core.domain.model.Event
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
@@ -12,8 +12,6 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.daysUntil
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.todayIn
-
-private val tz = TimeZone.currentSystemDefault()
 
 private fun createEventFromEntity(eventEntity: EventEntity): Event {
     // calculate date string
@@ -49,8 +47,10 @@ fun EventEntity.toDomainModel() = createEventFromEntity(this)
 
 fun List<EventEntity>.toDomainModelList() = this.map { createEventFromEntity(it) }
 
-private fun createEventEntityFromAPI(event: EventAPI) =
-    EventEntity(
+private fun createEventEntityFromAPI(event: EventAPI): EventEntity {
+    val tz = TimeZone.currentSystemDefault()
+
+    return EventEntity(
         id = event.id,
         title = event.name,
         description = event.description,
@@ -65,6 +65,7 @@ private fun createEventEntityFromAPI(event: EventAPI) =
         address = event.address,
         organisation = event.organisation,
     )
+}
 
 fun EventAPI.toEntity() = createEventEntityFromAPI(this)
 

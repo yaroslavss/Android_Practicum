@@ -2,22 +2,20 @@ package com.yara.android_practicum.ui.help
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yara.android_practicum.App
-import com.yara.android_practicum.domain.model.Category
-import com.yara.android_practicum.domain.repository.CategoriesRepository
+import com.yara.android_practicum.di.DaggerAppComponent
 import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
+import com.yara.core.App
+import com.yara.core.domain.model.Categories
+import com.yara.core.domain.repository.CategoriesRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-typealias Categories = List<Category>
 
 sealed class CategoriesUiState {
     data object Loading : CategoriesUiState()
     data class Success(val categories: Categories) : CategoriesUiState()
-    data class Error(val message: String): CategoriesUiState()
+    data class Error(val message: String) : CategoriesUiState()
 }
 
 class HelpViewModel : ViewModel() {
@@ -34,7 +32,9 @@ class HelpViewModel : ViewModel() {
     val uiState: StateFlow<CategoriesUiState> = _uiState
 
     init {
-        App.instance.dagger.inject(this)
+        DaggerAppComponent.factory()
+            .create(App.instance)
+            .inject(this)
 
         scope.launch {
             queryCategories()

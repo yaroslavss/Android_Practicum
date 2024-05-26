@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ItemFilterCategoryBinding
-import com.yara.android_practicum.domain.model.Category
+import com.yara.core.domain.model.Category
 
 class CategoriesRecyclerAdapter(
     private val filters: Set<Int>,

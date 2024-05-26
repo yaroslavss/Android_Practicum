@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentEventDetailsBinding
-import com.yara.android_practicum.domain.model.Event
+import com.yara.core.domain.model.Event
 import com.yara.android_practicum.utils.Constants
 
 class EventDetailsFragment : Fragment() {
