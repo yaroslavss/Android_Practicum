@@ -1,12 +1,12 @@
-package com.yara.android_practicum.ui.help
+package com.yara.feature_help.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yara.android_practicum.di.DaggerAppComponent
-import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
 import com.yara.core.App
 import com.yara.core.domain.model.Categories
 import com.yara.core.domain.repository.CategoriesRepository
+import com.yara.core.domain.usecase.GetAllCategoriesUseCase
+import com.yara.feature_help.di.DaggerHelpComponent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -32,7 +32,7 @@ class HelpViewModel : ViewModel() {
     val uiState: StateFlow<CategoriesUiState> = _uiState
 
     init {
-        DaggerAppComponent.factory()
+        DaggerHelpComponent.factory()
             .create(App.instance)
             .inject(this)
 

@@ -1,4 +1,4 @@
-package com.yara.android_practicum.ui.help
+package com.yara.feature_help.ui
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -8,9 +8,9 @@ import androidx.core.text.isDigitsOnly
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.yara.android_practicum.R
-import com.yara.android_practicum.databinding.ItemCategoryBinding
 import com.yara.core.domain.model.Category
+import com.yara.feature_help.R
+import com.yara.feature_help.databinding.ItemCategoryBinding
 
 class CategoriesRecyclerAdapter :
     RecyclerView.Adapter<CategoriesRecyclerAdapter.CategoryViewHolder>() {

@@ -1,7 +1,6 @@
 package com.yara.android_practicum.di
 
 import android.content.Context
-import com.yara.android_practicum.ui.help.HelpViewModel
 import com.yara.android_practicum.ui.news.NewsViewModel
 import com.yara.core.di.module.DatabaseModule
 import com.yara.core.di.module.RemoteModule
@@ -25,6 +24,5 @@ interface AppComponent {
         fun create(@BindsInstance context: Context): AppComponent
     }
 
-    fun inject(helpViewModel: HelpViewModel)
     fun inject(newsViewModel: NewsViewModel)
 }

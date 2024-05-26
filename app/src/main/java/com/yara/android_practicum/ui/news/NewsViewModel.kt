@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yara.android_practicum.di.DaggerAppComponent
 import com.yara.android_practicum.domain.usecase.FilterEventsByTitleUseCase
-import com.yara.android_practicum.domain.usecase.GetAllCategoriesUseCase
+import com.yara.core.domain.usecase.GetAllCategoriesUseCase
 import com.yara.android_practicum.domain.usecase.GetAllEventsWithCategoriesUseCase
 import com.yara.android_practicum.domain.usecase.GetEventsByCategoriesUseCase
 import com.yara.android_practicum.domain.usecase.UpdateEventSetReadUseCase

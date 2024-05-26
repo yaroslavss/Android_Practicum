@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.yara.android_practicum.R
-import com.yara.android_practicum.ui.help.HelpViewModel
+import com.yara.feature_help.ui.HelpViewModel
 import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")

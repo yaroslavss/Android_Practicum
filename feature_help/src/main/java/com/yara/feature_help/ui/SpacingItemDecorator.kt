@@ -1,4 +1,4 @@
-package com.yara.android_practicum.ui.help
+package com.yara.feature_help.ui
 
 import android.graphics.Rect
 import android.view.View

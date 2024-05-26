@@ -60,6 +60,9 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp.logging.interceptor)
 
+    // glide
+    implementation(libs.glide)
+
     // dagger
     implementation(libs.google.dagger)
     kapt(libs.google.dagger.compiler)
