@@ -1,4 +1,4 @@
-package com.yara.android_practicum.ui.news
+package com.yara.feature_news.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,9 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.yara.android_practicum.R
-import com.yara.android_practicum.databinding.FragmentNewsBinding
-import com.yara.android_practicum.utils.Constants
+import com.yara.feature_news.R
+import com.yara.core.utils.Constants
+import com.yara.feature_news.databinding.FragmentNewsBinding
 import kotlinx.coroutines.launch
 
 class NewsFragment : Fragment() {
@@ -23,7 +23,7 @@ class NewsFragment : Fragment() {
     private var _binding: FragmentNewsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by activityViewModels<NewsViewModel>()
+    //private val viewModel by activityViewModels<NewsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,10 +38,10 @@ class NewsFragment : Fragment() {
 
         binding.toolbar.title = getString(R.string.news_fragment_label)
         val navController = findNavController()
-        val bottomNavView = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        //val bottomNavView = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         // init adapter
-        val adapter = EventsRecyclerAdapter { event ->
+        /*val adapter = EventsRecyclerAdapter { event ->
             val bundle = Bundle();
             bundle.putParcelable(Constants.PARCELABLE_EVENT_KEY, event)
             navController.navigate(R.id.eventDetailsFragment, bundle)
@@ -71,7 +71,7 @@ class NewsFragment : Fragment() {
                 navController.navigate(R.id.filterFragment)
             }
             true
-        }
+        }*/
     }
 
     override fun onDestroyView() {

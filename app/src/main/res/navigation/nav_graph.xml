@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/newsFragment"
-        android:name="com.yara.android_practicum.ui.news.NewsFragment"
+        android:name="com.yara.feature_news.ui.NewsFragment"
         android:label="@string/news_fragment_label"
         tools:layout="@layout/fragment_news" />
     <fragment
