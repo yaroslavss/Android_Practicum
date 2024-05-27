@@ -1,4 +1,4 @@
-package com.yara.android_practicum.ui.profile
+package com.yara.feature_profile.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +8,9 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.yara.android_practicum.R
-import com.yara.android_practicum.databinding.FragmentProfileBinding
-import com.yara.android_practicum.utils.CallbackListener
+import com.yara.feature_profile.R
+import com.yara.feature_profile.databinding.FragmentProfileBinding
+import com.yara.core.utils.CallbackListener
 
 class ProfileFragment : Fragment() {
 

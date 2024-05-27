@@ -1,6 +1,6 @@
-package com.yara.android_practicum.domain.model
+package com.yara.feature_profile.domain.model
 
-import com.yara.android_practicum.utils.Action
+import com.yara.core.utils.Action
 
 data class PhotoDialogMenuItem(
     val title: String,

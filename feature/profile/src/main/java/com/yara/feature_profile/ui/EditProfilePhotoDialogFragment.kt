@@ -1,4 +1,4 @@
-package com.yara.android_practicum.ui.profile
+package com.yara.feature_profile.ui
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -8,10 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.yara.android_practicum.R
-import com.yara.android_practicum.databinding.DialogEditProfilePhotoBinding
-import com.yara.android_practicum.utils.Action
-import com.yara.android_practicum.utils.CallbackListener
+import com.yara.core.utils.CallbackListener
+import com.yara.feature_profile.R
+import com.yara.feature_profile.databinding.DialogEditProfilePhotoBinding
 
 class EditProfilePhotoDialogFragment(private val callbackListener: CallbackListener) :
     DialogFragment() {

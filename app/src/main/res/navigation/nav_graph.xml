@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.yara.android_practicum.ui.profile.ProfileFragment"
+        android:name="com.yara.feature_profile.ui.ProfileFragment"
         android:label="@string/profile_fragment_label"
         tools:layout="@layout/fragment_profile" />
     <fragment

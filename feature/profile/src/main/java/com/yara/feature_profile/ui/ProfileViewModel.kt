@@ -1,13 +1,13 @@
-package com.yara.android_practicum.ui.profile
+package com.yara.feature_profile.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yara.android_practicum.data.datasource.HardCodedDataSource
-import com.yara.android_practicum.data.mapper.toDomainModelList
-import com.yara.android_practicum.data.repository.PhotoDialogMenuItemsRepositoryImpl
-import com.yara.android_practicum.domain.model.PhotoDialogMenuItem
+import com.yara.feature_profile.data.datasource.HardCodedDataSource
+import com.yara.feature_profile.data.mapper.toDomainModelList
+import com.yara.feature_profile.data.repository.PhotoDialogMenuItemsRepositoryImpl
+import com.yara.feature_profile.domain.model.PhotoDialogMenuItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

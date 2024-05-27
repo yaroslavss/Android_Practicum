@@ -1,7 +1,7 @@
-package com.yara.android_practicum.data.mapper
+package com.yara.feature_profile.data.mapper
 
-import com.yara.android_practicum.data.model.PhotoDialogMenuItemLocal
-import com.yara.android_practicum.domain.model.PhotoDialogMenuItem
+import com.yara.feature_profile.data.model.PhotoDialogMenuItemLocal
+import com.yara.feature_profile.domain.model.PhotoDialogMenuItem
 
 private fun createPhotoDialogMenuItemFromLocal(menuItem: PhotoDialogMenuItemLocal) =
     PhotoDialogMenuItem(

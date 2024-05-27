@@ -12,8 +12,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ActivityMainBinding
-import com.yara.android_practicum.utils.Action
-import com.yara.android_practicum.utils.CallbackListener
+import com.yara.core.utils.Action
+import com.yara.core.utils.CallbackListener
 
 class MainActivity : AppCompatActivity(), CallbackListener {
 
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         }
 
         is Action.DeleteProfilePhoto -> {
-            val photo: ImageView = findViewById(R.id.acivPhoto)
+            val photo: ImageView = findViewById(com.yara.feature_profile.R.id.acivPhoto)
             photo.setImageResource(R.drawable.image_user)
         }
     }
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), CallbackListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // Match the request 'pic id with requestCode
-        val photoImageView: ImageView = findViewById(R.id.acivPhoto)
+        val photoImageView: ImageView = findViewById(com.yara.feature_profile.R.id.acivPhoto)
         if (resultCode != RESULT_CANCELED && requestCode == INTENT_REQUEST_CODE) {
             // BitMap is data structure of image file which store the image in memory
             val photo = data!!.extras!!["data"] as Bitmap?

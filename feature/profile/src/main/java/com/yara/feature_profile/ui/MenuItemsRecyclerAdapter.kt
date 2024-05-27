@@ -1,13 +1,13 @@
-package com.yara.android_practicum.ui.profile
+package com.yara.feature_profile.ui
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.yara.android_practicum.R
-import com.yara.android_practicum.databinding.ItemPhotoDialogMenuBinding
-import com.yara.android_practicum.domain.model.PhotoDialogMenuItem
+import com.yara.feature_profile.R
+import com.yara.feature_profile.databinding.ItemPhotoDialogMenuBinding
+import com.yara.feature_profile.domain.model.PhotoDialogMenuItem
 
 class MenuItemsRecyclerAdapter(private val onItemClick: (menuItem: PhotoDialogMenuItem) -> Unit) :
     RecyclerView.Adapter<MenuItemsRecyclerAdapter.MenuItemViewHolder>() {

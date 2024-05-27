@@ -1,8 +1,8 @@
-package com.yara.android_practicum.data.repository
+package com.yara.feature_profile.data.repository
 
-import com.yara.android_practicum.data.datasource.HardCodedDataSource
-import com.yara.android_practicum.data.model.PhotoDialogMenuItemLocal
-import com.yara.android_practicum.domain.repository.PhotoDialogMenuItemsRepository
+import com.yara.feature_profile.data.datasource.HardCodedDataSource
+import com.yara.feature_profile.data.model.PhotoDialogMenuItemLocal
+import com.yara.feature_profile.domain.repository.PhotoDialogMenuItemsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

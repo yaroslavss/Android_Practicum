@@ -31,9 +31,15 @@ android {
     kotlinOptions {
         jvmTarget = rootProject.extra["kotlinVersion"] as String
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
+    // module
+    implementation(project(":core"))
+
     // core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -48,6 +54,9 @@ dependencies {
     // navigation
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
+
+    // glide
+    implementation(libs.glide)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
