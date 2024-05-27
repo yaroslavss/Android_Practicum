@@ -48,7 +48,7 @@ android {
 dependencies {
     // module
     implementation(project(":core"))
-    implementation(project(":feature_help"))
+    implementation(project(":feature:help"))
 
     // core
     implementation(libs.androidx.core.ktx)
