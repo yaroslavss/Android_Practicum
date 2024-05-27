@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         // hide and show bottom navigation for some fragments
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.loginFragment -> hideBottomNav()
+                com.yara.feature_login.R.id.loginGraph -> hideBottomNav()
                 else -> showBottomNav()
             }
         }

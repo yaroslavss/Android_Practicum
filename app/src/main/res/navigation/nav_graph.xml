@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/loginGraph">
 
     <fragment
         android:id="@+id/profileFragment"
@@ -35,17 +35,7 @@
         android:name="com.yara.android_practicum.ui.news.EventDetailsFragment"
         android:label="fragment_event_details"
         tools:layout="@layout/fragment_event_details" />
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.yara.android_practicum.ui.login.LoginFragment"
-        android:label="@string/filter_fragment_label"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_helpFragment"
-            app:destination="@id/helpGraph"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
 
     <include app:graph="@navigation/help_graph"/>
+    <include app:graph="@navigation/login_graph"/>
 </navigation>

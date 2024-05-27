@@ -1,4 +1,4 @@
-package com.yara.android_practicum.ui.login
+package com.yara.feature_login.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.jakewharton.rxbinding4.widget.textChanges
-import com.yara.android_practicum.R
-import com.yara.android_practicum.databinding.FragmentLoginBinding
+import com.yara.feature_login.R
+import com.yara.feature_login.databinding.FragmentLoginBinding
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 

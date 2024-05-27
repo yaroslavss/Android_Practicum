@@ -1,27 +1,18 @@
-import org.jetbrains.kotlin.js.inline.util.aliasArgumentsIfNeeded
-
-@Suppress("DSL_SCOPE_VIOLATION")
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.com.android.library)
     alias(libs.plugins.kotlin.android)
-    id("org.jetbrains.kotlin.plugin.parcelize")
-    id("kotlin-kapt")
-    alias(libs.plugins.ksp)
-    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
 }
 
 android {
-    namespace = "com.yara.android_practicum"
+    namespace = "com.yara.feature_login"
     compileSdk = rootProject.extra["compileAndroidSdk"] as Int
 
     defaultConfig {
-        applicationId = "com.yara.android_practicum"
         minSdk = rootProject.extra["minAndroidSdk"] as Int
-        targetSdk = rootProject.extra["targetAndroidSdk"] as Int
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -46,11 +37,6 @@ android {
 }
 
 dependencies {
-    // module
-    implementation(project(":core"))
-    implementation(project(":feature:help"))
-    implementation(project(":feature:login"))
-
     // core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -66,23 +52,14 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
 
-    // retrofit
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
-    implementation(libs.okhttp.logging.interceptor)
+    // rxjava
+    implementation(libs.rxjava3)
+    implementation(libs.rxjava3.rxandroid)
+    // rxbinding
+    implementation(libs.rxbinding)
+    implementation(libs.rxbinding.appcompat)
 
-    // kotlinx-datetime
-    implementation(libs.kotlinx.datetime)
-
-    // glide
-    implementation(libs.glide)
-
-    // dagger
-    implementation(libs.google.dagger)
-    kapt(libs.google.dagger.compiler)
-
-    // test
     testImplementation(libs.junit)
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }
