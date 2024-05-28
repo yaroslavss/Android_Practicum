@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.yara.core.ui.news.NewsViewModel
 import com.yara.core.utils.Constants
@@ -39,7 +38,6 @@ class NewsFragment : Fragment() {
 
         binding.toolbar.title = getString(R.string.news_fragment_label)
         val navController = findNavController()
-        //val bottomNavView = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         // init adapter
         val adapter = EventsRecyclerAdapter { event ->
@@ -57,11 +55,6 @@ class NewsFragment : Fragment() {
                 viewModel.uiState.collect { state ->
                     hideProgressBar()
                     adapter.differ.submitList(state.events)
-                    // set bottom navigation badge
-                    /*bottomNavView?.getOrCreateBadge(R.id.newsFragment)?.apply {
-                        number = state.unreadNewsQnt
-                        isVisible = true
-                    }*/
                 }
             }
         }

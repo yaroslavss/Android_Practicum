@@ -6,18 +6,26 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ActivityMainBinding
+import com.yara.core.ui.news.NewsViewModel
 import com.yara.core.utils.Action
 import com.yara.core.utils.CallbackListener
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), CallbackListener {
 
-    private lateinit var binding: ActivityMainBinding;
+    private lateinit var binding: ActivityMainBinding
+
+    private val viewModel by viewModels<NewsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +43,18 @@ class MainActivity : AppCompatActivity(), CallbackListener {
             when (destination.id) {
                 com.yara.feature_login.R.id.loginGraph -> hideBottomNav()
                 else -> showBottomNav()
+            }
+        }
+
+        // set bottom navigation badge
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    bottomNavView.getOrCreateBadge(R.id.newsGraph).apply {
+                        number = state.unreadNewsQnt
+                        isVisible = true
+                    }
+                }
             }
         }
     }
