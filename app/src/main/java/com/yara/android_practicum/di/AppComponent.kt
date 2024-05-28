@@ -1,7 +1,6 @@
 package com.yara.android_practicum.di
 
 import android.content.Context
-import com.yara.android_practicum.ui.news.NewsViewModel
 import com.yara.core.di.module.DatabaseModule
 import com.yara.core.di.module.RemoteModule
 import com.yara.core.di.module.RepositoryModule
@@ -23,6 +22,4 @@ interface AppComponent {
     interface Factory {
         fun create(@BindsInstance context: Context): AppComponent
     }
-
-    fun inject(newsViewModel: NewsViewModel)
 }

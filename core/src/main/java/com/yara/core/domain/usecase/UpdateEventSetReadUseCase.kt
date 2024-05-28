@@ -1,4 +1,4 @@
-package com.yara.android_practicum.domain.usecase
+package com.yara.core.domain.usecase
 
 import com.yara.core.data.db.entity.EventUpdateIsUnreadEntity
 import com.yara.core.domain.repository.EventsRepository

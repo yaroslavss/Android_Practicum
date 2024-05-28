@@ -45,6 +45,9 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.google.android.material)
 
+    // lifecycle
+    implementation(libs.androidx.lifecycle.viewmodel)
+
     // retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)

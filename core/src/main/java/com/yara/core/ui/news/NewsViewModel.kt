@@ -1,20 +1,20 @@
-package com.yara.android_practicum.ui.news
+package com.yara.core.ui.news
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yara.android_practicum.di.DaggerAppComponent
-import com.yara.android_practicum.domain.usecase.FilterEventsByTitleUseCase
-import com.yara.core.domain.usecase.GetAllCategoriesUseCase
-import com.yara.android_practicum.domain.usecase.GetAllEventsWithCategoriesUseCase
-import com.yara.android_practicum.domain.usecase.GetEventsByCategoriesUseCase
-import com.yara.android_practicum.domain.usecase.UpdateEventSetReadUseCase
 import com.yara.core.App
 import com.yara.core.data.db.entity.EventUpdateIsUnreadEntity
+import com.yara.core.di.DaggerCoreComponent
 import com.yara.core.domain.model.Categories
 import com.yara.core.domain.model.Event
 import com.yara.core.domain.model.Events
 import com.yara.core.domain.repository.CategoriesRepository
 import com.yara.core.domain.repository.EventsRepository
+import com.yara.core.domain.usecase.FilterEventsByTitleUseCase
+import com.yara.core.domain.usecase.GetAllCategoriesUseCase
+import com.yara.core.domain.usecase.GetAllEventsWithCategoriesUseCase
+import com.yara.core.domain.usecase.GetEventsByCategoriesUseCase
+import com.yara.core.domain.usecase.UpdateEventSetReadUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onEmpty
@@ -65,7 +65,7 @@ class NewsViewModel : ViewModel() {
     private val scope = viewModelScope
 
     init {
-        DaggerAppComponent.factory()
+        DaggerCoreComponent.factory()
             .create(App.instance)
             .inject(this)
 
@@ -111,12 +111,12 @@ class NewsViewModel : ViewModel() {
             filterEventsByTitleUseCase(str)
                 .onEmpty {
                     _uiState.update {
-                        _uiState.value.copy(searchResults = emptyList(),)
+                        _uiState.value.copy(searchResults = emptyList())
                     }
                 }
                 .collect { events ->
                     _uiState.update {
-                        _uiState.value.copy(searchResults = events,)
+                        _uiState.value.copy(searchResults = events)
                     }
                 }
         }

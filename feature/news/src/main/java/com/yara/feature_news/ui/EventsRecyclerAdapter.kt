@@ -1,4 +1,4 @@
-package com.yara.android_practicum.ui.news
+package com.yara.feature_news.ui
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.yara.android_practicum.R
-import com.yara.android_practicum.databinding.ItemEventBinding
 import com.yara.core.domain.model.Event
+import com.yara.feature_news.R
+import com.yara.feature_news.databinding.ItemEventBinding
 
 class EventsRecyclerAdapter(private val onItemClick: (event: Event) -> Unit) :
     RecyclerView.Adapter<EventsRecyclerAdapter.EventViewHolder>() {

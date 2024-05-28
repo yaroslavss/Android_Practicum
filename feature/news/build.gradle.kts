@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -45,7 +46,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.google.android.material)
 
-
     // lifecycle
     implementation(libs.androidx.legacy.support)
     implementation(libs.androidx.lifecycle.livedata)
@@ -54,6 +54,13 @@ dependencies {
     // navigation
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
+
+    // glide
+    implementation(libs.glide)
+
+    // dagger
+    implementation(libs.google.dagger)
+    kapt(libs.google.dagger.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

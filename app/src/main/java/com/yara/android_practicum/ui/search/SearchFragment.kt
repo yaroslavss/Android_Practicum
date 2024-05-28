@@ -13,7 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.yara.android_practicum.databinding.FragmentSearchBinding
-import com.yara.android_practicum.ui.news.NewsViewModel
+import com.yara.core.ui.news.NewsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

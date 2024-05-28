@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.FragmentSearchEventsBinding
-import com.yara.android_practicum.ui.news.NewsViewModel
+import com.yara.core.ui.news.NewsViewModel
 import kotlinx.coroutines.launch
 
 class SearchEventsFragment : Fragment() {

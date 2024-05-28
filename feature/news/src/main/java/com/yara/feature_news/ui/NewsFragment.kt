@@ -13,8 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.yara.feature_news.R
+import com.yara.core.ui.news.NewsViewModel
 import com.yara.core.utils.Constants
+import com.yara.feature_news.R
 import com.yara.feature_news.databinding.FragmentNewsBinding
 import kotlinx.coroutines.launch
 
@@ -23,7 +24,7 @@ class NewsFragment : Fragment() {
     private var _binding: FragmentNewsBinding? = null
     private val binding get() = _binding!!
 
-    //private val viewModel by activityViewModels<NewsViewModel>()
+    private val viewModel by activityViewModels<NewsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +42,7 @@ class NewsFragment : Fragment() {
         //val bottomNavView = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         // init adapter
-        /*val adapter = EventsRecyclerAdapter { event ->
+        val adapter = EventsRecyclerAdapter { event ->
             val bundle = Bundle();
             bundle.putParcelable(Constants.PARCELABLE_EVENT_KEY, event)
             navController.navigate(R.id.eventDetailsFragment, bundle)
@@ -57,10 +58,10 @@ class NewsFragment : Fragment() {
                     hideProgressBar()
                     adapter.differ.submitList(state.events)
                     // set bottom navigation badge
-                    bottomNavView?.getOrCreateBadge(R.id.newsFragment)?.apply {
+                    /*bottomNavView?.getOrCreateBadge(R.id.newsFragment)?.apply {
                         number = state.unreadNewsQnt
                         isVisible = true
-                    }
+                    }*/
                 }
             }
         }
@@ -71,7 +72,7 @@ class NewsFragment : Fragment() {
                 navController.navigate(R.id.filterFragment)
             }
             true
-        }*/
+        }
     }
 
     override fun onDestroyView() {
