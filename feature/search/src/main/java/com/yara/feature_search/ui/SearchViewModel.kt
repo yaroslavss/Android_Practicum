@@ -1,4 +1,4 @@
-package com.yara.android_practicum.ui.search
+package com.yara.feature_search.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.yara.android_practicum.ui.search
+package com.yara.feature_search.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -12,8 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.yara.android_practicum.databinding.FragmentSearchBinding
 import com.yara.core.ui.news.NewsViewModel
+import com.yara.feature_search.databinding.FragmentSearchBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

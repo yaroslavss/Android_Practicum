@@ -1,9 +1,9 @@
-package com.yara.android_practicum.ui.search
+package com.yara.feature_search.ui
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.yara.android_practicum.ui.search.inner.SearchEventsFragment
-import com.yara.android_practicum.ui.search.inner.SearchNpoFragment
+import com.yara.feature_search.ui.inner.SearchEventsFragment
+import com.yara.feature_search.ui.inner.SearchNpoFragment
 
 class VPAdapter(fragmentActivity: SearchFragment) : FragmentStateAdapter(fragmentActivity) {
 

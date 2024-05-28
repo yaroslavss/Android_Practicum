@@ -1,4 +1,4 @@
-package com.yara.android_practicum.ui.search.inner
+package com.yara.feature_search.ui.inner
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -14,9 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.yara.android_practicum.R
-import com.yara.android_practicum.databinding.FragmentSearchNpoBinding
 import com.yara.core.ui.news.NewsViewModel
+import com.yara.feature_search.R
+import com.yara.feature_search.databinding.FragmentSearchNpoBinding
 import kotlinx.coroutines.launch
 
 class SearchNpoFragment : Fragment() {

@@ -1,13 +1,13 @@
-package com.yara.android_practicum.ui.search.inner
+package com.yara.feature_search.ui.inner
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.yara.android_practicum.R
-import com.yara.android_practicum.databinding.ItemSearchResultBinding
 import com.yara.core.domain.model.Event
 import com.yara.core.domain.model.Events
+import com.yara.feature_search.R
+import com.yara.feature_search.databinding.ItemSearchResultBinding
 
 class SearchResultsRecyclerAdapter(var results: Events) :
     RecyclerView.Adapter<SearchResultsRecyclerAdapter.SearchResultsViewHolder>() {
