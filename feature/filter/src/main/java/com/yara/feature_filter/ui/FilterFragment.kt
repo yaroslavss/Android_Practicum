@@ -1,4 +1,4 @@
-package com.yara.android_practicum.ui.filter
+package com.yara.feature_filter.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +12,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.yara.android_practicum.R
-import com.yara.android_practicum.databinding.FragmentFilterBinding
 import com.yara.core.ui.news.NewsViewModel
+import com.yara.feature_filter.R
+import com.yara.feature_filter.databinding.FragmentFilterBinding
 import kotlinx.coroutines.launch
 
 class FilterFragment : Fragment() {
@@ -38,13 +38,14 @@ class FilterFragment : Fragment() {
         binding.toolbar.title = getString(R.string.filter_fragment_label)
 
         // init adapter
-        val adapter = CategoriesRecyclerAdapter(viewModel.filters) { category, switch ->
-            if (switch.isChecked)
-                viewModel.removeFilter(category.id)
-            else
-                viewModel.addFilter(category.id)
-            switch.toggle()
-        }
+        val adapter =
+            CategoriesRecyclerAdapter(viewModel.filters) { category, switch ->
+                if (switch.isChecked)
+                    viewModel.removeFilter(category.id)
+                else
+                    viewModel.addFilter(category.id)
+                switch.toggle()
+            }
 
         binding.rvCategories.adapter = adapter
         binding.rvCategories.layoutManager = LinearLayoutManager(activity)

@@ -1,4 +1,4 @@
-package com.yara.android_practicum.ui.filter
+package com.yara.feature_filter.ui
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.materialswitch.MaterialSwitch
-import com.yara.android_practicum.R
-import com.yara.android_practicum.databinding.ItemFilterCategoryBinding
 import com.yara.core.domain.model.Category
+import com.yara.feature_filter.R
+import com.yara.feature_filter.databinding.ItemFilterCategoryBinding
 
 class CategoriesRecyclerAdapter(
     private val filters: Set<Int>,
