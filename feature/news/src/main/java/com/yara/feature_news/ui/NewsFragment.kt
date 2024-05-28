@@ -69,7 +69,7 @@ class NewsFragment : Fragment() {
         // proceed toolbar menu item click
         binding.toolbar.setOnMenuItemClickListener {
             if (it.itemId == R.id.action_filter) {
-                navController.navigate(R.id.filterFragment)
+                navController.navigate(R.id.filterGraph)
             }
             true
         }

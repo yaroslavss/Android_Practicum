@@ -52,6 +52,7 @@ dependencies {
     implementation(project(":feature:login"))
     implementation(project(":feature:profile"))
     implementation(project(":feature:news"))
+    implementation(project(":feature:filter"))
 
     // core
     implementation(libs.androidx.core.ktx)
