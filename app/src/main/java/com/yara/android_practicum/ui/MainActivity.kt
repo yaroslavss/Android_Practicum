@@ -24,6 +24,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity(), CallbackListener {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var bottomNavView: BottomNavigationView
 
     private val viewModel by viewModels<NewsViewModel>()
 
@@ -34,27 +35,15 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         setContentView(binding.root)
 
         // set up navigation
-        val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavView = findViewById(R.id.bottom_navigation)
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         bottomNavView.setupWithNavController(navController)
 
         // hide and show bottom navigation for some fragments
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                com.yara.feature_login.R.id.loginGraph -> hideBottomNav()
+                com.yara.feature_login.R.id.loginFragment -> hideBottomNav()
                 else -> showBottomNav()
-            }
-        }
-
-        // set bottom navigation badge
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { state ->
-                    bottomNavView.getOrCreateBadge(R.id.newsGraph).apply {
-                        number = state.unreadNewsQnt
-                        isVisible = true
-                    }
-                }
             }
         }
     }
@@ -122,13 +111,23 @@ class MainActivity : AppCompatActivity(), CallbackListener {
     }
 
     private fun hideBottomNav() {
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNav.visibility = View.GONE
+        bottomNavView.visibility = View.GONE
     }
 
     private fun showBottomNav() {
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNav.visibility = View.VISIBLE
+        bottomNavView.visibility = View.VISIBLE
+
+        // set bottom navigation badge
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    bottomNavView.getOrCreateBadge(R.id.newsGraph).apply {
+                        number = state.unreadNewsQnt
+                        isVisible = true
+                    }
+                }
+            }
+        }
     }
 
     companion object {
