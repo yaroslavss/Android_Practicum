@@ -12,9 +12,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.yara.core.ui.news.NewsViewModel
 import com.yara.feature_filter.R
 import com.yara.feature_filter.databinding.FragmentFilterBinding
+import com.yara.feature_news.ui.NewsViewModel
 import kotlinx.coroutines.launch
 
 class FilterFragment : Fragment() {

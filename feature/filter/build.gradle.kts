@@ -40,6 +40,7 @@ android {
 dependencies {
     // module
     implementation(project(":core"))
+    implementation(project(":feature:news"))
 
     // core
     implementation(libs.androidx.core.ktx)

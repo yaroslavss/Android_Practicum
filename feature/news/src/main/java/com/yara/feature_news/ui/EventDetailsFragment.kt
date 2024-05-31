@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.yara.core.domain.model.Event
-import com.yara.core.ui.news.NewsViewModel
 import com.yara.core.utils.Constants
 import com.yara.feature_news.R
 import com.yara.feature_news.databinding.FragmentEventDetailsBinding

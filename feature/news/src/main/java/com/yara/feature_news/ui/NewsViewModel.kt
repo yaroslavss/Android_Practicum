@@ -1,10 +1,9 @@
-package com.yara.core.ui.news
+package com.yara.feature_news.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yara.core.App
 import com.yara.core.data.db.entity.EventUpdateIsUnreadEntity
-import com.yara.core.di.DaggerCoreComponent
 import com.yara.core.domain.model.Categories
 import com.yara.core.domain.model.Event
 import com.yara.core.domain.model.Events
@@ -15,6 +14,7 @@ import com.yara.core.domain.usecase.GetAllCategoriesUseCase
 import com.yara.core.domain.usecase.GetAllEventsWithCategoriesUseCase
 import com.yara.core.domain.usecase.GetEventsByCategoriesUseCase
 import com.yara.core.domain.usecase.UpdateEventSetReadUseCase
+import com.yara.feature_news.di.DaggerNewsComponent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onEmpty
@@ -65,7 +65,7 @@ class NewsViewModel : ViewModel() {
     private val scope = viewModelScope
 
     init {
-        DaggerCoreComponent.factory()
+        DaggerNewsComponent.factory()
             .create(App.instance)
             .inject(this)
 

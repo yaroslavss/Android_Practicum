@@ -14,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.yara.core.ui.news.NewsViewModel
+import com.yara.feature_news.ui.NewsViewModel
 import com.yara.feature_search.R
 import com.yara.feature_search.databinding.FragmentSearchNpoBinding
 import kotlinx.coroutines.launch

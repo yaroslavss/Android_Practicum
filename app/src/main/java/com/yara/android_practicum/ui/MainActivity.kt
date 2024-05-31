@@ -16,9 +16,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ActivityMainBinding
-import com.yara.core.ui.news.NewsViewModel
 import com.yara.core.utils.Action
 import com.yara.core.utils.CallbackListener
+import com.yara.feature_news.ui.NewsViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), CallbackListener {

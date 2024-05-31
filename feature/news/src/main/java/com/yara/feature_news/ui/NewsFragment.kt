@@ -12,7 +12,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.yara.core.ui.news.NewsViewModel
 import com.yara.core.utils.Constants
 import com.yara.feature_news.R
 import com.yara.feature_news.databinding.FragmentNewsBinding
