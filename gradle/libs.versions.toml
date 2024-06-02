@@ -4,6 +4,7 @@ coreKtxVersion = "1.9.0"
 appcompatVersion = "1.6.1"
 materialVersion = "1.11.0"
 constraintlayoutVersion = "2.1.4"
+androidxComposeBomVersion = "2024.05.00"
 legacySupportVersion = "1.0.0"
 lifecycleVersion = "2.7.0"
 navigationVersion = "2.7.6"
@@ -30,6 +31,13 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompatVersion" }
 google-android-material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayoutVersion" }
+# compose
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBomVersion" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 # lifecycle
 androidx-legacy-support = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportVersion" }
 androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleVersion" }

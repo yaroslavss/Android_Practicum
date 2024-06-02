@@ -16,6 +16,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextAppearance="@style/AppBarText" />
 
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!--
     <TextView
         android:id="@+id/tvSubtitle"
         style="@style/TextStyle10"
@@ -176,5 +186,6 @@
         android:text="@string/register_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnLogin" />
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

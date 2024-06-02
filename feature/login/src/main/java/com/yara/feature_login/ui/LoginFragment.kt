@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.jakewharton.rxbinding4.widget.textChanges
 import com.yara.feature_login.R
 import com.yara.feature_login.databinding.FragmentLoginBinding
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class LoginFragment : Fragment() {
@@ -25,7 +24,16 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
+        val view = binding.root
+        binding.composeView.apply {
+            // Dispose of the Composition when the view's LifecycleOwner
+            // is destroyed
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                LoginScreen()
+            }
+        }
+        return view
     }
 
     @SuppressLint("CheckResult")
@@ -34,7 +42,7 @@ class LoginFragment : Fragment() {
 
         binding.toolbar.title = getString(R.string.login_fragment_label)
         val navController = findNavController()
-        val btnLogin = binding.btnLogin
+        /*val btnLogin = binding.btnLogin
         btnLogin.isEnabled = false
 
         val resultEmail = binding.tietEmail.textChanges()
@@ -51,7 +59,7 @@ class LoginFragment : Fragment() {
         // proceed login button click
         binding.btnLogin.setOnClickListener {
             navController.navigate(R.id.action_loginFragment_to_helpFragment)
-        }
+        }*/
     }
 
     override fun onDestroyView() {
