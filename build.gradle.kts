@@ -1,6 +1,21 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-plugins {
-    id("com.android.application") version "8.1.2" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.21" apply false
-    id("com.google.devtools.ksp") version "1.9.21-1.0.15" apply false
+
+buildscript {
+
+    val compileAndroidSdk by extra(34)
+    val targetAndroidSdk by extra(33)
+    val minAndroidSdk by extra(26)
+
+    val javaVersion by extra(JavaVersion.VERSION_17)
+    val kotlinVersion by extra("17")
 }
+
+@Suppress("DSL_SCOPE_VIOLATION")
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.com.android.library) apply false
+}
+//Workaround for "Expecting an expression" build error
+println("")

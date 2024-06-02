@@ -6,18 +6,35 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ActivityMainBinding
-import com.yara.android_practicum.utils.Action
-import com.yara.android_practicum.utils.CallbackListener
+import com.yara.android_practicum.di.DaggerAppComponent
+import com.yara.core.utils.Action
+import com.yara.core.utils.CallbackListener
+import com.yara.feature_news.ui.NewsViewModel
+import com.yara.feature_news.ui.NewsViewModelFactory
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), CallbackListener {
 
-    private lateinit var binding: ActivityMainBinding;
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var bottomNavView: BottomNavigationView
+
+    @Inject
+    lateinit var viewModelFactory: NewsViewModelFactory
+
+    private val viewModel by viewModels<NewsViewModel>() {
+        viewModelFactory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,15 +42,19 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        DaggerAppComponent.factory()
+            .create(this)
+            .injectMainActivity(this)
+
         // set up navigation
-        val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavView = findViewById(R.id.bottom_navigation)
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         bottomNavView.setupWithNavController(navController)
 
         // hide and show bottom navigation for some fragments
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.loginFragment -> hideBottomNav()
+                com.yara.feature_login.R.id.loginFragment -> hideBottomNav()
                 else -> showBottomNav()
             }
         }
@@ -50,7 +71,7 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         }
 
         is Action.DeleteProfilePhoto -> {
-            val photo: ImageView = findViewById(R.id.acivPhoto)
+            val photo: ImageView = findViewById(com.yara.feature_profile.R.id.acivPhoto)
             photo.setImageResource(R.drawable.image_user)
         }
     }
@@ -60,7 +81,7 @@ class MainActivity : AppCompatActivity(), CallbackListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // Match the request 'pic id with requestCode
-        val photoImageView: ImageView = findViewById(R.id.acivPhoto)
+        val photoImageView: ImageView = findViewById(com.yara.feature_profile.R.id.acivPhoto)
         if (resultCode != RESULT_CANCELED && requestCode == INTENT_REQUEST_CODE) {
             // BitMap is data structure of image file which store the image in memory
             val photo = data!!.extras!!["data"] as Bitmap?
@@ -102,13 +123,23 @@ class MainActivity : AppCompatActivity(), CallbackListener {
     }
 
     private fun hideBottomNav() {
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNav.visibility = View.GONE
+        bottomNavView.visibility = View.GONE
     }
 
     private fun showBottomNav() {
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNav.visibility = View.VISIBLE
+        bottomNavView.visibility = View.VISIBLE
+
+        // set bottom navigation badge
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    bottomNavView.getOrCreateBadge(R.id.newsGraph).apply {
+                        number = state.unreadNewsQnt
+                        isVisible = true
+                    }
+                }
+            }
+        }
     }
 
     companion object {

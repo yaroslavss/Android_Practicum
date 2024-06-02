@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/newsFragment"
+        android:id="@+id/newsGraph"
         android:icon="@drawable/ic_bottomnav_news"
         android:title="@string/news_fragment_label" />
     <item
@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_bottomnav_search"
         android:title="@string/search_fragment_label" />
     <item
-        android:id="@+id/helpFragment"
+        android:id="@+id/helpGraph"
         android:icon="@drawable/ic_bottomnav_help"
         android:title="@string/help_fragment_label" />
     <item

@@ -15,4 +15,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "Android_Practicum"
 include(":app")
- 
+include(":core")
+include(":feature:help")
+include(":feature:login")
+include(":feature:profile")
+include(":feature:news")
+include(":feature:filter")
+include(":feature:search")

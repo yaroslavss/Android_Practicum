@@ -1,0 +1,98 @@
+package com.yara.feature_help.ui
+
+import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import com.yara.feature_help.R
+import com.yara.feature_help.databinding.FragmentHelpBinding
+import com.yara.feature_help.di.HelpComponentProvider
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+class HelpFragment : Fragment() {
+
+    private var _binding: FragmentHelpBinding? = null
+    private val binding get() = _binding!!
+
+    @Inject
+    lateinit var viewModelFactory: HelpViewModelFactory
+
+    private val viewModel by activityViewModels<HelpViewModel> {
+        viewModelFactory
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (context.applicationContext as HelpComponentProvider)
+            .getHelpComponent()
+            .injectHelpFragment(this)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+        _binding = FragmentHelpBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.toolbar.title = getString(R.string.help_fragment_label)
+
+        // init adapter
+        val adapter = CategoriesRecyclerAdapter()
+
+        binding.rvCategories.adapter = adapter
+        binding.rvCategories.layoutManager = GridLayoutManager(activity, RECYCLER_GRID_COLUMNS)
+
+        val space = (resources.displayMetrics.density * RECYCLER_GRID_SPACING).toInt() //converting dp to pixels
+        binding.rvCategories.addItemDecoration(SpacingItemDecorator(space)) //setting space between items in RecyclerView
+
+        // load data from uiState
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState
+                    .collect { state ->
+                        when (state) {
+                            is CategoriesUiState.Success -> {
+                                hideProgressBar()
+                                adapter.addItems(state.categories)
+                            }
+
+                            else -> {}
+                        }
+                    }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun showError(view: View, message: String) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun hideProgressBar() {
+        binding.pbProgressBar.visibility = View.GONE
+    }
+
+    companion object {
+        const val RECYCLER_GRID_COLUMNS = 2
+        const val RECYCLER_GRID_SPACING = 8
+    }
+}

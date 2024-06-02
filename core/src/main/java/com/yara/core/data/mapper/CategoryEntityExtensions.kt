@@ -1,0 +1,28 @@
+package com.yara.core.data.mapper
+
+import com.yara.core.data.db.entity.CategoryEntity
+import com.yara.core.data.model.CategoryAPI
+import com.yara.core.domain.model.Category
+
+fun createCategoryFromEntity(categoryEntity: CategoryEntity) =
+    Category(
+        id = categoryEntity.id,
+        name = categoryEntity.name,
+        icon = categoryEntity.image,
+    )
+
+fun CategoryEntity.toDomainModel() = createCategoryFromEntity(this)
+
+fun List<CategoryEntity>.toDomainModelList() = this.map { createCategoryFromEntity(it) }
+
+private fun createCategoryEnitityFromAPI(category: CategoryAPI): CategoryEntity =
+    CategoryEntity(
+        id = category.id,
+        name = category.name,
+        nameEn = category.nameEn,
+        image = category.image,
+    )
+
+fun CategoryAPI.toEntity() = createCategoryEnitityFromAPI(this)
+
+fun List<CategoryAPI>.toEntityList() = this.map { createCategoryEnitityFromAPI(it) }

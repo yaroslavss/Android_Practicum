@@ -1,20 +1,23 @@
+import org.jetbrains.kotlin.js.inline.util.aliasArgumentsIfNeeded
+
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
     id("org.jetbrains.kotlin.plugin.parcelize")
     id("kotlin-kapt")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
 }
 
 android {
     namespace = "com.yara.android_practicum"
-    compileSdk = 34
+    compileSdk = rootProject.extra["compileAndroidSdk"] as Int
 
     defaultConfig {
         applicationId = "com.yara.android_practicum"
-        minSdk = 26
-        targetSdk = 33
+        minSdk = rootProject.extra["minAndroidSdk"] as Int
+        targetSdk = rootProject.extra["targetAndroidSdk"] as Int
         versionCode = 1
         versionName = "1.0"
 
@@ -31,81 +34,59 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = rootProject.extra["javaVersion"] as JavaVersion
+        targetCompatibility = rootProject.extra["javaVersion"] as JavaVersion
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = rootProject.extra["kotlinVersion"] as String
     }
     buildFeatures {
         viewBinding = true
-        buildConfig = true
     }
 }
 
-val coreKtxVersion = "1.9.0"
-val appcompatVersion = "1.6.1"
-val materialVersion = "1.11.0"
-val constraintlayoutVersion = "2.1.4"
-val legacySupportVersion = "1.0.0"
-val lifecycleVersion = "2.7.0"
-val navigationVersion = "2.7.6"
-val retrofitVersion = "2.9.0"
-val okhttp3Version = "4.11.0"
-val kotlinxDatetimeVersion = "0.5.0"
-val rxJavaVersion = "3.1.8"
-val rxAndroidVersion = "3.0.2"
-val rxBindingVersion = "4.0.0"
-val glideVersion = "4.16.0"
-val roomVersion = "2.6.1"
-val daggerVersion = "2.51.1"
-val junitVersion = "4.13.2"
-
 dependencies {
+    // module
+    implementation(project(":core"))
+    implementation(project(":feature:help"))
+    implementation(project(":feature:login"))
+    implementation(project(":feature:profile"))
+    implementation(project(":feature:news"))
+    implementation(project(":feature:filter"))
+    implementation(project(":feature:search"))
+
     // core
-    implementation("androidx.core:core-ktx:$coreKtxVersion")
-    implementation("androidx.appcompat:appcompat:$appcompatVersion")
-    implementation("com.google.android.material:material:$materialVersion")
-    implementation("androidx.constraintlayout:constraintlayout:$constraintlayoutVersion")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.google.android.material)
+    implementation(libs.androidx.constraintlayout)
 
     // lifecycle
-    implementation("androidx.legacy:legacy-support-v4:$legacySupportVersion")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+    implementation(libs.androidx.legacy.support)
+    implementation(libs.androidx.lifecycle.livedata)
+    implementation(libs.androidx.lifecycle.viewmodel)
 
     // navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
-    implementation("androidx.navigation:navigation-ui-ktx:$navigationVersion")
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
 
     // retrofit
-    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
-    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
-    implementation("com.squareup.okhttp3:logging-interceptor:$okhttp3Version")
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp.logging.interceptor)
 
     // kotlinx-datetime
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDatetimeVersion")
-
-    // rxjava
-    implementation("io.reactivex.rxjava3:rxjava:$rxJavaVersion")
-    implementation("io.reactivex.rxjava3:rxandroid:$rxAndroidVersion")
-    // rxbinding
-    implementation("com.jakewharton.rxbinding4:rxbinding:$rxBindingVersion")
-    implementation("com.jakewharton.rxbinding4:rxbinding-appcompat:$rxBindingVersion")
+    implementation(libs.kotlinx.datetime)
 
     // glide
-    implementation("com.github.bumptech.glide:glide:$glideVersion")
-
-    // room
-    implementation("androidx.room:room-runtime:$roomVersion")
-    ksp("androidx.room:room-compiler:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")  // to use coroutines
+    implementation(libs.glide)
 
     // dagger
-    implementation("com.google.dagger:dagger:$daggerVersion")
-    kapt("com.google.dagger:dagger-compiler:$daggerVersion")
+    implementation(libs.google.dagger)
+    kapt(libs.google.dagger.compiler)
 
     // test
-    testImplementation("junit:junit:$junitVersion")
+    testImplementation(libs.junit)
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }

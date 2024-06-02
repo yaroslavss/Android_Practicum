@@ -1,0 +1,69 @@
+package com.yara.core.data.mapper
+
+import com.yara.core.data.db.entity.EventEntity
+import com.yara.core.data.model.EventAPI
+import com.yara.core.domain.model.Event
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.daysUntil
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.todayIn
+
+private fun createEventFromEntity(eventEntity: EventEntity): Event {
+    // calculate date string
+    val today: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
+    val eds = eventEntity.startDate
+    val ede = eventEntity.endDate
+
+    return Event(
+        id = eventEntity.id,
+        title = eventEntity.title,
+        description = eventEntity.description,
+        images = eventEntity.photos.split(", "),
+        dateStart = eventEntity.startDate,
+        dateEnd = eventEntity.endDate,
+        dateString = String.format(
+            "Осталось %1$02d дней (%2$02d.%3$02d - %4$02d.%5$02d)",
+            today.daysUntil(eds),
+            eds.dayOfMonth,
+            eds.monthNumber,
+            ede.dayOfMonth,
+            ede.monthNumber
+        ),
+        categories = eventEntity.category.split(", ").map { it.toInt() },
+        isUnread = eventEntity.isUnread,
+        phone = eventEntity.phone,
+        address = eventEntity.address,
+        organisation = eventEntity.organisation,
+    )
+}
+
+fun EventEntity.toDomainModel() = createEventFromEntity(this)
+
+fun List<EventEntity>.toDomainModelList() = this.map { createEventFromEntity(it) }
+
+private fun createEventEntityFromAPI(event: EventAPI): EventEntity {
+    val tz = TimeZone.currentSystemDefault()
+
+    return EventEntity(
+        id = event.id,
+        title = event.name,
+        description = event.description,
+        startDate = Instant.fromEpochSeconds(event.startDate).toLocalDateTime(tz).date,
+        endDate = Instant.fromEpochSeconds(event.endDate).toLocalDateTime(tz).date,
+        status = event.status,
+        photos = event.photos.joinToString(),
+        category = event.category.joinToString(),
+        isUnread = true,
+        createAt = Instant.fromEpochSeconds(event.createAt).toLocalDateTime(tz).date,
+        phone = event.phone,
+        address = event.address,
+        organisation = event.organisation,
+    )
+}
+
+fun EventAPI.toEntity() = createEventEntityFromAPI(this)
+
+fun List<EventAPI>.toEntityList() = this.map { createEventEntityFromAPI(it) }

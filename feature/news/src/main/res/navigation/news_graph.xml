@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/newsGraph"
+    app:startDestination="@id/newsFragment">
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.yara.feature_news.ui.NewsFragment"
+        android:label="@string/news_fragment_label"
+        tools:layout="@layout/fragment_news" />
+    <fragment
+        android:id="@+id/eventDetailsFragment"
+        android:name="com.yara.feature_news.ui.EventDetailsFragment"
+        android:label="fragment_event_details"
+        tools:layout="@layout/fragment_event_details" />
+    <fragment
+        android:id="@+id/filterGraph"
+        android:name="com.yara.feature_filter.ui.FilterFragment"
+        android:label="@string/filter_fragment_label"
+        tools:layout="@layout/fragment_filter" />
+
+    <include app:graph="@navigation/filter_graph"/>
+</navigation>

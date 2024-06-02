@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Хочу помочь</string>
+
+    <!-- Splash Screen -->
+    <string name="loading_label">Загрузка</string>
+
+    <!-- Strings used for top app bar menu -->
+    <string name="action_edit">Редактировать</string>
+    <string name="action_filter">Фильтр</string>
+    <string name="action_share">Поделиться</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="news_fragment_label">Новости</string>
+    <string name="search_fragment_label">Поиск</string>
+    <string name="help_fragment_label">Помочь</string>
+    <string name="bottom_nav_history">История</string>
+    <string name="profile_fragment_label">Профиль</string>
+    <string name="filter_fragment_label">Фильтр</string>
+    <string name="login_fragment_label">Авторизация</string>
+
+    <!-- Login fragment -->
+    <string name="login_subtitle">Для участия в мероприятиях войдите в приложение через социальые сети</string>
+    <string name="login_subtitle_1">Или авторизуйтесь через приложение</string>
+    <string name="email_label">E-mail</string>
+    <string name="password_label">Пароль</string>
+    <string name="til_email_hint">Введите e-mail</string>
+    <string name="til_password_hint">Введите пароль</string>
+    <string name="btn_login_label">ВОЙТИ</string>
+    <string name="forget_password_label"><a href="">Забыли пароль?</a></string>
+    <string name="register_label"><a href="">Регистрация</a></string>
+
+    <!-- Filter fragment -->
+    <string name="filter_label">Категории помощи</string>
+
+    <!-- News (events) fragment -->
+    <string name="event_sponsor_title">Благотворительный Фонд «Счастливый Мир»</string>
+    <string name="event_sponsor_address">Санкт-Петербург, Кирочная улица, д. 50А, каб. 208</string>
+    <string name="event_sponsor_phone">+7 (937) 037 37–73, +7 (937) 016 16–16</string>
+    <string name="event_sponsor_mail">У вас есть вопросы? <a href="">Напишите нам</a></string>
+    <string name="event_text">Участники и болельщики смогли весело и активно провести время на «Петербургском благотворительном марафоне» и при этом финансово поучаствовать в помощи детям.</string>
+    <string name="event_sponsor_link"><a href="">Перейти на сайт организации</a></string>
+    <string name="event_avatar_pane_text">+102</string>
+    <string name="event_date_string_format">Осталось %1$d дней (%2$02d.%3$02d - %4$02d.%5$02d)</string>
+
+    <!-- Search fragment -->
+    <string name="searchbar_hint">Введите название организации</string>
+    <string name="search_keys_label">Ключевые слова: мастер-класс, помощь</string>
+    <string name="search_results_label">Результаты поиска: 109 мероприятий</string>
+    <string name="search_desc_label">Напишите в строке поиска название мероприятия или ключевые слова.</string>
+    <string name="search_example_label">Например, <a href="">мастер-класс, помощь</a></string>
+
+    <!-- Help fragment -->
+    <string name="help_subtitle">Выберите категорию помощи</string>
+
+    <!-- Profile fragment -->
+    <string name="profile_full_name">Константинов Денис</string>
+    <string name="profile_birthdate_label">Дата рождения</string>
+    <string name="profile_birthdate">01 февраля 1980</string>
+    <string name="profile_profession_label">Сфера деятельности</string>
+    <string name="profile_profession">Хирургия, травматология</string>
+    <string name="profile_receive_pushes_label">Получать push-уведомления</string>
+    <string name="profile_friends_label">Ваши друзья</string>
+    <string name="profile_friend_name_1">Дмитрий Валерьевич</string>
+    <string name="profile_friend_name_2">Евгений Александров</string>
+    <string name="profile_friend_name_3">Виктор Кузнецов</string>
+    <string name="btn_logout_label">Выйти из аккаунта</string>
+
+    <!-- Profile photo edit dialog -->
+    <string name="upload_photo_label">Выбрать фото</string>
+    <string name="make_photo_label">Сделать снимок</string>
+    <string name="delete_photo_label">Удалить</string>
+</resources>

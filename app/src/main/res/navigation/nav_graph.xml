@@ -3,47 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/loginGraph">
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.yara.android_practicum.ui.profile.ProfileFragment"
+        android:name="com.yara.feature_profile.ui.ProfileFragment"
         android:label="@string/profile_fragment_label"
         tools:layout="@layout/fragment_profile" />
     <fragment
-        android:id="@+id/helpFragment"
-        android:name="com.yara.android_practicum.ui.help.HelpFragment"
+        android:id="@+id/helpGraph"
+        android:name="com.yara.feature_help.ui.HelpFragment"
         android:label="@string/help_fragment_label"
         tools:layout="@layout/fragment_help" />
     <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.yara.android_practicum.ui.search.SearchFragment"
-        android:label="@string/search_fragment_label"
-        tools:layout="@layout/fragment_search" />
-    <fragment
-        android:id="@+id/newsFragment"
-        android:name="com.yara.android_practicum.ui.news.NewsFragment"
+        android:id="@+id/newsGraph"
+        android:name="com.yara.feature_news.ui.NewsFragment"
         android:label="@string/news_fragment_label"
         tools:layout="@layout/fragment_news" />
     <fragment
-        android:id="@+id/filterFragment"
-        android:name="com.yara.android_practicum.ui.filter.FilterFragment"
-        android:label="@string/filter_fragment_label"
-        tools:layout="@layout/fragment_filter" />
-    <fragment
-        android:id="@+id/eventDetailsFragment"
-        android:name="com.yara.android_practicum.ui.news.EventDetailsFragment"
-        android:label="fragment_event_details"
-        tools:layout="@layout/fragment_event_details" />
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.yara.android_practicum.ui.login.LoginFragment"
-        android:label="@string/filter_fragment_label"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_helpFragment"
-            app:destination="@id/helpFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:id="@+id/searchFragment"
+        android:name="com.yara.feature_search.ui.SearchFragment"
+        android:label="@string/search_fragment_label"
+        tools:layout="@layout/fragment_search" />
+
+    <include app:graph="@navigation/help_graph"/>
+    <include app:graph="@navigation/login_graph"/>
+    <include app:graph="@navigation/news_graph" />
 </navigation>

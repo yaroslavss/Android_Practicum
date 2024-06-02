@@ -1,12 +1,16 @@
 package com.yara.android_practicum.di
 
 import android.content.Context
-import com.yara.android_practicum.di.module.AssetReaderModule
-import com.yara.android_practicum.di.module.DatabaseModule
-import com.yara.android_practicum.di.module.RemoteModule
-import com.yara.android_practicum.di.module.RepositoryModule
-import com.yara.android_practicum.ui.help.HelpViewModel
-import com.yara.android_practicum.ui.news.NewsViewModel
+import com.yara.android_practicum.di.module.ViewModelFactoryModule
+import com.yara.android_practicum.ui.MainActivity
+import com.yara.android_practicum.ui.SplashActivity
+import com.yara.core.di.module.DatabaseModule
+import com.yara.core.di.module.RemoteModule
+import com.yara.core.di.module.RepositoryModule
+import com.yara.feature_help.di.HelpComponent
+import com.yara.feature_help.ui.HelpFragment
+import com.yara.feature_news.di.NewsComponent
+import com.yara.feature_news.ui.NewsFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -14,19 +18,24 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        AssetReaderModule::class,
-        DatabaseModule::class,
         RemoteModule::class,
+        DatabaseModule::class,
         RepositoryModule::class,
+        ViewModelFactoryModule::class,
     ]
 )
-interface AppComponent {
+interface AppComponent : NewsComponent, HelpComponent {
 
     @Component.Factory
     interface Factory {
         fun create(@BindsInstance context: Context): AppComponent
     }
 
-    fun inject(helpViewModel: HelpViewModel)
-    fun inject(newsViewModel: NewsViewModel)
+    fun injectSplashActivity(splashActivity: SplashActivity)
+
+    fun injectMainActivity(mainActivity: MainActivity)
+
+    override fun injectHelpFragment(helpFragment: HelpFragment)
+
+    override fun injectNewsFragment(newsFragment: NewsFragment)
 }
