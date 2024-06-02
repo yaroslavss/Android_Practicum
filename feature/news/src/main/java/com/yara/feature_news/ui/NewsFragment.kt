@@ -1,5 +1,6 @@
 package com.yara.feature_news.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,14 +16,29 @@ import com.google.android.material.snackbar.Snackbar
 import com.yara.core.utils.Constants
 import com.yara.feature_news.R
 import com.yara.feature_news.databinding.FragmentNewsBinding
+import com.yara.feature_news.di.NewsComponentProvider
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class NewsFragment : Fragment() {
 
     private var _binding: FragmentNewsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by activityViewModels<NewsViewModel>()
+    @Inject
+    lateinit var viewModelFactory: NewsViewModelFactory
+
+    private val viewModel by activityViewModels<NewsViewModel>() {
+        viewModelFactory
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (context.applicationContext as NewsComponentProvider)
+            .getNewsComponent()
+            .injectNewsFragment(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

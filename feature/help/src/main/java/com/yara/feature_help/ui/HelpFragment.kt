@@ -1,5 +1,6 @@
 package com.yara.feature_help.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,14 +14,29 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.yara.feature_help.R
 import com.yara.feature_help.databinding.FragmentHelpBinding
+import com.yara.feature_help.di.HelpComponentProvider
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class HelpFragment : Fragment() {
 
     private var _binding: FragmentHelpBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by activityViewModels<HelpViewModel>()
+    @Inject
+    lateinit var viewModelFactory: HelpViewModelFactory
+
+    private val viewModel by activityViewModels<HelpViewModel> {
+        viewModelFactory
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (context.applicationContext as HelpComponentProvider)
+            .getHelpComponent()
+            .injectHelpFragment(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -1,26 +1,22 @@
 package com.yara.feature_news.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.yara.core.App
 import com.yara.core.data.db.entity.EventUpdateIsUnreadEntity
 import com.yara.core.domain.model.Categories
 import com.yara.core.domain.model.Event
 import com.yara.core.domain.model.Events
 import com.yara.core.domain.repository.CategoriesRepository
-import com.yara.core.domain.repository.EventsRepository
 import com.yara.core.domain.usecase.FilterEventsByTitleUseCase
-import com.yara.core.domain.usecase.GetAllCategoriesUseCase
 import com.yara.core.domain.usecase.GetAllEventsWithCategoriesUseCase
 import com.yara.core.domain.usecase.GetEventsByCategoriesUseCase
 import com.yara.core.domain.usecase.UpdateEventSetReadUseCase
-import com.yara.feature_news.di.DaggerNewsComponent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 data class NewsUiState(
     val categories: Categories = emptyList(),
@@ -32,30 +28,32 @@ data class NewsUiState(
     val userMessage: String = "",
 )
 
-class NewsViewModel : ViewModel() {
+class NewsViewModelFactory(
+    private val categoriesRepository: CategoriesRepository,
+    private val getAllEventsWithCategoriesUseCase: GetAllEventsWithCategoriesUseCase,
+    private val getEventsByCategoriesUseCase: GetEventsByCategoriesUseCase,
+    private val filterEventsByTitleUseCase: FilterEventsByTitleUseCase,
+    private val updateEventSetReadUseCase: UpdateEventSetReadUseCase,
+) : ViewModelProvider.NewInstanceFactory() {
 
-    private val context = App.instance
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>) =
+        NewsViewModel(
+            categoriesRepository,
+            getAllEventsWithCategoriesUseCase,
+            getEventsByCategoriesUseCase,
+            filterEventsByTitleUseCase,
+            updateEventSetReadUseCase,
+        ) as T
+}
 
-    @Inject
-    lateinit var getAllCategoriesUseCase: GetAllCategoriesUseCase
-
-    @Inject
-    lateinit var getAllEventsWithCategoriesUseCase: GetAllEventsWithCategoriesUseCase
-
-    @Inject
-    lateinit var getEventsByCategoriesUseCase: GetEventsByCategoriesUseCase
-
-    @Inject
-    lateinit var filterEventsByTitleUseCase: FilterEventsByTitleUseCase
-
-    @Inject
-    lateinit var updateEventSetReadUseCase: UpdateEventSetReadUseCase
-
-    @Inject
-    lateinit var categoriesRepository: CategoriesRepository
-
-    @Inject
-    lateinit var eventsRepository: EventsRepository
+class NewsViewModel(
+    private val categoriesRepository: CategoriesRepository,
+    private val getAllEventsWithCategoriesUseCase: GetAllEventsWithCategoriesUseCase,
+    private val getEventsByCategoriesUseCase: GetEventsByCategoriesUseCase,
+    private val filterEventsByTitleUseCase: FilterEventsByTitleUseCase,
+    private val updateEventSetReadUseCase: UpdateEventSetReadUseCase,
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NewsUiState())
     val uiState: StateFlow<NewsUiState> = _uiState
@@ -65,10 +63,6 @@ class NewsViewModel : ViewModel() {
     private val scope = viewModelScope
 
     init {
-        DaggerNewsComponent.factory()
-            .create(App.instance)
-            .inject(this)
-
         scope.launch {
             queryCategories()
                 .collect { categories ->

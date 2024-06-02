@@ -1,7 +1,5 @@
 package com.yara.core.data.mapper
 
-import com.yara.core.App
-import com.yara.core.R
 import com.yara.core.data.db.entity.EventEntity
 import com.yara.core.data.model.EventAPI
 import com.yara.core.domain.model.Event
@@ -15,7 +13,6 @@ import kotlinx.datetime.todayIn
 
 private fun createEventFromEntity(eventEntity: EventEntity): Event {
     // calculate date string
-    val context = App.instance
     val today: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())
     val eds = eventEntity.startDate
     val ede = eventEntity.endDate
@@ -27,8 +24,8 @@ private fun createEventFromEntity(eventEntity: EventEntity): Event {
         images = eventEntity.photos.split(", "),
         dateStart = eventEntity.startDate,
         dateEnd = eventEntity.endDate,
-        dateString = context.getString(
-            R.string.event_date_string_format,
+        dateString = String.format(
+            "Осталось %1$02d дней (%2$02d.%3$02d - %4$02d.%5$02d)",
             today.daysUntil(eds),
             eds.dayOfMonth,
             eds.monthNumber,

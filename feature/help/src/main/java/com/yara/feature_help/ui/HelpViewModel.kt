@@ -1,16 +1,14 @@
 package com.yara.feature_help.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.yara.core.App
 import com.yara.core.domain.model.Categories
 import com.yara.core.domain.repository.CategoriesRepository
 import com.yara.core.domain.usecase.GetAllCategoriesUseCase
-import com.yara.feature_help.di.DaggerHelpComponent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 sealed class CategoriesUiState {
     data object Loading : CategoriesUiState()
@@ -18,13 +16,20 @@ sealed class CategoriesUiState {
     data class Error(val message: String) : CategoriesUiState()
 }
 
-class HelpViewModel : ViewModel() {
+class HelpViewModelFactory(
+    private val categoriesRepository: CategoriesRepository,
+    private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
+) : ViewModelProvider.NewInstanceFactory() {
 
-    @Inject
-    lateinit var getAllCategoriesUseCase: GetAllCategoriesUseCase
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>) =
+        HelpViewModel(categoriesRepository, getAllCategoriesUseCase) as T
+}
 
-    @Inject
-    lateinit var categoriesRepository: CategoriesRepository
+class HelpViewModel(
+    private val categoriesRepository: CategoriesRepository,
+    private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
+) : ViewModel() {
 
     private val scope = viewModelScope
 
@@ -32,10 +37,6 @@ class HelpViewModel : ViewModel() {
     val uiState: StateFlow<CategoriesUiState> = _uiState
 
     init {
-        DaggerHelpComponent.factory()
-            .create(App.instance)
-            .inject(this)
-
         scope.launch {
             queryCategories()
         }

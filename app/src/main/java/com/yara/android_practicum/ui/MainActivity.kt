@@ -16,23 +16,35 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ActivityMainBinding
+import com.yara.android_practicum.di.DaggerAppComponent
 import com.yara.core.utils.Action
 import com.yara.core.utils.CallbackListener
 import com.yara.feature_news.ui.NewsViewModel
+import com.yara.feature_news.ui.NewsViewModelFactory
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), CallbackListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomNavView: BottomNavigationView
 
-    private val viewModel by viewModels<NewsViewModel>()
+    @Inject
+    lateinit var viewModelFactory: NewsViewModelFactory
+
+    private val viewModel by viewModels<NewsViewModel>() {
+        viewModelFactory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        DaggerAppComponent.factory()
+            .create(this)
+            .injectMainActivity(this)
 
         // set up navigation
         bottomNavView = findViewById(R.id.bottom_navigation)
