@@ -13,6 +13,11 @@ val Officina = FontFamily(
     Font(R.font.officina_sans_extra_bold_scc, FontWeight.Normal)
 )
 
+val AppBarText = TextStyle(
+    fontFamily = Officina,
+    fontSize = 21.sp,
+)
+
 val TextStyle10 = TextStyle(
     color = Black70,
     fontFamily = FontFamily.SansSerif,

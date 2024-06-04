@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.yara.feature_login.R
 import com.yara.feature_login.databinding.FragmentLoginBinding
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
@@ -40,7 +39,6 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.title = getString(R.string.login_fragment_label)
         val navController = findNavController()
         /*val btnLogin = binding.btnLogin
         btnLogin.isEnabled = false
