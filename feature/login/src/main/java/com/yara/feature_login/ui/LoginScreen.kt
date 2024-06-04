@@ -10,7 +10,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -24,7 +23,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -32,9 +30,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.yara.feature_login.R
 import com.yara.feature_login.ui.theme.AndroidPracticumTheme
+import com.yara.feature_login.ui.theme.Black12
+import com.yara.feature_login.ui.theme.Black38
+import com.yara.feature_login.ui.theme.HyperLink
 import com.yara.feature_login.ui.theme.Leaf
 import com.yara.feature_login.ui.theme.TextStyle10
 import com.yara.feature_login.ui.theme.TextStyle13
@@ -53,7 +53,9 @@ fun LoginScreen() {
                     top = dimensionResource(R.dimen.double_margin),
                 )
             )
+
             SocialNetworksIcons()
+
             Text(
                 stringResource(R.string.login_subtitle_1),
                 style = TextStyle10,
@@ -64,7 +66,10 @@ fun LoginScreen() {
                         end = dimensionResource(R.dimen.login_subtitle_horizontal_margin),
                     )
             )
+
             LoginInputs()
+
+            SigninLinks()
         }
     }
 }
@@ -89,7 +94,6 @@ fun SocialNetworksIcons() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginInputs() {
     Text(
@@ -101,12 +105,24 @@ fun LoginInputs() {
                 top = dimensionResource(R.dimen.default_margin),
             )
     )
+
     var email by rememberSaveable { mutableStateOf("") }
     TextField(
         value = email,
         onValueChange = { email = it },
         placeholder = { Text(stringResource(R.string.til_email_hint)) },
         singleLine = true,
+        colors = TextFieldDefaults.colors(
+            focusedTextColor = Black38,
+            unfocusedTextColor = Black38,
+            focusedContainerColor = White,
+            unfocusedContainerColor = White,
+            disabledContainerColor = White,
+            focusedIndicatorColor = Black12,
+            unfocusedIndicatorColor = Black12,
+            focusedPlaceholderColor = Black38,
+            unfocusedPlaceholderColor = Black38,
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .padding(
@@ -114,6 +130,7 @@ fun LoginInputs() {
                 end = dimensionResource(R.dimen.default_margin),
             )
     )
+
     Text(
         stringResource(R.string.password_label),
         style = TextStyle13,
@@ -123,6 +140,7 @@ fun LoginInputs() {
                 top = dimensionResource(R.dimen.default_margin),
             )
     )
+
     var password by rememberSaveable { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     TextField(
@@ -142,10 +160,17 @@ fun LoginInputs() {
                 Icon(painter = image, "")
             }
         },
-        colors = TextFieldDefaults.textFieldColors(
-            containerColor = White,
-            //focusedIndicatorColor =  Color.Transparent, //hide the indicator
-            /*unfocusedIndicatorColor = .....*/),
+        colors = TextFieldDefaults.colors(
+            focusedTextColor = Black38,
+            unfocusedTextColor = Black38,
+            focusedContainerColor = White,
+            unfocusedContainerColor = White,
+            disabledContainerColor = White,
+            focusedIndicatorColor = Black12,
+            unfocusedIndicatorColor = Black12,
+            focusedPlaceholderColor = Black38,
+            unfocusedPlaceholderColor = Black38,
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .padding(
@@ -153,6 +178,7 @@ fun LoginInputs() {
                 end = dimensionResource(R.dimen.default_margin),
             )
     )
+
     Button(
         onClick = { println("!!! login btn") },
         shape = RoundedCornerShape(dimensionResource(R.dimen.btn_radius)),
@@ -171,6 +197,29 @@ fun LoginInputs() {
             )
     ) {
         Text(stringResource(R.string.btn_login_label))
+    }
+}
+
+@Composable
+fun SigninLinks() {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                start = dimensionResource(R.dimen.default_margin),
+                top = dimensionResource(R.dimen.default_margin),
+                end = dimensionResource(R.dimen.default_margin),
+            )
+    ) {
+        Text(
+            stringResource(R.string.forget_password_label),
+            style = HyperLink,
+        )
+        Text(
+            stringResource(R.string.register_label),
+            style = HyperLink,
+        )
     }
 }
 

@@ -5,6 +5,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import com.yara.feature_login.R
 
@@ -28,4 +29,9 @@ val TextStyle13 = TextStyle(
     fontWeight = FontWeight.Normal,
     fontSize = 12.sp,
     lineHeight = 16.sp,
+)
+
+val HyperLink = TextStyle(
+    color = Leaf,
+    textDecoration = TextDecoration.Underline,
 )
