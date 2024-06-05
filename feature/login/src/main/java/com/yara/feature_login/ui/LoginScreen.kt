@@ -45,7 +45,7 @@ import com.yara.feature_login.ui.theme.TextStyle13
 import com.yara.feature_login.ui.theme.White
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(buttonOnClick: () -> Unit) {
     AndroidPracticumTheme {
         Column {
             CustomAppBar()
@@ -73,7 +73,7 @@ fun LoginScreen() {
                     )
             )
 
-            LoginInputs()
+            LoginInputs(buttonOnClick)
 
             SigninLinks()
         }
@@ -118,7 +118,7 @@ fun SocialNetworksIcons() {
 }
 
 @Composable
-fun LoginInputs() {
+fun LoginInputs(buttonOnClick: () -> Unit) {
     Text(
         stringResource(R.string.email_label),
         style = TextStyle13,
@@ -203,7 +203,8 @@ fun LoginInputs() {
     )
 
     Button(
-        onClick = { println("!!! login btn") },
+        enabled = email.length > 5 && password.length > 5,
+        onClick = buttonOnClick,
         shape = RoundedCornerShape(dimensionResource(R.dimen.btn_radius)),
         colors = ButtonDefaults.buttonColors(
             containerColor = Leaf
@@ -249,5 +250,5 @@ fun SigninLinks() {
 @Preview
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+    LoginScreen {}
 }
