@@ -18,6 +18,15 @@ val AppBarText = TextStyle(
     fontSize = 21.sp,
 )
 
+val EventTitleTextCentered = TextStyle(
+    color = BlueGrey,
+    fontFamily = Officina,
+    fontWeight = FontWeight.Normal,
+    fontSize = 21.sp,
+    textAlign = TextAlign.Center,
+    lineHeight = 23.sp,
+)
+
 val TextStyle10 = TextStyle(
     color = Black70,
     fontFamily = FontFamily.SansSerif,
