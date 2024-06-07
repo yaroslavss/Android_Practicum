@@ -1,15 +1,20 @@
 package com.yara.feature_news.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
@@ -17,7 +22,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.yara.core.domain.model.Event
 import com.yara.feature_news.R
+import com.yara.feature_news.ui.theme.EventBottomPaneText
 import com.yara.feature_news.ui.theme.EventTitleTextCentered
+import com.yara.feature_news.ui.theme.Leaf
 import com.yara.feature_news.ui.theme.TextStyle10
 import com.yara.feature_news.ui.theme.White
 
@@ -78,6 +85,29 @@ fun EventItem(event: Event, modifier: Modifier = Modifier) {
                         end = dimensionResource(R.dimen.event_title_horizontal_margin),
                     )
             )
+
+            EventBottomPane(event)
         }
+    }
+}
+
+@Composable
+fun EventBottomPane(event: Event) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = Leaf),
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_calendar),
+            contentDescription = null,
+            tint = White,
+        )
+        Text(
+            event.dateString,
+            style = EventBottomPaneText,
+        )
     }
 }

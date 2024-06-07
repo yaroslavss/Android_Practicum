@@ -27,6 +27,13 @@ val EventTitleTextCentered = TextStyle(
     lineHeight = 23.sp,
 )
 
+val EventBottomPaneText = TextStyle(
+    color = White,
+    fontSize = 12.sp,
+    textAlign = TextAlign.Center,
+    lineHeight = 16.sp,
+)
+
 val TextStyle10 = TextStyle(
     color = Black70,
     fontFamily = FontFamily.SansSerif,
