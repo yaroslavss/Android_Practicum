@@ -8,17 +8,11 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.yara.core.utils.Constants
 import com.yara.feature_news.R
 import com.yara.feature_news.databinding.FragmentNewsBinding
 import com.yara.feature_news.di.NewsComponentProvider
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NewsFragment : Fragment() {
@@ -53,7 +47,7 @@ class NewsFragment : Fragment() {
             // is destroyed
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                NewsScreen(viewModel)
+                NewsScreen(viewModel, ::navigateToFilterFragment)
             }
         }
         return view
@@ -105,5 +99,10 @@ class NewsFragment : Fragment() {
 
     private fun hideProgressBar() {
         binding.pbProgressBar.visibility = View.GONE
+    }
+
+    private fun navigateToFilterFragment() {
+        val navController = findNavController()
+        navController.navigate(R.id.filterGraph)
     }
 }

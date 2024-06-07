@@ -6,12 +6,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.yara.feature_news.R
@@ -21,17 +24,17 @@ import com.yara.feature_news.ui.theme.Leaf
 import com.yara.feature_news.ui.theme.White
 
 @Composable
-fun NewsScreen(viewModel: NewsViewModel) {
+fun NewsScreen(viewModel: NewsViewModel, buttonOnClick: () -> Unit) {
     val uiState by viewModel.uiState.collectAsState()
 
-    NewsScreenContent(uiState)
+    NewsScreenContent(uiState, buttonOnClick)
 }
 
 @Composable
-fun NewsScreenContent(uiState: NewsUiState) {
+fun NewsScreenContent(uiState: NewsUiState, buttonOnClick: () -> Unit) {
     AndroidPracticumTheme {
         Column {
-            CustomAppBar()
+            CustomAppBar(buttonOnClick)
 
             LazyColumn(Modifier.fillMaxSize()) {
                 items(uiState.events) {
@@ -44,7 +47,7 @@ fun NewsScreenContent(uiState: NewsUiState) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomAppBar() {
+fun CustomAppBar(buttonOnClick: () -> Unit) {
     CenterAlignedTopAppBar(
         title = {
             Text(
@@ -56,11 +59,20 @@ fun CustomAppBar() {
             containerColor = Leaf,
             titleContentColor = White,
         ),
+        actions = {
+            IconButton(onClick = buttonOnClick) {
+                Icon(
+                    painter = painterResource(R.drawable.filter),
+                    contentDescription = null,
+                    tint = White,
+                )
+            }
+        },
     )
 }
 
 @Preview
 @Composable
 fun NewsScreenContentPreview() {
-    NewsScreenContent(NewsUiState())
+    NewsScreenContent(NewsUiState()) {}
 }
