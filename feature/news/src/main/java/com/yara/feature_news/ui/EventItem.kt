@@ -2,7 +2,9 @@ package com.yara.feature_news.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,22 +22,27 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
 import com.yara.core.domain.model.Event
 import com.yara.feature_news.R
 import com.yara.feature_news.ui.theme.EventBottomPaneText
 import com.yara.feature_news.ui.theme.EventTitleTextCentered
-import com.yara.feature_news.ui.theme.Leaf
 import com.yara.feature_news.ui.theme.TextStyle10
+import com.yara.feature_news.ui.theme.TurtleGreen
 import com.yara.feature_news.ui.theme.White
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun EventItem(event: Event, modifier: Modifier = Modifier) {
+fun EventItem(event: Event, itemOnClick: (Event) -> Unit) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = White,
         ),
         shape = RoundedCornerShape(dimensionResource(R.dimen.card_radius)),
         modifier = Modifier
+            .clickable { itemOnClick(event) }
             .fillMaxWidth()
             .padding(
                 start = dimensionResource(R.dimen.spacing_xs),
@@ -44,14 +51,26 @@ fun EventItem(event: Event, modifier: Modifier = Modifier) {
             )
     ) {
         Column {
-            Image(
-                painter = painterResource(R.drawable.fade),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(dimensionResource(R.dimen.event_image_height))
-            )
+            Box(modifier = Modifier.padding(dimensionResource(R.dimen.spacing_xxs))) {
+                GlideImage(
+                    model = event.images.first(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    loading = placeholder(painterResource(R.drawable.news_img_1)),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(dimensionResource(R.dimen.event_image_height)),
+                )
+
+                Image(
+                    painter = painterResource(R.drawable.fade),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(dimensionResource(R.dimen.event_image_height))
+                )
+            }
 
             Text(
                 event.title,
@@ -83,6 +102,7 @@ fun EventItem(event: Event, modifier: Modifier = Modifier) {
                         start = dimensionResource(R.dimen.event_title_horizontal_margin),
                         top = dimensionResource(R.dimen.spacing_xs),
                         end = dimensionResource(R.dimen.event_title_horizontal_margin),
+                        bottom = dimensionResource(R.dimen.spacing_m)
                     )
             )
 
@@ -98,7 +118,8 @@ fun EventBottomPane(event: Event) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = Leaf),
+            .background(color = TurtleGreen)
+            .padding(dimensionResource(R.dimen.spacing_xs))
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_calendar),

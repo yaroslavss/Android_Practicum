@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.yara.core.domain.model.Event
 import com.yara.feature_news.R
 import com.yara.feature_news.ui.theme.AndroidPracticumTheme
 import com.yara.feature_news.ui.theme.AppBarText
@@ -24,21 +25,29 @@ import com.yara.feature_news.ui.theme.Leaf
 import com.yara.feature_news.ui.theme.White
 
 @Composable
-fun NewsScreen(viewModel: NewsViewModel, buttonOnClick: () -> Unit) {
+fun NewsScreen(
+    viewModel: NewsViewModel,
+    buttonOnClick: () -> Unit,
+    itemOnClick: (Event) -> Unit
+) {
     val uiState by viewModel.uiState.collectAsState()
 
-    NewsScreenContent(uiState, buttonOnClick)
+    NewsScreenContent(uiState, buttonOnClick, itemOnClick)
 }
 
 @Composable
-fun NewsScreenContent(uiState: NewsUiState, buttonOnClick: () -> Unit) {
+fun NewsScreenContent(
+    uiState: NewsUiState,
+    buttonOnClick: () -> Unit,
+    itemOnClick: (Event) -> Unit
+) {
     AndroidPracticumTheme {
         Column {
             CustomAppBar(buttonOnClick)
 
             LazyColumn(Modifier.fillMaxSize()) {
                 items(uiState.events) {
-                    EventItem(it, modifier = Modifier)
+                    EventItem(it, itemOnClick)
                 }
             }
         }
@@ -74,5 +83,5 @@ fun CustomAppBar(buttonOnClick: () -> Unit) {
 @Preview
 @Composable
 fun NewsScreenContentPreview() {
-    NewsScreenContent(NewsUiState()) {}
+    NewsScreenContent(NewsUiState(), {}, {})
 }

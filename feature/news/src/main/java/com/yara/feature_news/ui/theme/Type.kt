@@ -5,7 +5,6 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import com.yara.feature_news.R
 
@@ -41,18 +40,4 @@ val TextStyle10 = TextStyle(
     fontSize = 14.sp,
     textAlign = TextAlign.Center,
     lineHeight = 20.sp,
-)
-
-// LoginInputLabel
-val TextStyle13 = TextStyle(
-    color = Black38,
-    fontFamily = FontFamily.SansSerif,
-    fontWeight = FontWeight.Normal,
-    fontSize = 12.sp,
-    lineHeight = 16.sp,
-)
-
-val HyperLink = TextStyle(
-    color = Leaf,
-    textDecoration = TextDecoration.Underline,
 )

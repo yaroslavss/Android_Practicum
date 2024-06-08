@@ -15,6 +15,7 @@ rxJavaVersion = "3.1.8"
 rxAndroidVersion = "3.0.2"
 rxBindingVersion = "4.0.0"
 glideVersion = "4.16.0"
+glideComposeVersion = "1.0.0-beta01"
 roomVersion = "2.6.1"
 daggerVersion = "2.51.1"
 # plugins
@@ -59,6 +60,7 @@ rxbinding = { group = "com.jakewharton.rxbinding4", name = "rxbinding", version.
 rxbinding-appcompat = { group = "com.jakewharton.rxbinding4", name = "rxbinding-appcompat", version.ref = "rxBindingVersion" }
 # glide
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glideVersion" }
+glide-compose = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glideComposeVersion" }
 # room
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }

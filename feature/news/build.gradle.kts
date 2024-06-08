@@ -76,6 +76,7 @@ dependencies {
 
     // glide
     implementation(libs.glide)
+    implementation(libs.glide.compose)
 
     // dagger
     implementation(libs.google.dagger)
