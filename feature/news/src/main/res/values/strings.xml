@@ -18,6 +18,12 @@
     <string name="filter_fragment_label">Фильтр</string>
     <string name="login_fragment_label">Авторизация</string>
 
+    <!-- Bottom navigation strings for event details fragment -->
+    <string name="action_shirt">Помочь"\n"вещами</string>
+    <string name="action_hands">Стать"\n"волонтером</string>
+    <string name="action_tools">Проф."\n"помощь</string>
+    <string name="action_coins">Помочь"\n"деньгами</string>
+
     <!-- Login fragment -->
     <string name="login_subtitle">Для участия в мероприятиях войдите в приложение через социальые сети</string>
     <string name="login_subtitle_1">Или авторизуйтесь через приложение</string>

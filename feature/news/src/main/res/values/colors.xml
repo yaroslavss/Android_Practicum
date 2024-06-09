@@ -23,6 +23,7 @@
     <color name="cool_grey">#aabbbb</color>
     <color name="light_grey">#eaede8</color>
     <color name="light_grey_two">#e8eded</color>
+    <color name="light_grey_divider">#d8d8d8</color>
     <color name="blue_grey">#627f8f</color>
     <color name="splash_background">#FFEFF3F6</color>
     <color name="turtle_green">#FF7DB354</color>

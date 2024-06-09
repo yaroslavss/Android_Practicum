@@ -23,6 +23,8 @@ import com.yara.feature_news.ui.NewsViewModel
 import com.yara.feature_news.ui.NewsViewModelFactory
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.yara.feature_login.R as R_login
+import com.yara.feature_news.R as R_news
 
 class MainActivity : AppCompatActivity(), CallbackListener {
 
@@ -54,7 +56,8 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         // hide and show bottom navigation for some fragments
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                com.yara.feature_login.R.id.loginFragment -> hideBottomNav()
+                R_login.id.loginFragment -> hideBottomNav()
+                R_news.id.eventDetailsFragment -> hideBottomNav()
                 else -> showBottomNav()
             }
         }

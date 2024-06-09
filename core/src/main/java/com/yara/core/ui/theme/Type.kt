@@ -43,6 +43,15 @@ val TextStyle10 = TextStyle(
     lineHeight = 20.sp,
 )
 
+val TextStyle11 = TextStyle(
+    color = Black40,
+    fontFamily = FontFamily.SansSerif,
+    fontWeight = FontWeight.Normal,
+    fontSize = 11.sp,
+    textAlign = TextAlign.Center,
+    lineHeight = 13.sp,
+)
+
 // LoginInputLabel
 val TextStyle13 = TextStyle(
     color = Black38,
