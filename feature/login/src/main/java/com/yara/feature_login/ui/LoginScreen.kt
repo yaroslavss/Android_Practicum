@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -47,7 +49,10 @@ import com.yara.feature_login.ui.theme.White
 @Composable
 fun LoginScreen(buttonOnClick: () -> Unit) {
     AndroidPracticumTheme {
-        Column {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+        ) {
             CustomAppBar()
 
             Text(
@@ -230,11 +235,7 @@ fun SigninLinks() {
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(
-                start = dimensionResource(R.dimen.default_margin),
-                top = dimensionResource(R.dimen.default_margin),
-                end = dimensionResource(R.dimen.default_margin),
-            )
+            .padding(dimensionResource(R.dimen.default_margin))
     ) {
         Text(
             stringResource(R.string.forget_password_label),
