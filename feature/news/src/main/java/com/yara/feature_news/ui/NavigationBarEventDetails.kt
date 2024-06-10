@@ -1,6 +1,7 @@
 package com.yara.feature_news.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,9 +17,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.yara.feature_news.R
 import com.yara.core.ui.theme.Leaf
 import com.yara.core.ui.theme.TextStyle11
+import com.yara.feature_news.R
 
 val items = listOf(
     NavigationItem.Shirt,
@@ -28,7 +29,7 @@ val items = listOf(
 )
 
 @Composable
-fun NavigationBarEventDetails() {
+fun NavigationBarEventDetails(itemOnClick: () -> Unit) {
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically,
@@ -45,6 +46,11 @@ fun NavigationBarEventDetails() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .padding(top = dimensionResource(R.dimen.spacing_10_dp))
+                    .clickable {
+                        if (item is NavigationItem.Coins) {
+                            itemOnClick()
+                        }
+                    }
             ) {
                 Icon(
                     painter = painterResource(item.icon),
@@ -74,5 +80,5 @@ fun NavigationBarEventDetails() {
 @Preview
 @Composable
 fun NavigationBarEventDetailsPreview() {
-    NavigationBarEventDetails()
+    NavigationBarEventDetails {}
 }
