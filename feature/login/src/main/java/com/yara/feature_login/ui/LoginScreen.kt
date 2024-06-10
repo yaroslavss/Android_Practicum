@@ -35,16 +35,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import com.yara.core.ui.theme.AndroidPracticumTheme
+import com.yara.core.ui.theme.AppBarText
+import com.yara.core.ui.theme.Black12
+import com.yara.core.ui.theme.Black38
+import com.yara.core.ui.theme.HyperLink
+import com.yara.core.ui.theme.Leaf
+import com.yara.core.ui.theme.TextStyle10
+import com.yara.core.ui.theme.TextStyle13
+import com.yara.core.ui.theme.White
 import com.yara.feature_login.R
-import com.yara.feature_login.ui.theme.AndroidPracticumTheme
-import com.yara.feature_login.ui.theme.AppBarText
-import com.yara.feature_login.ui.theme.Black12
-import com.yara.feature_login.ui.theme.Black38
-import com.yara.feature_login.ui.theme.HyperLink
-import com.yara.feature_login.ui.theme.Leaf
-import com.yara.feature_login.ui.theme.TextStyle10
-import com.yara.feature_login.ui.theme.TextStyle13
-import com.yara.feature_login.ui.theme.White
 
 @Composable
 fun LoginScreen(buttonOnClick: () -> Unit) {

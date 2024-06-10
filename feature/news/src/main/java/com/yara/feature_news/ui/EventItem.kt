@@ -26,12 +26,12 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.yara.core.domain.model.Event
+import com.yara.core.ui.theme.EventBottomPaneText
+import com.yara.core.ui.theme.EventTitleTextCentered
+import com.yara.core.ui.theme.TextStyle10
+import com.yara.core.ui.theme.TurtleGreen
+import com.yara.core.ui.theme.White
 import com.yara.feature_news.R
-import com.yara.feature_news.ui.theme.EventBottomPaneText
-import com.yara.feature_news.ui.theme.EventTitleTextCentered
-import com.yara.feature_news.ui.theme.TextStyle10
-import com.yara.feature_news.ui.theme.TurtleGreen
-import com.yara.feature_news.ui.theme.White
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable

@@ -25,12 +25,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.yara.core.domain.model.Event
+import com.yara.core.ui.theme.AndroidPracticumTheme
+import com.yara.core.ui.theme.AppBarText
+import com.yara.core.ui.theme.Leaf
+import com.yara.core.ui.theme.TurtleGreen
+import com.yara.core.ui.theme.White
 import com.yara.feature_news.R
-import com.yara.feature_news.ui.theme.AndroidPracticumTheme
-import com.yara.feature_news.ui.theme.AppBarText
-import com.yara.feature_news.ui.theme.Leaf
-import com.yara.feature_news.ui.theme.TurtleGreen
-import com.yara.feature_news.ui.theme.White
 
 @Composable
 fun NewsScreen(

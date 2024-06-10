@@ -1,4 +1,4 @@
-package com.yara.feature_login.ui.theme
+package com.yara.core.ui.theme
 
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -7,7 +7,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
-import com.yara.feature_login.R
+import com.yara.core.R
 
 val Officina = FontFamily(
     Font(R.font.officina_sans_extra_bold_scc, FontWeight.Normal)
@@ -16,6 +16,22 @@ val Officina = FontFamily(
 val AppBarText = TextStyle(
     fontFamily = Officina,
     fontSize = 21.sp,
+)
+
+val EventTitleTextCentered = TextStyle(
+    color = BlueGrey,
+    fontFamily = Officina,
+    fontWeight = FontWeight.Normal,
+    fontSize = 21.sp,
+    textAlign = TextAlign.Center,
+    lineHeight = 23.sp,
+)
+
+val EventBottomPaneText = TextStyle(
+    color = White,
+    fontSize = 12.sp,
+    textAlign = TextAlign.Center,
+    lineHeight = 16.sp,
 )
 
 val TextStyle10 = TextStyle(
