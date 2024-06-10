@@ -22,6 +22,7 @@
     <!-- Login fragment -->
     <dimen name="login_subtitle_horizontal_margin">55dp</dimen>
     <dimen name="social_network_icon_side">40dp</dimen>
+    <dimen name="icon_row_horizontal_margin">80dp</dimen>
 
     <!-- News (events) fragment -->
     <dimen name="event_title_horizontal_margin">40dp</dimen>

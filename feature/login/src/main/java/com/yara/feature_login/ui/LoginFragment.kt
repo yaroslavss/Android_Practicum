@@ -1,62 +1,36 @@
 package com.yara.feature_login.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.jakewharton.rxbinding4.widget.textChanges
 import com.yara.feature_login.R
-import com.yara.feature_login.databinding.FragmentLoginBinding
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class LoginFragment : Fragment() {
-
-    private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
-
-    private val allDisposables = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
+        val view = inflater.inflate(R.layout.fragment_login, container, false)
+        val composeView = view.findViewById<ComposeView>(R.id.compose_view)
+        composeView.apply {
+            // Dispose of the Composition when the view's LifecycleOwner
+            // is destroyed
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                LoginScreen(::navigateToHelpFragment)
+            }
+        }
+        return view
     }
 
-    @SuppressLint("CheckResult")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.toolbar.title = getString(R.string.login_fragment_label)
+    private fun navigateToHelpFragment() {
         val navController = findNavController()
-        val btnLogin = binding.btnLogin
-        btnLogin.isEnabled = false
-
-        val resultEmail = binding.tietEmail.textChanges()
-        val resultPassword = binding.tietPassword.textChanges()
-
-        val result = Observable.combineLatest(resultEmail, resultPassword) { str1, str2 ->
-            str1.length > 5 && str2.length > 5
-        }.subscribe { result ->
-            btnLogin.isEnabled = result
-        }
-
-        allDisposables.addAll(result)
-
-        // proceed login button click
-        binding.btnLogin.setOnClickListener {
-            navController.navigate(R.id.action_loginFragment_to_helpFragment)
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        allDisposables.clear()
+        navController.navigate(R.id.action_loginFragment_to_helpFragment)
     }
 }

@@ -4,6 +4,7 @@ coreKtxVersion = "1.9.0"
 appcompatVersion = "1.6.1"
 materialVersion = "1.11.0"
 constraintlayoutVersion = "2.1.4"
+androidxComposeBomVersion = "2024.05.00"
 legacySupportVersion = "1.0.0"
 lifecycleVersion = "2.7.0"
 navigationVersion = "2.7.6"
@@ -14,6 +15,7 @@ rxJavaVersion = "3.1.8"
 rxAndroidVersion = "3.0.2"
 rxBindingVersion = "4.0.0"
 glideVersion = "4.16.0"
+glideComposeVersion = "1.0.0-beta01"
 roomVersion = "2.6.1"
 daggerVersion = "2.51.1"
 # plugins
@@ -30,6 +32,13 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompatVersion" }
 google-android-material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayoutVersion" }
+# compose
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBomVersion" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 # lifecycle
 androidx-legacy-support = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportVersion" }
 androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleVersion" }
@@ -51,6 +60,7 @@ rxbinding = { group = "com.jakewharton.rxbinding4", name = "rxbinding", version.
 rxbinding-appcompat = { group = "com.jakewharton.rxbinding4", name = "rxbinding-appcompat", version.ref = "rxBindingVersion" }
 # glide
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glideVersion" }
+glide-compose = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glideComposeVersion" }
 # room
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }

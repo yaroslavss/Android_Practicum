@@ -8,6 +8,8 @@ buildscript {
 
     val javaVersion by extra(JavaVersion.VERSION_17)
     val kotlinVersion by extra("17")
+
+    val composeVersion by extra("1.5.7")
 }
 
 @Suppress("DSL_SCOPE_VIOLATION")
