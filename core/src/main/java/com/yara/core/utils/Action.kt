@@ -7,4 +7,6 @@ sealed class Action {
     object MakeCameraPhoto : Action()
 
     object DeleteProfilePhoto : Action()
+
+    object SendMoneyToHelp : Action()
 }

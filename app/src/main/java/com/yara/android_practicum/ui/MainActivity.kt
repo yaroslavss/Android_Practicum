@@ -77,6 +77,10 @@ class MainActivity : AppCompatActivity(), CallbackListener {
             val photo: ImageView = findViewById(com.yara.feature_profile.R.id.acivPhoto)
             photo.setImageResource(R.drawable.image_user)
         }
+
+        is Action.SendMoneyToHelp -> {
+            println("!!! send money")
+        }
     }
 
     // This method will help to retrieve the image
