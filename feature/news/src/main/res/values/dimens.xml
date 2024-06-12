@@ -40,6 +40,9 @@
     <dimen name="event_avatar_side">36dp</dimen>
     <dimen name="event_bottom_bar_height">75dp</dimen>
 
+    <!-- Help dialog -->
+    <dimen name="help_dialog_btn_width">78dp</dimen>
+
     <!-- Search fragment -->
     <dimen name="tab_indicator_height">4dp</dimen>
     <dimen name="search_results_text_margin">18dp</dimen>

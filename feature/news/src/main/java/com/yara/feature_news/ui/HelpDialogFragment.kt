@@ -1,5 +1,6 @@
 package com.yara.feature_news.ui
 
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,14 +19,7 @@ class HelpDialogFragment(private val callbackListener: CallbackListener) : Dialo
     override fun onStart() {
         super.onStart()
         // set transparent background
-        dialog?.window?.setBackgroundDrawable(
-            ColorDrawable(
-                resources.getColor(
-                    R.color.black_dialog_bg,
-                    null
-                )
-            )
-        )
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
     override fun onCreateView(
