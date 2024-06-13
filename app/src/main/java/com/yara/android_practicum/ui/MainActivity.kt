@@ -13,10 +13,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.Constraints
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ActivityMainBinding
 import com.yara.android_practicum.di.DaggerAppComponent
+import com.yara.core.domain.worker.SendNotificationWorker
 import com.yara.core.utils.Action
 import com.yara.core.utils.CallbackListener
 import com.yara.feature_news.ui.NewsViewModel
@@ -79,7 +83,7 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         }
 
         is Action.SendMoneyToHelp -> {
-            println("!!! send ${action.amount} to ${action.eventId}")
+            createWorkRequest(action)
         }
     }
 
@@ -127,6 +131,21 @@ class MainActivity : AppCompatActivity(), CallbackListener {
             Intent.createChooser(intent, SELECT_PICTURE_TITLE),
             SELECT_PICTURE_CODE
         )
+    }
+
+    private fun createWorkRequest(action: Action.SendMoneyToHelp) {
+        println("!!! send ${action.amount} to ${action.eventId}")
+
+        val constraints = Constraints.Builder()
+            .setRequiresCharging(true)
+            .build()
+
+        val sendNotificationWorkRequest =
+            OneTimeWorkRequestBuilder<SendNotificationWorker>()
+                .setConstraints(constraints)
+                .build()
+
+        WorkManager.getInstance(this).enqueue(sendNotificationWorkRequest)
     }
 
     private fun hideBottomNav() {
