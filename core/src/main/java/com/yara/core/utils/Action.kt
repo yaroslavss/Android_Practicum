@@ -8,5 +8,5 @@ sealed class Action {
 
     object DeleteProfilePhoto : Action()
 
-    object SendMoneyToHelp : Action()
+    class SendMoneyToHelp(val eventId: Int, val amount: Int) : Action()
 }

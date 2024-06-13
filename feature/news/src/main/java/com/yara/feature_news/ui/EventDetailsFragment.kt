@@ -25,6 +25,8 @@ class EventDetailsFragment : Fragment() {
 
     private val viewModel by activityViewModels<NewsViewModel>()
 
+    var event: Event? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,7 +48,7 @@ class EventDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val event = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        event = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(Constants.PARCELABLE_EVENT_KEY, Event::class.java)
         } else {
             arguments?.getParcelable(Constants.PARCELABLE_EVENT_KEY) as Event?
@@ -69,16 +71,16 @@ class EventDetailsFragment : Fragment() {
                 tvEventText.text = it.description
             }
 
-            if (event.images.size > 0) {
-                showImage(event.images.first(), binding.ivEventImageMain)
+            if (event!!.images.size > 0) {
+                showImage(event!!.images.first(), binding.ivEventImageMain)
             }
 
-            if (event.images.size > 1) {
-                showImage(event.images.get(1), binding.ivEventImage2)
+            if (event!!.images.size > 1) {
+                showImage(event!!.images.get(1), binding.ivEventImage2)
             }
 
-            if (event.images.size > 2) {
-                showImage(event.images.get(2), binding.ivEventImage3)
+            if (event!!.images.size > 2) {
+                showImage(event!!.images.get(2), binding.ivEventImage3)
             }
 
             // set badge for bottom navigation view
@@ -113,7 +115,7 @@ class EventDetailsFragment : Fragment() {
     }
 
     private fun openHelpDialog() {
-        val dialogFragment = HelpDialogFragment(requireActivity() as CallbackListener)
+        val dialogFragment = HelpDialogFragment(requireActivity() as CallbackListener, event?.id)
         dialogFragment.show(requireActivity().supportFragmentManager, "HELP_DIALOG")
     }
 }

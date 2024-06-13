@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         }
 
         is Action.SendMoneyToHelp -> {
-            println("!!! send money")
+            println("!!! send ${action.amount} to ${action.eventId}")
         }
     }
 
