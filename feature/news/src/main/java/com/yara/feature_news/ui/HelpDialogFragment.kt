@@ -54,12 +54,16 @@ class HelpDialogFragment(
         val btnSend = binding.btnSend
         btnSend.isEnabled = false
 
-        val result = binding.tietAmount.textChanges().subscribe { charSeq ->
-            if (charSeq.isNotEmpty()) {
-                val amount = charSeq.toString().toInt()
-                btnSend.isEnabled = amount in MIN_AMOUNT_VALUE..MAX_AMOUNT_VALUE
+        val result = binding.tietAmount.textChanges()
+            .subscribe { charSeq ->
+                if (charSeq.isNotEmpty()) {
+                    try {
+                        val amount = charSeq.toString().toInt()
+                        btnSend.isEnabled = amount in MIN_AMOUNT_VALUE..MAX_AMOUNT_VALUE
+                    } catch (_: NumberFormatException) {
+                    }
+                }
             }
-        }
 
         allDisposables.add(result)
 
