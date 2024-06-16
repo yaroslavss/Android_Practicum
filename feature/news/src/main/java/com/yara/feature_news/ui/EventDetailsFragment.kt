@@ -115,7 +115,11 @@ class EventDetailsFragment : Fragment() {
     }
 
     private fun openHelpDialog() {
-        val dialogFragment = HelpDialogFragment(requireActivity() as CallbackListener, event?.id)
+        val dialogFragment = HelpDialogFragment(
+            requireActivity() as CallbackListener,
+            event?.id,
+            event?.title,
+        )
         dialogFragment.show(requireActivity().supportFragmentManager, "HELP_DIALOG")
     }
 }

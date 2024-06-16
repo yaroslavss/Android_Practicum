@@ -24,6 +24,7 @@ enum class HelpAmount(val amount: Int) {
 class HelpDialogFragment(
     private val callbackListener: CallbackListener,
     private val eventId: Int?,
+    private val eventTitle: String?,
 ) : DialogFragment() {
 
     private var _binding: FragmentHelpDialogBinding? = null
@@ -47,8 +48,6 @@ class HelpDialogFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        println("!!! $eventId")
 
         // proceed edit text change
         val btnSend = binding.btnSend
@@ -96,7 +95,8 @@ class HelpDialogFragment(
             callbackListener.onDataReceived(
                 Action.SendMoneyToHelp(
                     eventId!!,
-                    binding.tietAmount.text.toString().toInt()
+                    eventTitle!!,
+                    binding.tietAmount.text.toString().toInt(),
                 )
             )
             dismiss()

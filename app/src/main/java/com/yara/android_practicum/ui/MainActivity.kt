@@ -16,6 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.work.Constraints
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ActivityMainBinding
@@ -134,8 +135,6 @@ class MainActivity : AppCompatActivity(), CallbackListener {
     }
 
     private fun createWorkRequest(action: Action.SendMoneyToHelp) {
-        println("!!! send ${action.amount} to ${action.eventId}")
-
         val constraints = Constraints.Builder()
             .setRequiresCharging(true)
             .build()
@@ -143,6 +142,13 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         val sendNotificationWorkRequest =
             OneTimeWorkRequestBuilder<SendNotificationWorker>()
                 .setConstraints(constraints)
+                .setInputData(
+                    workDataOf(
+                        "eventId" to action.eventId,
+                        "eventTitle" to action.eventTitle,
+                        "amount" to action.amount,
+                    )
+                )
                 .build()
 
         WorkManager.getInstance(this).enqueue(sendNotificationWorkRequest)

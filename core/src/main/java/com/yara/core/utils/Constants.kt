@@ -16,4 +16,9 @@ object Constants {
     const val CATEGORIES_TABLE = "categories"
     const val EVENTS_TABLE = "events"
     const val EVENTS_CATEGORIES_TABLE = "events_categories"
+
+    // notifications constants
+    const val CHANNEL_ID = "help_notification_channel_id"
+    const val CHANNEL_NAME = "help_notification_channel_name"
+    const val CHANNEL_DESC = "help_notification_channel_desc"
 }
