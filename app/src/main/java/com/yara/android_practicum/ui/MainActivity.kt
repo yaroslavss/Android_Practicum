@@ -21,7 +21,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yara.android_practicum.R
 import com.yara.android_practicum.databinding.ActivityMainBinding
 import com.yara.android_practicum.di.DaggerAppComponent
-import com.yara.core.domain.worker.SendNotificationWorker
+import com.yara.android_practicum.domain.worker.SendNotificationWorker
 import com.yara.core.utils.Action
 import com.yara.core.utils.CallbackListener
 import com.yara.feature_news.ui.NewsViewModel
