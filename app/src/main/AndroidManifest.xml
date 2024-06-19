@@ -31,6 +31,8 @@
             android:name=".ui.MainActivity"
             android:theme="@style/Theme.Android_Practicum.NoActionBar">
         </activity>
+
+        <receiver android:name=".domain.worker.NotificationReceiver" />
     </application>
 
 </manifest>
