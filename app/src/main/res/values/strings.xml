@@ -69,4 +69,10 @@
     <string name="upload_photo_label">Выбрать фото</string>
     <string name="make_photo_label">Сделать снимок</string>
     <string name="delete_photo_label">Удалить</string>
+
+    <!-- Notifications -->
+    <string name="goto_settings">Перейти в настройки</string>
+    <string name="permissions_granted">Разрешение на отправку сообщений выдано</string>
+    <string name="need_permissions">Необходимо выдать разрешение на отправку сообщений</string>
+    <string name="txt_error_post_notification">Необходимо выдать разрешение на отправку сообщений</string>
 </resources>
