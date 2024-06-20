@@ -21,4 +21,10 @@ object Constants {
     const val CHANNEL_ID = "help_notification_channel_id"
     const val CHANNEL_NAME = "help_notification_channel_name"
     const val CHANNEL_DESC = "help_notification_channel_desc"
+
+    const val EXTRA_EVENT_ID = "EVENT_ID"
+    const val EXTRA_EVENT_TITLE = "EVENT_TITLE"
+    const val EXTRA_AMOUNT = "AMOUNT"
+
+    const val SECOND_NOTIFICATION_DELAY = 2L
 }

@@ -11,13 +11,15 @@ class SendNotificationWorker(context: Context, workerParams: WorkerParameters) :
         val eventId = inputData.getInt("eventId", 0)
         val eventTitle = inputData.getString("eventTitle") ?: ""
         val amount = inputData.getInt("amount", 0)
+        val addAction = inputData.getBoolean("addAction", true)
 
         NotificationHelper.createNotification(
             applicationContext,
             mapOf(
                 "eventId" to eventId.toString(),
                 "eventTitle" to eventTitle,
-                "amount" to amount.toString()
+                "amount" to amount.toString(),
+                "addAction" to addAction.toString(),
             )
         )
 

@@ -17,13 +17,15 @@ object NotificationHelper {
     private var eventId = 0
     private var eventTitle = ""
     private var amount = 0
+    private var addAction = false
 
     fun createNotification(context: Context, data: Map<String, String>) {
         eventId = data.get("eventId")?.toInt() ?: 0
         eventTitle = data.get("eventTitle") ?: ""
         amount = data.get("amount")?.toInt() ?: 0
+        addAction = data.get("addAction").toBoolean()
 
-        println("!!! create notification: $eventId, $eventTitle, $amount")
+        var notificationId = eventId + 1
 
         // intent to open activity
         val intent = Intent(context, MainActivity::class.java)
@@ -34,31 +36,46 @@ object NotificationHelper {
         val pendingIntent =
             PendingIntent.getActivity(context, 0, intent, flags)
 
-        // intent to send another notification
-        val intent1 = Intent(context, NotificationReceiver::class.java).apply {
-            putExtra("MESSAGE", "Clicked $eventId $eventTitle!")
-        }
-
-        val flags1 = PendingIntent.FLAG_IMMUTABLE
-
-        val pendingIntent1 = PendingIntent.getBroadcast(context, 0, intent1, flags1)
-
         val builder = NotificationCompat.Builder(context, Constants.CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(eventTitle)
-            .setContentText(context.getString(R.string.notification_text_format, amount))
+            .setContentText(context.getString(R.string.notification_text_second))
             .setStyle(
                 NotificationCompat.BigTextStyle()
                     .bigText(
-                        context.getString(
-                            R.string.notification_text_format,
-                            amount
-                        )
+                        context.getString(R.string.notification_text_second)
                     )
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
-            .addAction(0, "ACTION", pendingIntent1)
+
+
+        if (addAction) {
+            // intent to send another notification
+            val intent1 = Intent(context, NotificationReceiver::class.java).apply {
+                putExtra(Constants.EXTRA_EVENT_ID, eventId)
+                putExtra(Constants.EXTRA_EVENT_TITLE, eventTitle)
+                putExtra(Constants.EXTRA_AMOUNT, amount)
+            }
+
+            val flags1 = PendingIntent.FLAG_IMMUTABLE
+            val pendingIntent1 = PendingIntent.getBroadcast(context, 0, intent1, flags1)
+
+            builder
+                .setContentText(context.getString(R.string.notification_text_format, amount))
+                .setStyle(
+                    NotificationCompat.BigTextStyle()
+                        .bigText(
+                            context.getString(
+                                R.string.notification_text_format,
+                                amount
+                            )
+                        )
+                )
+                .addAction(0, context.getString(R.string.notification_action), pendingIntent1)
+
+            notificationId = eventId + 10
+        }
 
         val notificationManager = NotificationManagerCompat.from(context)
 
@@ -78,7 +95,6 @@ object NotificationHelper {
             return
         }
 
-        val notificationId = eventId + 1
         notificationManager.notify(notificationId, builder.build())
     }
 }
