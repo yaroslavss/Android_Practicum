@@ -5,12 +5,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.yara.android_practicum.ui.MainActivity
+import androidx.navigation.NavDeepLinkBuilder
 import com.yara.core.R
 import com.yara.core.utils.Constants
+import com.yara.feature_news.R as R_news
 
 object NotificationHelper {
 
@@ -28,13 +30,22 @@ object NotificationHelper {
         var notificationId = eventId + 1
 
         // intent to open activity
-        val intent = Intent(context, MainActivity::class.java)
+        /*val intent = Intent(context, MainActivity::class.java)
 
         val flags = PendingIntent.FLAG_UPDATE_CURRENT or
                 PendingIntent.FLAG_IMMUTABLE
 
         val pendingIntent =
-            PendingIntent.getActivity(context, 0, intent, flags)
+            PendingIntent.getActivity(context, 0, intent, flags)*/
+
+        val bundle = Bundle()
+        bundle.putInt(Constants.INTENT_EVENT_KEY, eventId)
+
+        val pendingIntent = NavDeepLinkBuilder(context)
+            .setGraph(R_news.navigation.news_graph)
+            .setDestination(R_news.id.eventDetailsFragment)
+            .setArguments(bundle)
+            .createPendingIntent()
 
         val builder = NotificationCompat.Builder(context, Constants.CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher)

@@ -6,6 +6,7 @@ object Constants {
     const val EVENTS_ASSET_FILENAME = "events.json"
 
     const val PARCELABLE_EVENT_KEY = "event"
+    const val INTENT_EVENT_KEY = "event_id"
 
     const val EXECUTOR_TIMEOUT = 2000L
 
