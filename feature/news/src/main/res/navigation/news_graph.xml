@@ -14,10 +14,6 @@
         android:name="com.yara.feature_news.ui.EventDetailsFragment"
         android:label="fragment_event_details"
         tools:layout="@layout/fragment_event_details" >
-        <argument
-            android:name="eventId"
-            app:argType="integer"
-            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/filterGraph"

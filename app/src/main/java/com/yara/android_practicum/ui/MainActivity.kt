@@ -32,6 +32,7 @@ import com.yara.android_practicum.di.DaggerAppComponent
 import com.yara.android_practicum.domain.worker.SendNotificationWorker
 import com.yara.core.utils.Action
 import com.yara.core.utils.CallbackListener
+import com.yara.core.utils.Constants
 import com.yara.feature_news.ui.NewsViewModel
 import com.yara.feature_news.ui.NewsViewModelFactory
 import kotlinx.coroutines.launch
@@ -65,6 +66,16 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         bottomNavView = findViewById(R.id.bottom_navigation)
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         bottomNavView.setupWithNavController(navController)
+
+        // handle tap from notification
+        val intent = intent
+        val eventId = intent.getIntExtra(Constants.INTENT_EVENT_KEY, 0)
+
+        if (eventId != 0) {
+            val bundle = Bundle()
+            bundle.putInt(Constants.INTENT_EVENT_KEY, eventId)
+            navController.navigate(R_login.id.action_loginFragment_to_eventDetailsFragment, bundle)
+        }
 
         // hide and show bottom navigation for some fragments
         navController.addOnDestinationChangedListener { _, destination, _ ->

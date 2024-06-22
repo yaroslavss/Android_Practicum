@@ -5,14 +5,12 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.navigation.NavDeepLinkBuilder
+import com.yara.android_practicum.ui.MainActivity
 import com.yara.core.R
 import com.yara.core.utils.Constants
-import com.yara.feature_news.R as R_news
 
 object NotificationHelper {
 
@@ -30,22 +28,14 @@ object NotificationHelper {
         var notificationId = eventId + 1
 
         // intent to open activity
-        /*val intent = Intent(context, MainActivity::class.java)
+        val intent = Intent(context, MainActivity::class.java)
+        intent.putExtra(Constants.INTENT_EVENT_KEY, eventId)
 
         val flags = PendingIntent.FLAG_UPDATE_CURRENT or
                 PendingIntent.FLAG_IMMUTABLE
 
         val pendingIntent =
-            PendingIntent.getActivity(context, 0, intent, flags)*/
-
-        val bundle = Bundle()
-        bundle.putInt(Constants.INTENT_EVENT_KEY, eventId)
-
-        val pendingIntent = NavDeepLinkBuilder(context)
-            .setGraph(R_news.navigation.news_graph)
-            .setDestination(R_news.id.eventDetailsFragment)
-            .setArguments(bundle)
-            .createPendingIntent()
+            PendingIntent.getActivity(context, 0, intent, flags)
 
         val builder = NotificationCompat.Builder(context, Constants.CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher)
@@ -63,14 +53,15 @@ object NotificationHelper {
 
         if (addAction) {
             // intent to send another notification
-            val intent1 = Intent(context, NotificationReceiver::class.java).apply {
+            val intentToSend = Intent(context, NotificationReceiver::class.java).apply {
                 putExtra(Constants.EXTRA_EVENT_ID, eventId)
                 putExtra(Constants.EXTRA_EVENT_TITLE, eventTitle)
                 putExtra(Constants.EXTRA_AMOUNT, amount)
             }
 
-            val flags1 = PendingIntent.FLAG_IMMUTABLE
-            val pendingIntent1 = PendingIntent.getBroadcast(context, 0, intent1, flags1)
+            val flagsToSend = PendingIntent.FLAG_IMMUTABLE
+            val pendingIntentToSend =
+                PendingIntent.getBroadcast(context, 0, intentToSend, flagsToSend)
 
             builder
                 .setContentText(context.getString(R.string.notification_text_format, amount))
@@ -83,7 +74,7 @@ object NotificationHelper {
                             )
                         )
                 )
-                .addAction(0, context.getString(R.string.notification_action), pendingIntent1)
+                .addAction(0, context.getString(R.string.notification_action), pendingIntentToSend)
 
             notificationId = eventId + 10
         }

@@ -4,6 +4,7 @@ import com.yara.core.domain.repository.CategoriesRepository
 import com.yara.core.domain.usecase.FilterEventsByTitleUseCase
 import com.yara.core.domain.usecase.GetAllCategoriesUseCase
 import com.yara.core.domain.usecase.GetAllEventsWithCategoriesUseCase
+import com.yara.core.domain.usecase.GetEventByIdUseCase
 import com.yara.core.domain.usecase.GetEventsByCategoriesUseCase
 import com.yara.core.domain.usecase.UpdateEventSetReadUseCase
 import com.yara.feature_help.ui.HelpViewModelFactory
@@ -31,11 +32,13 @@ class ViewModelFactoryModule {
         getEventsByCategoriesUseCase: GetEventsByCategoriesUseCase,
         filterEventsByTitleUseCase: FilterEventsByTitleUseCase,
         updateEventSetReadUseCase: UpdateEventSetReadUseCase,
+        getEventByIdUseCase: GetEventByIdUseCase,
     ): NewsViewModelFactory = NewsViewModelFactory(
         categoriesRepository,
         getAllEventsWithCategoriesUseCase,
         getEventsByCategoriesUseCase,
         filterEventsByTitleUseCase,
         updateEventSetReadUseCase,
+        getEventByIdUseCase,
     )
 }
