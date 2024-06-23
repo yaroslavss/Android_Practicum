@@ -49,7 +49,7 @@ object NotificationHelper {
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
-
+            .setAutoCancel(true)
 
         if (addAction) {
             // intent to send another notification

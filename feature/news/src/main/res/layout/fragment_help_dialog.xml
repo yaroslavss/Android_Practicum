@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/default_margin"
                 android:gravity="center_horizontal"
-                android:hint="@string/til_email_hint"
+                android:hint="@string/til_amount_hint"
                 android:inputType="number"
                 android:paddingStart="0dp"
                 android:paddingEnd="0dp" />
