@@ -19,5 +19,4 @@
     <include app:graph="@navigation/help_graph"/>
     <include app:graph="@navigation/login_graph"/>
     <include app:graph="@navigation/news_graph" />
-    <include app:graph="@navigation/news_graph_details" />
 </navigation>

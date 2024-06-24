@@ -74,7 +74,8 @@ class MainActivity : AppCompatActivity(), CallbackListener {
         if (eventId != 0) {
             val bundle = Bundle()
             bundle.putInt(Constants.INTENT_EVENT_KEY, eventId)
-            navController.navigate(R_login.id.action_loginFragment_to_eventDetailsFragment, bundle)
+            navController.setGraph(R_news.navigation.news_graph)
+            navController.navigate(R_news.id.eventDetailsFragment, bundle)
         }
 
         // hide and show bottom navigation for some fragments
@@ -217,11 +218,6 @@ class MainActivity : AppCompatActivity(), CallbackListener {
             Toast.makeText(this, getString(R.string.permissions_granted), Toast.LENGTH_SHORT)
                 .show()
         } else {
-            Toast.makeText(
-                this, getString(R.string.need_permissions),
-                Toast.LENGTH_LONG
-            ).show()
-
             Snackbar.make(
                 binding.root,
                 String.format(

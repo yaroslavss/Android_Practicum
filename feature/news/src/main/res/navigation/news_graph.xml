@@ -22,4 +22,9 @@
         tools:layout="@layout/fragment_filter" />
 
     <include app:graph="@navigation/filter_graph"/>
+    <action
+        android:id="@+id/action_global_eventDetailsFragment"
+        app:destination="@id/eventDetailsFragment"
+        app:popUpTo="@id/newsFragment"
+        app:popUpToInclusive="true" />
 </navigation>

@@ -14,10 +14,5 @@
             app:destination="@id/helpGraph"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_loginFragment_to_eventDetailsFragment"
-            app:destination="@id/newsGraphDetails"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
