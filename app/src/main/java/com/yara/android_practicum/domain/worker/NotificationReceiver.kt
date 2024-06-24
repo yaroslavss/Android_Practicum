@@ -3,6 +3,7 @@ package com.yara.android_practicum.domain.worker
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.core.app.NotificationManagerCompat
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -31,6 +32,9 @@ class NotificationReceiver : BroadcastReceiver() {
                     .build()
 
             WorkManager.getInstance(context!!).enqueue(sendNotificationWorkRequest)
+
+            // cancel notification after tapping action button
+            NotificationManagerCompat.from(context).cancel(eventId + 10)
         }
     }
 }
