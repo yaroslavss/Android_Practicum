@@ -16,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.yara.core.domain.model.Event
-import com.yara.core.utils.CallbackListener
 import com.yara.core.utils.Constants
 import com.yara.feature_news.R
 import com.yara.feature_news.databinding.FragmentEventDetailsBinding
@@ -37,7 +36,6 @@ class EventDetailsFragment : Fragment() {
     }
 
     var event: Event? = null
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -148,11 +146,7 @@ class EventDetailsFragment : Fragment() {
     }
 
     private fun openHelpDialog() {
-        val dialogFragment = HelpDialogFragment(
-            requireActivity() as CallbackListener,
-            event?.id,
-            event?.title,
-        )
+        val dialogFragment = HelpDialogFragment.newInstance(event?.id!!, event?.title!!)
         dialogFragment.show(requireActivity().supportFragmentManager, "HELP_DIALOG")
     }
 }

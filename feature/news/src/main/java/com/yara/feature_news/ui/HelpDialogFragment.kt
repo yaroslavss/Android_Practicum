@@ -1,5 +1,7 @@
 package com.yara.feature_news.ui
 
+import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -21,16 +23,31 @@ enum class HelpAmount(val amount: Int) {
     TWO_THOUSANDS(2000),
 }
 
-class HelpDialogFragment(
-    private val callbackListener: CallbackListener,
-    private val eventId: Int?,
-    private val eventTitle: String?,
-) : DialogFragment() {
+class HelpDialogFragment : DialogFragment() {
 
     private var _binding: FragmentHelpDialogBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var callbackListener: CallbackListener
+
+    private var eventId: Int? = null
+    private var eventTitle: String? = null
+
     private val allDisposables = CompositeDisposable()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        try {
+            callbackListener = context as CallbackListener
+        } catch (e: ClassCastException) {
+            // The activity doesn't implement the interface. Throw exception.
+            throw ClassCastException(
+                (context.toString() +
+                        " must implement CallbackListener")
+            )
+        }
+    }
 
     override fun onStart() {
         super.onStart()
@@ -107,6 +124,13 @@ class HelpDialogFragment(
         return R.style.DialogTheme
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        eventId = arguments?.getInt(EVENT_ID_KEY)
+        eventTitle = arguments?.getString(EVENT_TITLE_KEY)
+
+        return super.onCreateDialog(savedInstanceState)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -116,5 +140,19 @@ class HelpDialogFragment(
     companion object {
         const val MIN_AMOUNT_VALUE = 1
         const val MAX_AMOUNT_VALUE = 9_999_999
+
+        const val EVENT_ID_KEY = "eventId"
+        const val EVENT_TITLE_KEY = "eventTitle"
+
+        fun newInstance(eventId: Int, eventTitle: String): HelpDialogFragment {
+            val dialog = HelpDialogFragment()
+
+            val bundle = Bundle()
+            bundle.putInt(EVENT_ID_KEY, eventId)
+            bundle.putString(EVENT_TITLE_KEY, eventTitle)
+            dialog.arguments = bundle
+
+            return dialog
+        }
     }
 }
