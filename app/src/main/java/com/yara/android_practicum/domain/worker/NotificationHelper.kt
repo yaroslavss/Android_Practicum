@@ -14,18 +14,20 @@ import com.yara.core.utils.Constants
 
 object NotificationHelper {
 
-    private var eventId = 0
+    private var eventId: Int? = null
     private var eventTitle = ""
     private var amount = 0
     private var addAction = false
 
     fun createNotification(context: Context, data: Map<String, String>) {
-        eventId = data.get("eventId")?.toInt() ?: 0
+        eventId = data.get("eventId")?.toInt()
         eventTitle = data.get("eventTitle") ?: ""
         amount = data.get("amount")?.toInt() ?: 0
         addAction = data.get("addAction").toBoolean()
 
-        var notificationId = eventId + 1
+        if (eventId == null) return
+
+        var notificationId = eventId!! + 1
 
         // intent to open activity
         val intent = Intent(context, MainActivity::class.java)
@@ -76,7 +78,7 @@ object NotificationHelper {
                 )
                 .addAction(0, context.getString(R.string.notification_action), pendingIntentToSend)
 
-            notificationId = eventId + 10
+            notificationId = eventId!! + 10
         }
 
         val notificationManager = NotificationManagerCompat.from(context)
