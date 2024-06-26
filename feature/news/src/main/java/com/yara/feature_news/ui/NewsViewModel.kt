@@ -10,6 +10,7 @@ import com.yara.core.domain.model.Events
 import com.yara.core.domain.repository.CategoriesRepository
 import com.yara.core.domain.usecase.FilterEventsByTitleUseCase
 import com.yara.core.domain.usecase.GetAllEventsWithCategoriesUseCase
+import com.yara.core.domain.usecase.GetEventByIdUseCase
 import com.yara.core.domain.usecase.GetEventsByCategoriesUseCase
 import com.yara.core.domain.usecase.UpdateEventSetReadUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,12 +29,15 @@ data class NewsUiState(
     val userMessage: String = "",
 )
 
+data class EventUiState(val event: Event? = null)
+
 class NewsViewModelFactory(
     private val categoriesRepository: CategoriesRepository,
     private val getAllEventsWithCategoriesUseCase: GetAllEventsWithCategoriesUseCase,
     private val getEventsByCategoriesUseCase: GetEventsByCategoriesUseCase,
     private val filterEventsByTitleUseCase: FilterEventsByTitleUseCase,
     private val updateEventSetReadUseCase: UpdateEventSetReadUseCase,
+    private val getEventByIdUseCase: GetEventByIdUseCase,
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -44,6 +48,7 @@ class NewsViewModelFactory(
             getEventsByCategoriesUseCase,
             filterEventsByTitleUseCase,
             updateEventSetReadUseCase,
+            getEventByIdUseCase,
         ) as T
 }
 
@@ -53,10 +58,14 @@ class NewsViewModel(
     private val getEventsByCategoriesUseCase: GetEventsByCategoriesUseCase,
     private val filterEventsByTitleUseCase: FilterEventsByTitleUseCase,
     private val updateEventSetReadUseCase: UpdateEventSetReadUseCase,
+    private val getEventByIdUseCase: GetEventByIdUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NewsUiState())
     val uiState: StateFlow<NewsUiState> = _uiState
+
+    private val _uiStateEvent = MutableStateFlow(EventUiState())
+    val uiStateEvent: StateFlow<EventUiState> = _uiStateEvent
 
     val filters = mutableSetOf<Int>()
 
@@ -126,6 +135,17 @@ class NewsViewModel(
                             filters = filters,
                             unreadNewsQnt = events.filter { it.isUnread }.size,
                         )
+                    }
+                }
+        }
+    }
+
+    fun queryEventById(eventId: Int) {
+        scope.launch {
+            getEventByIdUseCase(eventId)
+                .collect { event ->
+                    _uiStateEvent.update {
+                        _uiStateEvent.value.copy(event)
                     }
                 }
         }

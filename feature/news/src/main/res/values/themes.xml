@@ -31,6 +31,10 @@
         <item name="dividerColor">@color/black_20</item>
     </style>
 
+    <style name="Widget.App.MaterialDivider.BottomNavBorderTopEventDetails" parent="Widget.Material3.MaterialDivider">
+        <item name="dividerColor">@color/light_grey_divider</item>
+    </style>
+
     <!-- bottom navigation -->
     <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>

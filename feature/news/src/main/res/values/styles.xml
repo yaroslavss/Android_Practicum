@@ -139,4 +139,30 @@
     </style>
 
     <style name="LoginInputLabel" parent="TextStyle13" />
+
+    <style name="TextStylePopupHeader">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">@color/black_87</item>
+    </style>
+
+    <style name="TextStylePopupFieldTitle">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black_54</item>
+    </style>
+
+    <style name="OutlinedButton" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:layout_width">@dimen/help_dialog_btn_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/spacing_m</item>
+        <item name="android:paddingRight">@dimen/spacing_m</item>
+        <item name="android:textColor">@color/button_toggle_text</item>
+        <item name="strokeColor">@color/leaf</item>
+        <item name="backgroundTint">@color/button_toggle_bg</item>
+    </style>
 </resources>

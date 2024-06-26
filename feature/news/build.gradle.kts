@@ -69,6 +69,13 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
 
+    // rxjava
+    implementation(libs.rxjava3)
+    implementation(libs.rxjava3.rxandroid)
+    // rxbinding
+    implementation(libs.rxbinding)
+    implementation(libs.rxbinding.appcompat)
+
     // retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)

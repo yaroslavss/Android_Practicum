@@ -11,16 +11,6 @@
         android:label="@string/profile_fragment_label"
         tools:layout="@layout/fragment_profile" />
     <fragment
-        android:id="@+id/helpGraph"
-        android:name="com.yara.feature_help.ui.HelpFragment"
-        android:label="@string/help_fragment_label"
-        tools:layout="@layout/fragment_help" />
-    <fragment
-        android:id="@+id/newsGraph"
-        android:name="com.yara.feature_news.ui.NewsFragment"
-        android:label="@string/news_fragment_label"
-        tools:layout="@layout/fragment_news" />
-    <fragment
         android:id="@+id/searchFragment"
         android:name="com.yara.feature_search.ui.SearchFragment"
         android:label="@string/search_fragment_label"

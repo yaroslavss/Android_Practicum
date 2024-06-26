@@ -1,13 +1,15 @@
 package com.yara.core.data.repository
 
-import com.yara.core.data.mapper.toDomainModelList
 import com.yara.core.data.api.RemoteAPI
 import com.yara.core.data.db.HelpDao
 import com.yara.core.data.db.entity.EventEntity
 import com.yara.core.data.db.entity.EventUpdateIsUnreadEntity
 import com.yara.core.data.db.entity.relation.EventCategoryCrossRef
 import com.yara.core.data.db.entity.relation.EventWithCategories
+import com.yara.core.data.mapper.toDomainModel
+import com.yara.core.data.mapper.toDomainModelList
 import com.yara.core.data.model.EventAPI
+import com.yara.core.domain.model.Event
 import com.yara.core.domain.model.Events
 import com.yara.core.domain.repository.EventsRepository
 import com.yara.core.utils.Resource
@@ -66,4 +68,9 @@ class EventsRepositoryImpl @Inject constructor(
         helpDao.filterEventsByTitle(strToFind)
             .distinctUntilChanged()
             .map { it.toDomainModelList() }
+
+    override fun queryEventByIdFromDB(eventId: Int): Flow<Event> =
+        helpDao.getEventById(eventId)
+            .distinctUntilChanged()
+            .map { it.toDomainModel() }
 }

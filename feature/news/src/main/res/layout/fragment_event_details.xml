@@ -197,15 +197,15 @@
         android:id="@+id/llEventAvatarPane"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/default_margin"
         android:background="@color/light_grey_two"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingHorizontal="@dimen/default_margin"
-        android:paddingVertical="@dimen/spacing_10_dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingVertical="@dimen/default_margin"
+        app:layout_constraintBottom_toTopOf="@id/mdDivider"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSponsorLink">
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/ivAvatarIcon"
@@ -245,5 +245,22 @@
             android:layout_marginStart="@dimen/spacing_10_dp"
             android:text="@string/event_avatar_pane_text" />
     </LinearLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/mdDivider"
+        style="@style/Widget.App.MaterialDivider.BottomNavBorderTopEventDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/compose_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

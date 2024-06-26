@@ -61,6 +61,9 @@ dependencies {
     implementation(libs.google.android.material)
     implementation(libs.androidx.constraintlayout)
 
+    // work
+    implementation(libs.androidx.work.runtime.ktx)
+
     // lifecycle
     implementation(libs.androidx.legacy.support)
     implementation(libs.androidx.lifecycle.livedata)

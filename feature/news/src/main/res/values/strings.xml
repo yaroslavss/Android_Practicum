@@ -18,6 +18,12 @@
     <string name="filter_fragment_label">Фильтр</string>
     <string name="login_fragment_label">Авторизация</string>
 
+    <!-- Bottom navigation strings for event details fragment -->
+    <string name="action_shirt">Помочь"\n"вещами</string>
+    <string name="action_hands">Стать"\n"волонтером</string>
+    <string name="action_tools">Проф."\n"помощь</string>
+    <string name="action_coins">Помочь"\n"деньгами</string>
+
     <!-- Login fragment -->
     <string name="login_subtitle">Для участия в мероприятиях войдите в приложение через социальые сети</string>
     <string name="login_subtitle_1">Или авторизуйтесь через приложение</string>
@@ -41,6 +47,18 @@
     <string name="event_sponsor_link"><a href="">Перейти на сайт организации</a></string>
     <string name="event_avatar_pane_text">+102</string>
     <string name="event_date_string_format">Осталось %1$d дней (%2$02d.%3$02d - %4$02d.%5$02d)</string>
+
+    <!-- Help dialog -->
+    <string name="help_dialog_title">Спасибо за решение помочь!</string>
+    <string name="help_dialog_line1">Выберите размер пожертвования</string>
+    <string name="help_dialog_line2">или введите нужную сумму</string>
+    <string name="help_dialog_bnt1_label">100 ₽</string>
+    <string name="help_dialog_bnt2_label">500 ₽</string>
+    <string name="help_dialog_bnt3_label">1000 ₽</string>
+    <string name="help_dialog_bnt4_label">2000 ₽</string>
+    <string name="til_amount_hint">Введите сумму</string>
+    <string name="btn_send_label">ПЕРЕВЕСТИ</string>
+    <string name="btn_cancel_label">ОТМЕНА</string>
 
     <!-- Search fragment -->
     <string name="searchbar_hint">Введите название организации</string>

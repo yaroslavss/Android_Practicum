@@ -65,7 +65,7 @@ class NewsFragment : Fragment() {
 
     private fun navigateToEventDetails(event: Event) {
         val bundle = Bundle();
-        bundle.putParcelable(Constants.PARCELABLE_EVENT_KEY, event)
+        bundle.putInt(Constants.INTENT_EVENT_KEY, event.id)
         navController.navigate(R.id.eventDetailsFragment, bundle)
     }
 }
