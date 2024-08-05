@@ -67,7 +67,13 @@ dependencies {
     implementation(libs.google.dagger)
     kapt(libs.google.dagger.compiler)
 
+    // unit testing
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.androidx.arch.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
+    // instrumented testing
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
