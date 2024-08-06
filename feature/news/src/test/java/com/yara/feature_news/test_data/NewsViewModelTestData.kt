@@ -1,5 +1,8 @@
 package com.yara.feature_news.test_data
 
+import com.yara.core.data.db.entity.CategoryEntity
+import com.yara.core.data.db.entity.EventEntity
+import com.yara.core.data.db.entity.relation.EventWithCategories
 import com.yara.core.domain.model.Category
 import com.yara.core.domain.model.Event
 import kotlinx.datetime.LocalDate
@@ -21,7 +24,7 @@ object NewsViewModelTestData {
             dateEnd = LocalDate(2024, 7, 29),
             dateString = "Осталось: 5 дней",
             categories = listOf(1, 2),
-            isUnread = false,
+            isUnread = true,
             phone = "+7 495 111 11 11",
             address = "Адрес",
             organisation = "Организация",
@@ -35,10 +38,75 @@ object NewsViewModelTestData {
             dateEnd = LocalDate(2024, 7, 29),
             dateString = "Осталось: 5 дней",
             categories = listOf(1, 2),
-            isUnread = false,
+            isUnread = true,
             phone = "+7 495 111 11 11",
             address = "Адрес",
             organisation = "Организация",
+        ),
+    )
+
+    val testEventsWithCategories = listOf(
+        EventWithCategories(
+            event = EventEntity(
+                id = 1,
+                title = "Событие 1",
+                description = "Описание события 1",
+                startDate = LocalDate(2024, 7, 15),
+                endDate = LocalDate(2024, 7, 29),
+                status = "status",
+                photos = "image1.png, image2.png",
+                category = "1, 2",
+                isUnread = true,
+                createAt = LocalDate(2024, 7, 29),
+                phone = "phone",
+                address = "address",
+                organisation = "org",
+            ),
+            categories = listOf(
+                CategoryEntity(
+                    id = 1,
+                    name = "Дети",
+                    nameEn = "Kids",
+                    image = "https://loremflickr.com/640/480/abstract)"
+                ),
+                CategoryEntity(
+                    id = 2,
+                    name = "Взрослые",
+                    nameEn = "Adult",
+                    image = "https://loremflickr.com/640/480/abstract"
+                ),
+            )
+        ),
+        EventWithCategories(
+            event = EventEntity(
+                id = 2,
+                title = "Событие 2",
+                description = "Описание события 2",
+                startDate = LocalDate(2024, 7, 15),
+                endDate = LocalDate(2024, 7, 29),
+                status = "status",
+                photos = "image1.png, image2.png",
+                category = "1, 2",
+                isUnread = true,
+                createAt = LocalDate(2024, 7, 29),
+                phone = "phone",
+                address = "address",
+                organisation = "org",
+            ),
+            categories = listOf(
+                CategoryEntity(
+                    id = 1,
+                    name = "Дети",
+                    nameEn = "Kids",
+                    image = "https://loremflickr.com/640/480/abstract)"
+                ),
+                CategoryEntity(
+                    id = 2,
+                    name = "Взрослые",
+                    nameEn = "Adult",
+                    image = "https://loremflickr.com/640/480/abstract"
+                ),
+            )
         ),
     )
 }

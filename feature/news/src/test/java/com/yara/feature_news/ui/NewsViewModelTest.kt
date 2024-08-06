@@ -1,6 +1,7 @@
 package com.yara.feature_news.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import com.yara.core.domain.repository.CategoriesRepository
 import com.yara.core.domain.repository.EventsRepository
 import com.yara.core.domain.usecase.FilterEventsByTitleUseCase
@@ -10,11 +11,15 @@ import com.yara.core.domain.usecase.GetEventsByCategoriesUseCase
 import com.yara.core.domain.usecase.UpdateEventSetReadUseCase
 import com.yara.feature_news.test_data.NewsViewModelTestData.testCategories
 import com.yara.feature_news.test_data.NewsViewModelTestData.testEvents
+import com.yara.feature_news.test_data.NewsViewModelTestData.testEventsWithCategories
 import com.yara.feature_news.test_utils.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.doReturn
@@ -52,7 +57,9 @@ class NewsViewModelTest {
             onBlocking { queryCategoriesFromDB() } doReturn flowOf(testCategories)
         }
         eventsRepositoryMock = mock() {
-            onBlocking { queryEventsFromDB() } doReturn flowOf(testEvents)
+            onBlocking { queryEventsWithCategoriesFromDB() } doReturn flowOf(
+                testEventsWithCategories
+            )
         }
 
         getAllEventsWithCategoriesUseCaseMock =
@@ -70,5 +77,20 @@ class NewsViewModelTest {
             updateEventSetReadUseCaseMock,
             getEventByIdUseCaseMock
         )
+    }
+
+    @Test
+    fun initEvents_fetchesAllEvents() = runTest {
+        newsViewModel.uiState.test {
+            assertEquals(
+                NewsUiState(
+                    categories = testCategories,
+                    events = testEvents,
+                    unreadNewsQnt = 2,
+                    filters = mutableSetOf(1, 2),
+                    isLoading = false,
+                ), awaitItem()
+            )
+        }
     }
 }
