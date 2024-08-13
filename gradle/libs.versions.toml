@@ -26,6 +26,8 @@ mockitoKotlinVersion = "5.4.0"
 archCoreVersion = "2.2.0"
 kotlinxCoroutinesVersion = "1.7.3"
 turbineVersion = "1.1.0"
+fragmentTestingVersion = "1.8.2"
+androidxTestCoreVerion = "1.6.1"
 # plugins
 kotlinVersion = "1.9.21"
 kspPluginVersion = "1.9.21-1.0.15"
@@ -76,6 +78,8 @@ google-dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler"
 # test
 junit = { group = "junit", name = "junit", version.ref = "junitVersion" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidxTestCoreVerion" }
+androidx-fragment-testing = { group = "androidx.fragment", name = "fragment-testing", version.ref = "fragmentTestingVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlinVersion"}
 androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCoreVersion"}

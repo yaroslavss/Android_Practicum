@@ -92,6 +92,10 @@ dependencies {
     // kotlinx-datetime
     implementation(libs.kotlinx.datetime)
 
+    // testing
+    implementation(libs.androidx.fragment.testing)
+    implementation(libs.androidx.test.core)
+
     // unit testing
     testImplementation(libs.junit)
     testImplementation(libs.mockito.kotlin)
@@ -99,6 +103,8 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
     // instrumented testing
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
