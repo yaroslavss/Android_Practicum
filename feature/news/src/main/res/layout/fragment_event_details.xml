@@ -153,8 +153,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/glVertical1"
-        app:layout_constraintTop_toBottomOf="@id/ivMailIcon"
-        tools:src="@drawable/cardimage_2" />
+        app:layout_constraintTop_toBottomOf="@id/ivMailIcon" />
 
     <ImageView
         android:id="@+id/ivEventImage3"
@@ -166,8 +165,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/glVertical1"
-        app:layout_constraintTop_toBottomOf="@id/ivEventImage2"
-        tools:src="@drawable/cardimage_3" />
+        app:layout_constraintTop_toBottomOf="@id/ivEventImage2" />
 
     <TextView
         android:id="@+id/tvEventText"

@@ -14,7 +14,7 @@ import org.junit.runner.RunWith
 class EventDetailsFragmentTest {
 
     @Test
-    fun eventDetailsFragment_DispayedInUi() {
+    fun eventDetailsFragment_DisplayedInUi() {
         /* Given */
         val event = testEvent
 
