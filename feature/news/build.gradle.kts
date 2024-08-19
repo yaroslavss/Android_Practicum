@@ -12,7 +12,7 @@ android {
     defaultConfig {
         minSdk = rootProject.extra["minAndroidSdk"] as Int
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.yara.feature_news.CustomNewsTestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -107,4 +107,9 @@ dependencies {
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Test rules and transitive dependencies:
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+// Needed for createComposeRule(), but not for createAndroidComposeRule<YourActivity>():
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
