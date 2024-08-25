@@ -12,7 +12,7 @@ android {
     defaultConfig {
         minSdk = rootProject.extra["minAndroidSdk"] as Int
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.yara.feature_news.CustomNewsTestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -89,7 +89,28 @@ dependencies {
     implementation(libs.google.dagger)
     kapt(libs.google.dagger.compiler)
 
+    // kotlinx-datetime
+    implementation(libs.kotlinx.datetime)
+
+    // testing
+    implementation(libs.androidx.fragment.testing)
+    implementation(libs.androidx.test.core)
+
+    // unit testing
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.androidx.arch.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
+    // instrumented testing
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.androidx.navigation.testing)
+
+    // Test rules and transitive dependencies:
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    // Needed for createComposeRule(), but not for createAndroidComposeRule<YourActivity>():
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }

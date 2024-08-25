@@ -81,7 +81,9 @@ fun CustomAppBar(buttonOnClick: () -> Unit) {
             titleContentColor = White,
         ),
         actions = {
-            IconButton(onClick = buttonOnClick) {
+            IconButton(
+                onClick = buttonOnClick,
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.filter),
                     contentDescription = null,

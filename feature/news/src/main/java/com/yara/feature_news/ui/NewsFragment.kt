@@ -26,8 +26,6 @@ class NewsFragment : Fragment() {
         viewModelFactory
     }
 
-    private lateinit var navController: NavController
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -56,16 +54,15 @@ class NewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        navController = findNavController()
     }
 
     private fun navigateToFilterFragment() {
-        navController.navigate(R.id.filterGraph)
+        findNavController().navigate(R.id.filterGraph)
     }
 
     private fun navigateToEventDetails(event: Event) {
         val bundle = Bundle();
         bundle.putInt(Constants.INTENT_EVENT_KEY, event.id)
-        navController.navigate(R.id.eventDetailsFragment, bundle)
+        findNavController().navigate(R.id.eventDetailsFragment, bundle)
     }
 }
